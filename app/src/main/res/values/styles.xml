@@ -1,0 +1,35 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    </style>
+
+    <!-- Current Base Main Style -->
+    <style name="vigieTest" parent="@style/Theme.AppCompat.Light" >
+        <item name="android:navigationBarColor">@color/primary_material_dark</item>
+        <item name="colorPrimary">@color/background_material_light</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="android:windowActionBarOverlay">true</item>
+<!--        <item name="android:titleTextStyle">@style/CustomWindowTitleBackground</item> -->
+    </style>
+
+    <!-- Sub Styles -->
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/vigieTest.ActionBar.TitleTextStyle</item>
+        <item name="titleTextStyle">@style/vigieTest.ActionBar.TitleTextStyle</item>
+        <item name="android:subtitleTextStyle">@style/vigieTest.ActionBar.TitleTextStyle</item>
+        <item name="subtitleTextStyle">@style/vigieTest.ActionBar.TitleTextStyle</item>
+        <item name="android:background">@color/red</item>
+        <item name="background">@color/white</item>
+    </style>
+    <style name="vigieTest.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/brandGreen</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="customSpinnerTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/brandGreen</item>
+        <item name="colorControlActivated">#000000</item>
+        <item name="colorControlHighlight">#000000</item>
+    </style>
+</resources>
