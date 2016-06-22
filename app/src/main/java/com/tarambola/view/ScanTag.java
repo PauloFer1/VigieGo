@@ -92,7 +92,7 @@ public class ScanTag extends Fragment{
         XAxis xAxis = mChart.getXAxis();
 
 
-        LimitLine ll1 = new LimitLine(30f, "Upper Limit");
+        LimitLine ll1 = new LimitLine(30f, "MAX NOT OK");
         ll1.setLineWidth(2f);
         ll1.enableDashedLine(10f, 10f, 0f);
         ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
@@ -101,7 +101,7 @@ public class ScanTag extends Fragment{
         ll1.setTextColor(Color.GRAY);
         ll1.setLineColor(Color.rgb(255, 210, 77));
 
-        LimitLine ll2 = new LimitLine(5f, "Lower Limit");
+        LimitLine ll2 = new LimitLine(5f, "MIN NOT OK");
         ll2.setLineWidth(2f);
         ll2.enableDashedLine(10f, 10f, 0f);
         ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);

@@ -28,7 +28,7 @@
     </style>
 
     <style name="customSpinnerTheme" parent="@style/Theme.AppCompat.Light">
-        <item name="colorControlNormal">@color/brandGreen</item>
+        <item name="colorControlNormal">@color/greenTheme</item>
         <item name="colorControlActivated">#000000</item>
         <item name="colorControlHighlight">#000000</item>
     </style>

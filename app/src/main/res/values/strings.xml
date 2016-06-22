@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">VigieGo</string>
 
-    <string name="title_section1">Scan Tag</string>
-    <string name="title_section2">Profiles</string>
-    <string name="title_section3">Settings</string>
+    <string name="title_section1">Home</string>
+    <string name="title_section2">Start</string>
+    <string name="title_section3">Stop</string>
+    <string name="title_section4">Tag Info</string>
+    <string name="title_section5">Profiles</string>
+    <string name="title_section6">About</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

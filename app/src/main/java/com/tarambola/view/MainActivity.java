@@ -214,11 +214,23 @@ import eu.blulog.blulib.tdl2.Recording;
                 mTitle = getString(R.string.title_section1);
                 break;
             case 1:
-                fragment = new Profiles();
+                fragment = new StartFragment();
                 mTitle = getString(R.string.title_section2);
                 break;
             case 2:
                 fragment = new Settings();
+                mTitle = getString(R.string.title_section3);
+                break;
+            case 3:
+                fragment = new TagInfoFragment();
+                mTitle = getString(R.string.title_section3);
+                break;
+            case 4:
+                fragment = new Profiles();
+                mTitle = getString(R.string.title_section3);
+                break;
+            case 5:
+                fragment = new AboutFragment();
                 mTitle = getString(R.string.title_section3);
                 break;
             default:
@@ -237,6 +249,15 @@ import eu.blulog.blulib.tdl2.Recording;
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
+                break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                break;
+            case 5:
+                mTitle = getString(R.string.title_section5);
+                break;
+            case 6:
+                mTitle = getString(R.string.title_section6);
                 break;
         }
     }

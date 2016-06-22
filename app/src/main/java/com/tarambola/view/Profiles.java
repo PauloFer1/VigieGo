@@ -3,9 +3,11 @@ package com.tarambola.view;
 /**
  * Created by Paulo on 07/06/2016.
  */
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,8 +42,14 @@ public class Profiles extends Fragment {
     {
         final View rootView = inflater.inflate(R.layout.profiles, container, false);
 
+        //********************************************************** DESIGN
+        Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
+        TextView tv=(TextView) rootView.findViewById(R.id.mProfileDropLabel);
+        tv.setTypeface(font);
+
         //******************************************************** LIST VIEW
-        ((ListView)rootView.findViewById(R.id.listView)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ListView profileList = (ListView)rootView.findViewById(R.id.listView);
+        profileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -59,11 +68,9 @@ public class Profiles extends Fragment {
         for (int i = 0; i < values.length; ++i) {
             list.add(values[i]);
         }
+        ArrayAdapter adapterList = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, values);
 
-
-
-
-
+        profileList.setAdapter(adapterList);
 
 
         // ******************************************************* SPINNER
