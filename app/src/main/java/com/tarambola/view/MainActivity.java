@@ -218,7 +218,7 @@ import eu.blulog.blulib.tdl2.Recording;
                 mTitle = getString(R.string.title_section2);
                 break;
             case 2:
-                fragment = new Settings();
+                fragment = new StopFragment();
                 mTitle = getString(R.string.title_section3);
                 break;
             case 3:

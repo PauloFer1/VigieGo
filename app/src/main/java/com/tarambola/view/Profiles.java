@@ -7,6 +7,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
@@ -43,19 +45,14 @@ public class Profiles extends Fragment {
         final View rootView = inflater.inflate(R.layout.profiles, container, false);
 
         //********************************************************** DESIGN
-        Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
-        TextView tv=(TextView) rootView.findViewById(R.id.mProfileDropLabel);
-        tv.setTypeface(font);
 
         //******************************************************** LIST VIEW
         ListView profileList = (ListView)rootView.findViewById(R.id.listView);
         profileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Toast.makeText(rootView.getContext(),
-                        "Click ListItem Number " + position, Toast.LENGTH_LONG)
-                        .show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                gotoProfile(view, position);
             }
         });
 
@@ -73,17 +70,23 @@ public class Profiles extends Fragment {
         profileList.setAdapter(adapterList);
 
 
-        // ******************************************************* SPINNER
-        Spinner mProfilesSpinner = (Spinner) rootView.findViewById(R.id.profiles_spinner);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.profiles_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        mProfilesSpinner.setAdapter(adapter);
 
 
         return(rootView);
+    }
+    //******************************************** LISTENER HELPERS *****************************************//
+    public void gotoProfile(View v, int id)
+    {
+
+        FragmentManager fm = this.getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
+        ProfilePage profile = new ProfilePage();
+        ft.replace(R.id.container, profile).commit();
+
+        Toast.makeText(v.getContext(),
+                "Click ListItem Number " + id, Toast.LENGTH_LONG)
+                .show();
     }
 
 

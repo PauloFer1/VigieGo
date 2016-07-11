@@ -13,73 +13,17 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Spinner
-                android:theme="@style/customSpinnerTheme"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/profiles_spinner"
-                android:layout_alignParentTop="true"
-                android:spinnerMode="dialog"
-                android:dropDownWidth="fill_parent"
-                android:minHeight="50dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:dropDownSelector="#f90085"
-                android:layout_toRightOf="@+id/mProfileDropLabel"
-                android:layout_marginRight="20dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Profiles:"
-                android:id="@+id/mProfileDropLabel"
-                android:textColor="@color/brandGreen"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:paddingLeft="20dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="325dp">
+            android:layout_height="fill_parent">
 
             <ListView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:id="@+id/listView"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New CheckBox"
-                android:id="@+id/checkBox"
-                android:layout_below="@+id/profiles_spinner"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/switch1"
-                android:layout_alignBottom="@+id/checkBox"
-                android:layout_toRightOf="@+id/checkBox"
-                android:layout_marginLeft="87dp"
-                android:layout_marginStart="87dp"
-                android:switchMinWidth="100dp"
-                />
-        </RelativeLayout>
     </LinearLayout>
 
 </RelativeLayout>

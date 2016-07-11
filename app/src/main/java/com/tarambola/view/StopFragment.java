@@ -1,12 +1,14 @@
 package com.tarambola.view;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -61,10 +63,18 @@ public class StopFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stop, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        final View rootView = inflater.inflate(R.layout.fragment_stop, container, false);
+
+        Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
+
+        TextView stopLabel1=(TextView) rootView.findViewById(R.id.mStopLogLabel1);
+        stopLabel1.setTypeface(font);
+        TextView stopLabel2=(TextView) rootView.findViewById(R.id.mStopLogLabel2);
+        stopLabel2.setTypeface(font);
+
+        return(rootView);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

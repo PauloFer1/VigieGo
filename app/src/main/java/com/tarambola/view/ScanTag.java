@@ -52,6 +52,8 @@ public class ScanTag extends Fragment{
         tv.setTypeface(font);
         TextView lastMeasure=(TextView) rootView.findViewById(R.id.mLastMeasureLabel);
         lastMeasure.setTypeface(font);
+        TextView lastMeasureVal=(TextView) rootView.findViewById(R.id.mLastMeasureValLabel);
+        lastMeasureVal.setTypeface(font);
 
         TextView minLabel = (TextView) rootView.findViewById(R.id.mMinTempLabel);
         minLabel.setTypeface(font);

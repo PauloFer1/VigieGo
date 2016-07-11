@@ -134,7 +134,9 @@
                             android:layout_alignParentStart="true"
                             android:layout_marginLeft="42dp"
                             android:layout_marginStart="42dp"
-                            android:layout_marginTop="2dp" />
+                            android:layout_marginTop="2dp"
+                            android:textColor="#fff"
+                            android:textSize="12dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -148,7 +150,9 @@
                             android:layout_alignTop="@+id/textView12"
                             android:layout_alignRight="@+id/imageView9"
                             android:layout_alignEnd="@+id/imageView9"
-                            android:layout_marginTop="2dp" />
+                            android:layout_marginTop="2dp"
+                            android:textColor="#fff"
+                            android:textSize="12dp" />
 
                         <EditText
                             android:layout_width="wrap_content"
@@ -160,7 +164,8 @@
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:width="80dp"
-                            android:layout_marginLeft="8dp" />
+                            android:layout_marginLeft="8dp"
+                            android:textColor="#fff" />
 
                         <EditText
                             android:layout_width="wrap_content"
@@ -172,7 +177,49 @@
                             android:layout_alignTop="@+id/editText2"
                             android:layout_alignRight="@+id/imageView9"
                             android:layout_alignEnd="@+id/imageView9"
-                            android:layout_marginRight="20dp" />
+                            android:layout_marginRight="20dp"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="ºC"
+                            android:id="@+id/textView8"
+                            android:textColor="#fff"
+                            android:textStyle="bold"
+                            android:textSize="12dp"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/editText2"
+                            android:layout_toEndOf="@+id/editText2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="min"
+                            android:id="@+id/textView10"
+                            android:textStyle="bold"
+                            android:textColor="#fff"
+                            android:textSize="10dp"
+                            android:layout_centerVertical="true"
+                            android:layout_alignRight="@+id/imageView9"
+                            android:layout_alignEnd="@+id/imageView9"
+                            android:layout_marginRight="5dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="After"
+                            android:id="@+id/textView18"
+                            android:textAlignment="center"
+                            android:textColor="#fff"
+                            android:textSize="12dp"
+                            android:layout_alignTop="@+id/textView12"
+                            android:layout_alignLeft="@+id/textView13"
+                            android:layout_alignStart="@+id/textView13"
+                            android:layout_marginTop="12dp" />
 
                     </RelativeLayout>
 
@@ -199,7 +246,9 @@
                             android:layout_alignParentStart="true"
                             android:layout_marginLeft="43dp"
                             android:layout_marginStart="43dp"
-                            android:layout_marginTop="2dp" />
+                            android:layout_marginTop="2dp"
+                            android:textColor="#fff"
+                            android:textSize="12dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -212,7 +261,10 @@
                             android:layout_marginRight="32dp"
                             android:layout_alignTop="@+id/textView14"
                             android:layout_alignRight="@+id/imageView10"
-                            android:layout_alignEnd="@+id/imageView10" />
+                            android:layout_alignEnd="@+id/imageView10"
+                            android:textColor="#fff"
+                            android:textSize="12dp"
+                            android:layout_marginTop="2dp" />
 
                         <EditText
                             android:layout_width="wrap_content"
@@ -236,7 +288,51 @@
                             android:layout_alignTop="@+id/editText4"
                             android:layout_alignRight="@+id/imageView10"
                             android:layout_alignEnd="@+id/imageView10"
-                            android:layout_marginRight="20dp" />
+                            android:layout_marginRight="20dp"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="ºC"
+                            android:id="@+id/textView16"
+                            android:textColor="#fff"
+                            android:textStyle="bold"
+                            android:textSize="12dp"
+                            android:layout_alignBottom="@+id/editText4"
+                            android:layout_toRightOf="@+id/editText4"
+                            android:layout_toEndOf="@+id/editText4" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="min"
+                            android:id="@+id/textView17"
+                            android:textStyle="bold"
+                            android:textColor="#fff"
+                            android:textSize="10dp"
+                            android:layout_alignTop="@+id/textView16"
+                            android:layout_alignRight="@+id/imageView10"
+                            android:layout_alignEnd="@+id/imageView10"
+                            android:layout_marginRight="5dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="After"
+                            android:id="@+id/textView19"
+                            android:textAlignment="center"
+                            android:layout_marginEnd="32dp"
+                            android:layout_marginRight="32dp"
+                            android:layout_alignTop="@+id/textView14"
+                            android:layout_alignRight="@+id/imageView10"
+                            android:layout_alignEnd="@+id/imageView10"
+                            android:textColor="#fff"
+                            android:textSize="12dp"
+                            android:layout_marginTop="12dp" />
                     </RelativeLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -291,7 +387,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="SAVE PROFILE"
                         android:id="@+id/mSaveProfileBtnlabel"
-                        android:textColor="@color/greenTheme"
+                        android:textColor="#fff"
                         android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true" />
                 </RelativeLayout>
@@ -319,7 +415,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="GO"
                     android:id="@+id/mGoBtnLabel"
-                    android:textColor="@color/greenTheme"
+                    android:textColor="#fff"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true" />
             </RelativeLayout>
