@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -236,7 +237,10 @@ import eu.blulog.blulib.tdl2.Recording;
             default:
                 break;
         }
-        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(String.valueOf(mTitle));
+        transaction.commit();
     }
 
     public void onSectionAttached(int number) {
@@ -379,6 +383,18 @@ import eu.blulog.blulib.tdl2.Recording;
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+
+     /* ******************************************** NATIVE BUTTONS HANDLER **************************************************** */
+     @Override
+     public void onBackPressed()
+     {
+         if(getFragmentManager().getBackStackEntryCount() > 0)
+             getFragmentManager().popBackStack();
+         else
+         /* ToDo Create warning popup (Do you want to quit?) */
+           //  super.onBackPressed();
+         Toast.makeText(getApplicationContext(), "Back", Toast.LENGTH_SHORT).show();
+     }
 
      //******************************************** UI HANLDERS *****************************************//
      private void showInfo()

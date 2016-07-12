@@ -5,9 +5,145 @@
     tools:context="com.tarambola.view.AboutFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:padding="20dp">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Copyrights"
+                        android:id="@+id/mCopyrightsLabel"
+                        android:textColor="@color/greenTheme"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Mauris accumsan, tellus suscipit mollis ultrices, est arcu  laoreet eros, nec faucibus massa orci nec dui.  Suspendisse sed suscipit leo."
+                        android:id="@+id/textView36"
+                        android:layout_marginTop="6dp"
+                        android:textColor="#666"
+                        android:textSize="16dp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Version"
+                        android:id="@+id/mVersionLabel"
+                        android:textColor="@color/greenTheme"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="1.0.0"
+                        android:id="@+id/textView38"
+                        android:textColor="#666"
+                        android:layout_marginTop="6dp"
+                        android:textSize="16dp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="ViGIE Solutions"
+                        android:id="@+id/mCompanyLabel"
+                        android:textColor="@color/greenTheme"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Mauris accumsan, tellus suscipit mollis ultrices, est arcu  laoreet eros, nec faucibus massa orci nec dui.  Suspendisse sed suscipit leo."
+                        android:id="@+id/textView40"
+                        android:textColor="#666"
+                        android:layout_marginTop="6dp"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="T 00351913805678 F 00351220930978  info@vigiesolutions.com"
+                        android:id="@+id/textView33"
+                        android:textColor="#666"
+                        android:layout_marginTop="10dp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="developed by:"
+                        android:id="@+id/textView37" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imageView14"
+                        android:src="@drawable/tarambola_logo"
+                        android:layout_marginLeft="20dp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>

@@ -19,7 +19,8 @@ public class TwoColumnTable {
     protected int evenRowBackgroundColor;
     protected float firstColumnWeigth=1;
     protected float secondColumnWeigth=1;
-    protected int padding;
+    protected int paddingV; // Vertical padding
+    protected int paddingH; // Horizontal padding
     protected String font="MYRIADPRO-REGULAR.OTF";
     protected TableLayout table;
     protected ArrayList<Row> rows = new ArrayList<>();
@@ -27,17 +28,18 @@ public class TwoColumnTable {
 
     public TwoColumnTable(Context context) {
         this.context=context;
-        oddRowBackgroundColor = context.getResources().getColor(android.R.color.darker_gray);
+        oddRowBackgroundColor = context.getResources().getColor(R.color.softGrey);
         evenRowBackgroundColor = context.getResources().getColor(android.R.color.background_light);
         //padding=(int)context.getResources().getDimension(R.dimen.inputTextPadding);
-        padding=20;
+        paddingH=20;
+        paddingV=25;
     }
 
     public TableLayout build(){
         table =  new TableLayout(context);
         table.setLayoutParams(new TableLayout.LayoutParams
                 (ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        table.setPadding(padding, padding, padding, padding);
+        table.setPadding(paddingH, paddingV, paddingV, paddingH);
 
         TableRow tr;
         TextView firstColumn;
@@ -57,7 +59,7 @@ public class TwoColumnTable {
             tr = new TableRow(context);
             tr.setLayoutParams(rowLayoutParams);
             tr.setBackgroundColor( i%2==0 ? oddRowBackgroundColor : evenRowBackgroundColor);
-            tr.setPadding(padding, padding, padding, padding);
+            tr.setPadding(paddingH, paddingV, paddingH, paddingV);
 
             firstColumn=new TextView(context);
             firstColumn.setText(rows.get(i).firstColumn);
@@ -91,6 +93,7 @@ public class TwoColumnTable {
         }
     }
 
+    /* ********************* SETTERS ***************************** */
     public void setOddRowBackgroundColor(int oddRowBackgroundColor) {
         this.oddRowBackgroundColor = oddRowBackgroundColor;
     }
@@ -107,8 +110,12 @@ public class TwoColumnTable {
         this.secondColumnWeigth = secondColumnWeigth;
     }
 
-    public void setPadding(int padding) {
-        this.padding = padding;
+    public void setPaddingV(int padding) {
+        this.paddingV = paddingV;
+    }
+
+    public void setPaddingH(int padding) {
+        this.paddingH = paddingH;
     }
 
     public void setFont(String font) {

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 
 /**
@@ -14,8 +15,6 @@ import android.view.ViewGroup;
  * Activities that contain this fragment must implement the
  * {@link TagInfoFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TagInfoFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class TagInfoFragment extends Fragment {
 
@@ -25,38 +24,37 @@ public class TagInfoFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TagInfoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TagInfoFragment newInstance(String param1, String param2) {
-        TagInfoFragment fragment = new TagInfoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tag_info, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        final View rootView = inflater.inflate(R.layout.fragment_tag_info, container, false);
+
+        /* ******* Info List with two columns ******** */
+        TwoColumnTable list = new TwoColumnTable(rootView.getContext()); // Initialize TwoColumnTable with current context
+
+        /* Debug */
+        /* Add dummy Info */
+        list.addRow(new TwoColumnTable.Row("VIGIEGo ID number", "256255"));
+        list.addRow(new TwoColumnTable.Row("Firmware Version", "256255"));
+        list.addRow(new TwoColumnTable.Row("Hardware Version", "256255"));
+        list.addRow(new TwoColumnTable.Row("Calibrate Date", "03 June 2016 11:58:03"));
+        list.addRow(new TwoColumnTable.Row("Expiration Date", "03 June 2016 11:58:03"));
+        list.addRow(new TwoColumnTable.Row("Number of Recordings", "256255"));
+        list.addRow(new TwoColumnTable.Row("Recordings time left", "129d 78h 34m 22s"));
+        list.addRow(new TwoColumnTable.Row("Product Description", "Teste"));
+        list.addRow(new TwoColumnTable.Row("Start date of Recording", "03 June 2016 11:58:03"));
+
+        RelativeLayout listInfoLayout = (RelativeLayout) rootView.findViewById(R.id.mTagInfoCont); // Get Fragment Relative layout to apply list
+        listInfoLayout.addView(list.build());
+
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
