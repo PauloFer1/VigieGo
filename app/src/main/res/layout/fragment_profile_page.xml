@@ -29,7 +29,9 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp" />
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/greenTheme"
+                    android:singleLine="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -54,16 +56,17 @@
                             android:inputType="number"
                             android:ems="10"
                             android:id="@+id/editText6"
-                            android:layout_below="@+id/textView20"
+                            android:layout_below="@+id/mProfSamplingLabel"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true" />
+                            android:layout_alignParentStart="true"
+                            android:textColor="@color/brandGreen" />
 
                         <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="SAMPLING"
-                            android:id="@+id/textView20"
+                            android:id="@+id/mProfSamplingLabel"
                             android:textColor="@color/greenTheme"
                             android:paddingTop="10dp"
                             android:textSize="16dp" />
@@ -110,12 +113,15 @@
                             android:inputType="number"
                             android:ems="10"
                             android:id="@+id/editText7"
-                            android:layout_below="@+id/textView23"
+                            android:layout_below="@+id/mProfMinNOkLabel"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:width="80dp"
                             android:layout_marginLeft="8dp"
-                            android:textColor="#fff" />
+                            android:textColor="#fff"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_marginTop="4dp" />
 
                         <EditText
                             android:layout_width="wrap_content"
@@ -128,39 +134,45 @@
                             android:layout_alignRight="@+id/imageView12"
                             android:layout_alignEnd="@+id/imageView12"
                             android:layout_marginRight="20dp"
-                            android:textColor="#fff" />
+                            android:textColor="#fff"
+                            android:gravity="center"
+                            android:singleLine="true" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Min"
-                            android:id="@+id/textView22"
+                            android:id="@+id/mProfMinLabel"
                             android:textAlignment="center"
                             android:layout_alignTop="@+id/imageView12"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:layout_marginLeft="42dp"
+                            android:layout_marginLeft="30dp"
                             android:layout_marginStart="42dp"
                             android:layout_marginTop="2dp"
                             android:textColor="#fff"
-                            android:textSize="12dp" />
+                            android:textSize="12dp"
+                            android:width="50dp"
+                            android:gravity="center" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Not Ok"
-                            android:id="@+id/textView23"
+                            android:id="@+id/mProfMinNOkLabel"
                             android:textAlignment="center"
                             android:layout_marginEnd="32dp"
-                            android:layout_marginRight="32dp"
-                            android:layout_alignTop="@+id/textView22"
+                            android:layout_marginRight="27dp"
+                            android:layout_alignTop="@+id/mProfMinLabel"
                             android:layout_alignRight="@+id/imageView12"
                             android:layout_alignEnd="@+id/imageView12"
                             android:layout_marginTop="2dp"
                             android:textColor="#fff"
-                            android:textSize="12dp" />
+                            android:textSize="12dp"
+                            android:gravity="center"
+                            android:width="50dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -194,14 +206,16 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="After"
-                            android:id="@+id/textView26"
+                            android:id="@+id/mProfMinAfterLabel"
                             android:textAlignment="center"
                             android:textColor="#fff"
                             android:textSize="12dp"
-                            android:layout_alignTop="@+id/textView22"
-                            android:layout_alignLeft="@+id/textView23"
-                            android:layout_alignStart="@+id/textView23"
-                            android:layout_marginTop="12dp" />
+                            android:layout_alignTop="@+id/mProfMinLabel"
+                            android:layout_alignLeft="@+id/mProfMinNOkLabel"
+                            android:layout_alignStart="@+id/mProfMinNOkLabel"
+                            android:layout_marginTop="12dp"
+                            android:gravity="center"
+                            android:width="50dp" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -222,10 +236,14 @@
                             android:ems="10"
                             android:id="@+id/editText9"
                             android:width="80dp"
-                            android:layout_below="@+id/textView28"
+                            android:layout_below="@+id/mProfMaxNOkLabel"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:layout_marginLeft="8dp" />
+                            android:layout_marginLeft="8dp"
+                            android:textColor="#fff"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_marginTop="6dp" />
 
                         <EditText
                             android:layout_width="wrap_content"
@@ -235,41 +253,48 @@
                             android:id="@+id/editText10"
                             android:width="80dp"
                             android:textColor="#fff"
-                            android:layout_below="@+id/textView28"
+                            android:layout_below="@+id/mProfMaxNOkLabel"
                             android:layout_toLeftOf="@+id/textView30"
-                            android:layout_toStartOf="@+id/textView30" />
+                            android:layout_toStartOf="@+id/textView30"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_marginTop="6dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Max"
-                            android:id="@+id/textView27"
+                            android:id="@+id/mProfMaxLabel"
                             android:textAlignment="center"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:layout_marginLeft="43dp"
+                            android:layout_marginLeft="30dp"
                             android:layout_marginStart="43dp"
                             android:layout_marginTop="2dp"
                             android:textColor="#fff"
-                            android:textSize="12dp" />
+                            android:textSize="12dp"
+                            android:gravity="center"
+                            android:width="50dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Not Ok"
-                            android:id="@+id/textView28"
+                            android:id="@+id/mProfMaxNOkLabel"
                             android:textAlignment="center"
                             android:layout_marginEnd="32dp"
-                            android:layout_marginRight="32dp"
-                            android:layout_alignTop="@+id/textView27"
+                            android:layout_marginRight="27dp"
+                            android:layout_alignTop="@+id/mProfMaxLabel"
                             android:layout_alignRight="@+id/imageView13"
                             android:layout_alignEnd="@+id/imageView13"
                             android:textColor="#fff"
                             android:textSize="12dp"
-                            android:layout_marginTop="2dp" />
+                            android:layout_marginTop="2dp"
+                            android:gravity="center"
+                            android:width="50dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -303,16 +328,18 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="After"
-                            android:id="@+id/textView31"
+                            android:id="@+id/mProfMaxAfterLabel"
                             android:textAlignment="center"
                             android:layout_marginEnd="32dp"
-                            android:layout_marginRight="32dp"
-                            android:layout_alignTop="@+id/textView27"
+                            android:layout_marginRight="27dp"
+                            android:layout_alignTop="@+id/mProfMaxLabel"
                             android:layout_alignRight="@+id/imageView13"
                             android:layout_alignEnd="@+id/imageView13"
                             android:textColor="#fff"
                             android:textSize="12dp"
-                            android:layout_marginTop="12dp" />
+                            android:layout_marginTop="12dp"
+                            android:gravity="center"
+                            android:width="50dp" />
                     </RelativeLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -332,8 +359,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/imageButton4"
-                        android:src="@drawable/save_profile_btn"
-                        android:background="#fff" />
+                        android:background="@drawable/custom_save_profile_btn" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -361,8 +387,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/imageButton5"
-                        android:src="@drawable/delete_profile_btn"
-                        android:background="#fff" />
+                        android:background="@drawable/custom_delete_profile_btn" />
 
                     <TextView
                         android:layout_width="wrap_content"

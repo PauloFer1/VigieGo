@@ -1,6 +1,7 @@
 package com.tarambola.view;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 /**
@@ -34,6 +36,12 @@ public class TagInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_tag_info, container, false);
+
+        /* ************** DESIGN ************* */
+        Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
+
+        TextView recordLabel=(TextView) rootView.findViewById(R.id.mRecordingLabel);
+        recordLabel.setTypeface(font);
 
         /* ******* Info List with two columns ******** */
         TwoColumnTable list = new TwoColumnTable(rootView.getContext()); // Initialize TwoColumnTable with current context

@@ -43,6 +43,26 @@ public class ProfilePage extends Fragment {
         TextView deleteBtnLab=(TextView) rootView.findViewById(R.id.mDelBtnlabel);
         deleteBtnLab.setTypeface(font);
 
+        TextView nameLabel=(TextView) rootView.findViewById(R.id.mProfileNameInput);
+        nameLabel.setTypeface(font);
+
+        TextView samplingLabel=(TextView) rootView.findViewById(R.id.mProfSamplingLabel);
+        samplingLabel.setTypeface(font);
+
+         /* Ballon labels */
+        TextView minLabel=(TextView) rootView.findViewById(R.id.mProfMinLabel);
+        minLabel.setTypeface(font);
+        TextView maxLabel=(TextView) rootView.findViewById(R.id.mProfMaxLabel);
+        maxLabel.setTypeface(font);
+        TextView minNOkLabel=(TextView) rootView.findViewById(R.id.mProfMinNOkLabel);
+        minNOkLabel.setTypeface(font);
+        TextView maxNOkLabel=(TextView) rootView.findViewById(R.id.mProfMaxNOkLabel);
+        maxNOkLabel.setTypeface(font);
+        TextView minAfterLabel=(TextView) rootView.findViewById(R.id.mProfMinAfterLabel);
+        minAfterLabel.setTypeface(font);
+        TextView maxAfterLabel=(TextView) rootView.findViewById(R.id.mProfMaxAfterLabel);
+        maxAfterLabel.setTypeface(font);
+
         return rootView;
     }
 
