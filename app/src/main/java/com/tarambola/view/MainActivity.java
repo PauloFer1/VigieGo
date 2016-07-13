@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.tarambola.controller.BackgroundTagProcessor;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -211,7 +212,7 @@ import eu.blulog.blulib.tdl2.Recording;
 
         switch(position) {
             case 0:
-                fragment = new ScanTag();
+                fragment = new Home();
                 mTitle = getString(R.string.title_section1);
                 break;
             case 1:

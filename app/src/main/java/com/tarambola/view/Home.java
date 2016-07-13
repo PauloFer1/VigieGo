@@ -33,18 +33,18 @@ import com.github.mikephil.charting.utils.Utils;
 
 import java.util.ArrayList;
 
-public class ScanTag extends Fragment{
+public class Home extends Fragment{
 
     private LineChart mChart;
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
 
-    public ScanTag(){}
+    public Home(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        final View rootView = inflater.inflate(R.layout.scan_tag, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
 

@@ -1,10 +1,12 @@
-package com.tarambola.view;
+package com.tarambola.controller;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.view.ContextThemeWrapper;
+
+import com.tarambola.view.R;
 
 import eu.blulog.blulib.exceptions.BluException;
 import eu.blulog.blulib.exceptions.NoBlutagDedectedException;
