@@ -16,18 +16,8 @@ import android.widget.TextView;
  * Activities that contain this fragment must implement the
  * {@link StartFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link StartFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class StartFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -35,31 +25,10 @@ public class StartFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StartFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static StartFragment newInstance(String param1, String param2) {
-        StartFragment fragment = new StartFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -84,6 +53,20 @@ public class StartFragment extends Fragment {
 
         TextView goBtnlabel=(TextView) rootView.findViewById(R.id.mGoBtnLabel);
         goBtnlabel.setTypeface(font);
+
+        /* Ballon labels */
+        TextView minLabel=(TextView) rootView.findViewById(R.id.mMinStartLabel);
+        minLabel.setTypeface(font);
+        TextView maxLabel=(TextView) rootView.findViewById(R.id.mMaxStartLabel);
+        maxLabel.setTypeface(font);
+        TextView minNOkLabel=(TextView) rootView.findViewById(R.id.mMinNOkLabel);
+        minNOkLabel.setTypeface(font);
+        TextView maxNOkLabel=(TextView) rootView.findViewById(R.id.mMaxNOkLabel);
+        maxNOkLabel.setTypeface(font);
+        TextView minAfterLabel=(TextView) rootView.findViewById(R.id.mMinAfterLabel);
+        minAfterLabel.setTypeface(font);
+        TextView maxAfterLabel=(TextView) rootView.findViewById(R.id.mMaxAfterLabel);
+        maxAfterLabel.setTypeface(font);
 
 
         return rootView;
