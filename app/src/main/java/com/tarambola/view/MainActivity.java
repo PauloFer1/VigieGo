@@ -212,28 +212,32 @@ import eu.blulog.blulib.tdl2.Recording;
 
         switch(position) {
             case 0:
-                fragment = new Home();
+                fragment = new ReadTag();
                 mTitle = getString(R.string.title_section1);
                 break;
             case 1:
-                fragment = new StartFragment();
+                fragment = new Home();
                 mTitle = getString(R.string.title_section2);
                 break;
             case 2:
-                fragment = new StopFragment();
+                fragment = new StartFragment();
                 mTitle = getString(R.string.title_section3);
                 break;
             case 3:
-                fragment = new TagInfoFragment();
-                mTitle = getString(R.string.title_section3);
+                fragment = new StopFragment();
+                mTitle = getString(R.string.title_section4);
                 break;
             case 4:
-                fragment = new Profiles();
-                mTitle = getString(R.string.title_section3);
+                fragment = new TagInfoFragment();
+                mTitle = getString(R.string.title_section5);
                 break;
             case 5:
+                fragment = new Profiles();
+                mTitle = getString(R.string.title_section6);
+                break;
+            case 6:
                 fragment = new AboutFragment();
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.title_section7);
                 break;
             default:
                 break;
@@ -263,6 +267,9 @@ import eu.blulog.blulib.tdl2.Recording;
                 break;
             case 6:
                 mTitle = getString(R.string.title_section6);
+                break;
+            case 7:
+                mTitle = getString(R.string.title_section7);
                 break;
         }
     }
@@ -372,7 +379,7 @@ import eu.blulog.blulib.tdl2.Recording;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_read_tag, container, false);
             return rootView;
         }
 
