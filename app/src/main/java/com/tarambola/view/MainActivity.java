@@ -413,7 +413,29 @@ import eu.blulog.blulib.tdl2.Recording;
          if(content.getHardware() == 0)
              return;
 
-         Toast.makeText(getApplicationContext(), "ID: " + content.getDataDefinition().getGenericInfo(), Toast.LENGTH_SHORT).show();
+         //Toast.makeText(getApplicationContext(), "ID: " + content.getDataDefinition().getGenericInfo(), Toast.LENGTH_SHORT).show();
+
+         FragmentManager fragmentManager = getSupportFragmentManager();
+
+         TagInfoFragment fragment = null;
+         fragment = new TagInfoFragment();
+         fragment.setContext(getApplicationContext());
+         fragment.createList();
+         fragment.setIdNumber(String.valueOf(content.getBlueTagId()));
+         fragment.setFirmwareVer(Integer.toString(content.getFirmware()));
+         fragment.setHardwareVer(Integer.toString(content.getHardware()));
+         fragment.setNumberRecs(content.getRecordings().size());
+         fragment.setProdDesc("sasasa");
+         fragment.populateList();
+
+         mTitle = getString(R.string.title_section5);
+
+         FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.replace(R.id.container, fragment);
+         transaction.addToBackStack(String.valueOf(mTitle));
+         transaction.commit();
+
+
      }
 
 }

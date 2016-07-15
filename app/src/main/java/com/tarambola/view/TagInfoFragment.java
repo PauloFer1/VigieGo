@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Date;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +21,33 @@ import android.widget.TextView;
  * to handle interaction events.
  */
 public class TagInfoFragment extends Fragment {
+
+    static public class RecTimeLeft
+    {
+        public RecTimeLeft(){};
+
+        public int days;
+        public int hours;
+        public int minutes;
+        public int seconds;
+    };
+
+    /* TAG INFO */
+    private String      mIdNumber;
+    private String      mFirmwareVer;
+    private String      mHardwareVer;
+    private Date        mCalibrateDate;
+    private Date        mExpirationDate;
+    private int         mNumberRecs;
+    private RecTimeLeft mRecTimeLeft;
+    private String      mProdDesc;
+    private Date        mStartDateRec;
+
+    /* List Info */
+    private TwoColumnTable mList;
+
+    private Context mContext;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -43,23 +72,9 @@ public class TagInfoFragment extends Fragment {
         TextView recordLabel=(TextView) rootView.findViewById(R.id.mRecordingLabel);
         recordLabel.setTypeface(font);
 
-        /* ******* Info List with two columns ******** */
-        TwoColumnTable list = new TwoColumnTable(rootView.getContext()); // Initialize TwoColumnTable with current context
-
-        /* Debug */
-        /* Add dummy Info */
-        list.addRow(new TwoColumnTable.Row("VIGIEGo ID number", "256255"));
-        list.addRow(new TwoColumnTable.Row("Firmware Version", "256255"));
-        list.addRow(new TwoColumnTable.Row("Hardware Version", "256255"));
-        list.addRow(new TwoColumnTable.Row("Calibrate Date", "03 June 2016 11:58:03"));
-        list.addRow(new TwoColumnTable.Row("Expiration Date", "03 June 2016 11:58:03"));
-        list.addRow(new TwoColumnTable.Row("Number of Recordings", "256255"));
-        list.addRow(new TwoColumnTable.Row("Recordings time left", "129d 78h 34m 22s"));
-        list.addRow(new TwoColumnTable.Row("Product Description", "Teste"));
-        list.addRow(new TwoColumnTable.Row("Start date of Recording", "03 June 2016 11:58:03"));
 
         RelativeLayout listInfoLayout = (RelativeLayout) rootView.findViewById(R.id.mTagInfoCont); // Get Fragment Relative layout to apply list
-        listInfoLayout.addView(list.build());
+        listInfoLayout.addView(mList.build());
 
 
         return rootView;
@@ -93,4 +108,117 @@ public class TagInfoFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    /* *********************************** GETTERS ****************************************** */
+
+
+    /* *********************************** SETTERS ****************************************** */
+
+    /**
+     * Set ID Number of the Tag
+     * @param id the string of id number
+     */
+    public void setIdNumber(String id){
+        this.mIdNumber = id;
+    }
+
+    /**
+     * Set firmware version of the Tag
+     * @param version the string of version
+     */
+    public void setFirmwareVer(String version){
+        this.mFirmwareVer = version;
+    }
+
+    /**
+     * Set hardware version of the Tag
+     * @param version the string of version
+     */
+    public void setHardwareVer(String version){
+        this.mHardwareVer = version;
+    }
+
+    /**
+     * Set calibration date of the Tag
+     * @param date the Date of Calibration
+     */
+    public void setCalibrateDate(Date date){
+        this.mCalibrateDate = date;
+    }
+
+    /**
+     * Set Expiration date of the Tag
+     * @param date the Date of Expiration
+     */
+    public void setExpirationDate(Date date){
+        this.mCalibrateDate = date;
+    }
+
+    /**
+     * Set Number of records of the Tag
+     * @param number the int number of records
+     */
+    public void setNumberRecs(int number){
+        this.mNumberRecs = number;
+    }
+    /**
+     * Set the record time left of the Tag
+     * @param time RecTimeLeft
+     */
+    public void setRecTimeLeft(RecTimeLeft time){
+        this.mRecTimeLeft = time;
+    }
+
+    /**
+     * Set the description of the tag
+     * @param desc String of the description
+     */
+    public void setProdDesc(String desc){
+        this.mProdDesc = desc;
+    }
+
+    /**
+     * Set start date record of the Tag
+     * @param date the Date of record starting
+     */
+    public void setStartDateRec(Date date){
+        this.mStartDateRec = date;
+    }
+
+    /**
+     * Set the application context to use in fragment
+     */
+    public void setContext(Context context)
+    {
+        this.mContext = context;
+    }
+
+    /* *********************************** METHODS ****************************************** */
+
+    /**
+     * Create Tag List Info
+     */
+    public void createList()
+    {
+        /* ******* Info List with two columns ******** */
+        mList = new TwoColumnTable(mContext); // Initialize TwoColumnTable with current context
+    }
+
+    /**
+     * Populate the tag info List
+     */
+    public void populateList()
+    {
+        mList.addRow(new TwoColumnTable.Row("VIGIEGo ID number", this.mIdNumber));
+        mList.addRow(new TwoColumnTable.Row("Firmware Version", this.mFirmwareVer));
+        mList.addRow(new TwoColumnTable.Row("Hardware Version", this.mHardwareVer));
+        mList.addRow(new TwoColumnTable.Row("Calibrate Date", "03 June 2016 11:58:03"));
+        mList.addRow(new TwoColumnTable.Row("Expiration Date", "03 June 2016 11:58:03"));
+        mList.addRow(new TwoColumnTable.Row("Number of Recordings", Integer.toString(this.mNumberRecs)));
+        mList.addRow(new TwoColumnTable.Row("Recordings time left", "129d 78h 34m 22s"));
+        mList.addRow(new TwoColumnTable.Row("Product Description", this.mProdDesc));
+        mList.addRow(new TwoColumnTable.Row("Start date of Recording", "03 June 2016 11:58:03"));
+
+    }
+
 }

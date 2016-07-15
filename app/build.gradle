@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
-// Jacoco config
-apply plugin: 'jacoco'
+apply plugin: 'jacoco' // Jacoco config
 
 
 android {
@@ -32,6 +31,8 @@ android {
     }
     productFlavors {
     }
+
+
 }
 
 dependencies {
@@ -43,6 +44,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'com.android.support:support-v4:22.2.1'
 }
+
 
 jacoco {
     // Use this version for upper ones are broken (with Gradle)
