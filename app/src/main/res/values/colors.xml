@@ -6,4 +6,5 @@
     <color name="white">#ffffff</color>
     <color name="greenTheme">#03b59e</color>
     <color name="softGrey">#eeeeee</color>
+    <color name="textDarkGrey">#444444</color>
 </resources>

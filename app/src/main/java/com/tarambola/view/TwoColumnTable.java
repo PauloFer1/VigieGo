@@ -62,6 +62,7 @@ public class TwoColumnTable {
             tr.setPadding(paddingH, paddingV, paddingH, paddingV);
 
             firstColumn=new TextView(context);
+            firstColumn.setTextColor(context.getResources().getColor(R.color.textDarkGrey));
             firstColumn.setText(rows.get(i).firstColumn);
             firstColumn.setLayoutParams(firstColumnLayoutParams);
             tr.addView(firstColumn);

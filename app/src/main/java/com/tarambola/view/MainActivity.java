@@ -242,6 +242,11 @@ import eu.blulog.blulib.tdl2.Recording;
             default:
                 break;
         }
+        if(BlutagContent.get().getHardware()==0)
+        {
+            fragment = new NoContent();
+            mTitle = getString(R.string.title_section8);
+        }
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.addToBackStack(String.valueOf(mTitle));
@@ -405,10 +410,15 @@ import eu.blulog.blulib.tdl2.Recording;
      }
 
      //******************************************** UI HANLDERS *****************************************//
+
+     /**
+      * Go to Tag Info screen, get the tag info and set it in info screen
+      */
      private void showInfo()
      {
          Log.d("Debug", "showInfo: 1");
          BlutagContent content = BlutagContent.get();
+
 
          if(content.getHardware() == 0)
              return;

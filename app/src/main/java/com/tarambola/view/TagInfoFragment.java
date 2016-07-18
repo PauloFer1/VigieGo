@@ -25,6 +25,9 @@ public class TagInfoFragment extends Fragment {
     static public class RecTimeLeft
     {
         public RecTimeLeft(){};
+        public RecTimeLeft(int days, int hours, int min, int secs){
+            this.days=days;this.hours=hours;this.minutes=minutes;this.seconds=secs;
+        };
 
         public int days;
         public int hours;
