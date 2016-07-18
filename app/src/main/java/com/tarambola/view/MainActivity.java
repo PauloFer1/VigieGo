@@ -44,7 +44,22 @@ import eu.blulog.blulib.tdl2.Recording;
 
     protected enum Operations {FINISH_RECORDING, READ_TEMPS, SHOW_TEMPS, NOTHING, RECOVER_AAR, START_RECORDING, SHORT_READ};
 
-    private Operations operation=Operations.SHORT_READ;
+     /**
+      * Screen Fragments Vars
+      */
+     private Home               mHome;
+     private Chart              mChart;
+     private StartFragment      mStart;
+     private StopFragment       mStop;
+     private NoContent          mNoContent;
+     private Profiles           mProfiles;
+     private ProfilePage        mProfilePage;
+     private ReadTag            mReadTag;
+     private TagInfoFragment    mTagInfo;
+     private AboutFragment      mAbout;
+
+
+     private Operations operation=Operations.SHORT_READ;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -204,7 +219,7 @@ import eu.blulog.blulib.tdl2.Recording;
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
+      //  FragmentManager fragmentManager = getSupportFragmentManager();
 
         Fragment fragment = null;
 
@@ -212,36 +227,30 @@ import eu.blulog.blulib.tdl2.Recording;
 
         switch(position) {
             case 0:
-                fragment = new ReadTag();
-                mTitle = getString(R.string.title_section1);
+                gotoReadTag();
                 break;
             case 1:
-                fragment = new Home();
-                mTitle = getString(R.string.title_section2);
+                gotoHome();
                 break;
             case 2:
-                fragment = new StartFragment();
-                mTitle = getString(R.string.title_section3);
+                gotoStart();
                 break;
             case 3:
-                fragment = new StopFragment();
-                mTitle = getString(R.string.title_section4);
+                gotoStop();
                 break;
             case 4:
-                fragment = new TagInfoFragment();
-                mTitle = getString(R.string.title_section5);
+               gotoTagInfo();
                 break;
             case 5:
-                fragment = new Profiles();
-                mTitle = getString(R.string.title_section6);
+                gotoProfiles();
                 break;
             case 6:
-                fragment = new AboutFragment();
-                mTitle = getString(R.string.title_section7);
+                gotoAbout();
                 break;
             default:
                 break;
         }
+        /*
         if(BlutagContent.get().getHardware()==0)
         {
             fragment = new NoContent();
@@ -251,6 +260,7 @@ import eu.blulog.blulib.tdl2.Recording;
         transaction.replace(R.id.container, fragment);
         transaction.addToBackStack(String.valueOf(mTitle));
         transaction.commit();
+        */
     }
 
     public void onSectionAttached(int number) {
@@ -396,6 +406,209 @@ import eu.blulog.blulib.tdl2.Recording;
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+
+     /* ***************************** SCREENS HANDLERS ***************************************** */
+
+     /**
+      * Handle fragment change to Home Screen
+      */
+     private void gotoHome()
+     {
+         Fragment fragment;
+         FragmentManager fragmentManager = getSupportFragmentManager();
+
+         if(mHome==null)
+         {
+             if(BlutagContent.get().getHardware()==0)
+             {
+                 fragment = new NoContent();
+                 mTitle = getString(R.string.title_section8);
+             }
+             else
+             {
+                 mTitle = getString(R.string.title_section2);
+                 mHome = new Home();
+                 fragment = mHome;
+             }
+
+         }
+         else
+            fragment = mHome;
+
+         FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.replace(R.id.container, fragment);
+         transaction.addToBackStack(String.valueOf(mTitle));
+         transaction.commit();
+
+     }
+
+     /**
+      * Handle fragment change to Read Tag Screen
+      */
+     private void gotoReadTag()
+     {
+         FragmentManager fragmentManager = getSupportFragmentManager();
+         if(mReadTag==null) {
+             mReadTag = new ReadTag();
+         }
+
+         mTitle = getString(R.string.title_section1);
+
+         FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.replace(R.id.container, mReadTag);
+         transaction.addToBackStack(String.valueOf(mTitle));
+         transaction.commit();
+     }
+
+     /**
+      * Handle fragment change to Profiles Screen
+      */
+     private void gotoProfiles()
+     {
+         Fragment fragment;
+         FragmentManager fragmentManager = getSupportFragmentManager();
+
+         if(mProfiles==null)
+         {
+             mProfiles = new Profiles();
+         }
+         else
+             fragment = mProfiles;
+
+         mTitle = getString(R.string.title_section6);
+
+         FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.replace(R.id.container, mProfiles);
+         transaction.addToBackStack(String.valueOf(mTitle));
+         transaction.commit();
+     }
+     /**
+      * Handle fragment change to Profiles Item Screen
+      */
+     private void gotoProfilePages()
+     {
+         Fragment fragment;
+         FragmentManager fragmentManager = getSupportFragmentManager();
+
+         if(mProfilePage==null)
+         {
+             mProfilePage = new ProfilePage();
+         }
+         else
+             fragment = mProfilePage;
+
+         mTitle = getString(R.string.title_section6);
+
+         FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.replace(R.id.container, mProfilePage);
+         transaction.addToBackStack(String.valueOf(mTitle));
+         transaction.commit();
+     }
+
+     /**
+      * Handle fragment change to StartFragment screen
+      */
+     private void gotoStart()
+     {
+         FragmentManager fragmentManager = getSupportFragmentManager();
+
+         if(mStart==null)
+         {
+             mStart = new StartFragment();
+         }
+
+         mTitle = getString(R.string.title_section3);
+
+         FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.replace(R.id.container, mStart);
+         transaction.addToBackStack(String.valueOf(mTitle));
+         transaction.commit();
+     }
+
+     /**
+      * Handle fragment change to StopFragment screen
+      */
+     private void gotoStop()
+     {
+         FragmentManager fragmentManager = getSupportFragmentManager();
+
+         if(mStop==null)
+         {
+             mStop = new StopFragment();
+         }
+
+         mTitle = getString(R.string.title_section4);
+
+         FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.replace(R.id.container, mStop);
+         transaction.addToBackStack(String.valueOf(mTitle));
+         transaction.commit();
+     }
+
+     /**
+      * Handle fragment change to Home Screen
+      */
+     private void gotoTagInfo()
+     {
+         Fragment fragment;
+         FragmentManager fragmentManager = getSupportFragmentManager();
+
+         if(mTagInfo==null)
+         {
+             if(BlutagContent.get().getHardware()==0)
+             {
+                 fragment = new NoContent();
+                 mTitle = getString(R.string.title_section8);
+             }
+             else
+             {
+                 BlutagContent content = BlutagContent.get();
+
+                 mTitle = getString(R.string.title_section5);
+                 mTagInfo = new TagInfoFragment();
+                 mTagInfo.setContext(getApplicationContext());
+                 mTagInfo.createList();
+                 mTagInfo.setIdNumber(String.valueOf(content.getBlueTagId()));
+                 mTagInfo.setFirmwareVer(Integer.toString(content.getFirmware()));
+                 mTagInfo.setHardwareVer(Integer.toString(content.getHardware()));
+                 mTagInfo.setNumberRecs(content.getRecordings().size());
+                 mTagInfo.setProdDesc("sasasa");
+                 mTagInfo.populateList();
+
+                 fragment = mTagInfo;
+             }
+
+         }
+         else
+             fragment = mTagInfo;
+
+         FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.replace(R.id.container, fragment);
+         transaction.addToBackStack(String.valueOf(mTitle));
+         transaction.commit();
+
+     }
+
+     /**
+      * Handle fragment change to About screen
+      */
+     private void gotoAbout()
+     {
+         FragmentManager fragmentManager = getSupportFragmentManager();
+
+         if(mStart==null)
+         {
+             mAbout = new AboutFragment();
+         }
+
+         mTitle = getString(R.string.title_section7);
+
+         FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.replace(R.id.container, mAbout);
+         transaction.addToBackStack(String.valueOf(mTitle));
+         transaction.commit();
+     }
+
 
      /* ******************************************** NATIVE BUTTONS HANDLER **************************************************** */
      @Override
