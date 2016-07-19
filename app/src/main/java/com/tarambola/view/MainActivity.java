@@ -26,6 +26,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tarambola.controller.BackgroundTagProcessor;
+import com.tarambola.controller.LoginSession;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -40,7 +41,7 @@ import eu.blulog.blulib.tdl2.Recording;
 
 
  public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, Login.OnFragmentInteractionListener, Logout.OnFragmentInteractionListener{
 
     protected enum Operations {FINISH_RECORDING, READ_TEMPS, SHOW_TEMPS, NOTHING, RECOVER_AAR, START_RECORDING, SHORT_READ};
 
@@ -57,6 +58,11 @@ import eu.blulog.blulib.tdl2.Recording;
      private ReadTag            mReadTag;
      private TagInfoFragment    mTagInfo;
      private AboutFragment      mAbout;
+     private Login              mLogin;
+     private Logout             mLogout;
+
+     private Fragment           mCurrentFragment = null;
+     private String       mCurrentTitle;
 
 
      private Operations operation=Operations.SHORT_READ;
@@ -78,6 +84,10 @@ import eu.blulog.blulib.tdl2.Recording;
 
     private BackgroundTagProcessor mBackgroundTagProcessor;
     private AtomicBoolean mBusyOnProcessNFC;
+
+     public void onFragmentInteraction(Uri uri){
+
+     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,6 +257,9 @@ import eu.blulog.blulib.tdl2.Recording;
             case 6:
                 gotoAbout();
                 break;
+            case 7:
+                gotoLogout();
+                break;
             default:
                 break;
         }
@@ -286,6 +299,9 @@ import eu.blulog.blulib.tdl2.Recording;
             case 7:
                 mTitle = getString(R.string.title_section7);
                 break;
+            case 8:
+                mTitle = getString(R.string.title_section10);
+                break;
         }
     }
 
@@ -318,10 +334,6 @@ import eu.blulog.blulib.tdl2.Recording;
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -366,46 +378,7 @@ import eu.blulog.blulib.tdl2.Recording;
         client.disconnect();
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_read_tag, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            Log.d("DEBUG", "onAttach: event");
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
 
      /* ***************************** SCREENS HANDLERS ***************************************** */
 
@@ -436,6 +409,7 @@ import eu.blulog.blulib.tdl2.Recording;
             fragment = mHome;
 
          FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
          transaction.replace(R.id.container, fragment);
          transaction.addToBackStack(String.valueOf(mTitle));
          transaction.commit();
@@ -455,6 +429,7 @@ import eu.blulog.blulib.tdl2.Recording;
          mTitle = getString(R.string.title_section1);
 
          FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
          transaction.replace(R.id.container, mReadTag);
          transaction.addToBackStack(String.valueOf(mTitle));
          transaction.commit();
@@ -478,6 +453,7 @@ import eu.blulog.blulib.tdl2.Recording;
          mTitle = getString(R.string.title_section6);
 
          FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
          transaction.replace(R.id.container, mProfiles);
          transaction.addToBackStack(String.valueOf(mTitle));
          transaction.commit();
@@ -500,6 +476,7 @@ import eu.blulog.blulib.tdl2.Recording;
          mTitle = getString(R.string.title_section6);
 
          FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
          transaction.replace(R.id.container, mProfilePage);
          transaction.addToBackStack(String.valueOf(mTitle));
          transaction.commit();
@@ -511,16 +488,27 @@ import eu.blulog.blulib.tdl2.Recording;
      private void gotoStart()
      {
          FragmentManager fragmentManager = getSupportFragmentManager();
+         Fragment fragment = null;
 
-         if(mStart==null)
-         {
-             mStart = new StartFragment();
+         if(LoginSession.getInstance().isLogged()) {
+             if (mStart == null) {
+                 mStart = new StartFragment();
+                 fragment = mStart;
+             }
+             else
+                fragment = mStart;
+
+             mTitle = getString(R.string.title_section3);
+         }
+         else{
+             mCurrentTitle = getString(R.string.title_section3);
+             fragment = new Login();
+             mTitle = getString(R.string.title_section9);
          }
 
-         mTitle = getString(R.string.title_section3);
-
          FragmentTransaction transaction = fragmentManager.beginTransaction();
-         transaction.replace(R.id.container, mStart);
+         transaction.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
+         transaction.replace(R.id.container, fragment);
          transaction.addToBackStack(String.valueOf(mTitle));
          transaction.commit();
      }
@@ -531,16 +519,27 @@ import eu.blulog.blulib.tdl2.Recording;
      private void gotoStop()
      {
          FragmentManager fragmentManager = getSupportFragmentManager();
+         Fragment fragment = null;
 
-         if(mStop==null)
-         {
-             mStop = new StopFragment();
+         if(LoginSession.getInstance().isLogged()) {
+             if (mStop == null) {
+                 mStop = new StopFragment();
+                 fragment = mStop;
+             }
+             else
+                fragment = mStop;
+
+             mTitle = getString(R.string.title_section4);
+         }
+         else{
+             mCurrentTitle = getString(R.string.title_section4);
+             fragment = new Login();
+             mTitle = getString(R.string.title_section9);
          }
 
-         mTitle = getString(R.string.title_section4);
-
          FragmentTransaction transaction = fragmentManager.beginTransaction();
-         transaction.replace(R.id.container, mStop);
+         transaction.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
+         transaction.replace(R.id.container, fragment);
          transaction.addToBackStack(String.valueOf(mTitle));
          transaction.commit();
      }
@@ -583,6 +582,7 @@ import eu.blulog.blulib.tdl2.Recording;
              fragment = mTagInfo;
 
          FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
          transaction.replace(R.id.container, fragment);
          transaction.addToBackStack(String.valueOf(mTitle));
          transaction.commit();
@@ -604,11 +604,54 @@ import eu.blulog.blulib.tdl2.Recording;
          mTitle = getString(R.string.title_section7);
 
          FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
          transaction.replace(R.id.container, mAbout);
          transaction.addToBackStack(String.valueOf(mTitle));
          transaction.commit();
      }
+     /**
+      * Handle fragment change to Logout Screen
+      */
+     private void gotoLogout()
+     {
+         FragmentManager fragmentManager = getSupportFragmentManager();
 
+         if(mLogout==null)
+         {
+             mLogout = new Logout();
+         }
+
+         mTitle = getString(R.string.title_section10);
+
+         FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
+         transaction.replace(R.id.container, mLogout);
+         transaction.addToBackStack(String.valueOf(mTitle));
+         transaction.commit();
+     }
+
+     /* ********************* LOGIN RELATED ************************ */
+
+     public void onLoginSuccess()
+     {
+
+         if(mCurrentTitle.equals( getString(R.string.title_section4) ) )
+             gotoStop();
+         else if(mCurrentTitle.equals( getString(R.string.title_section3) ))
+             gotoStart();
+     }
+     public void onLoginFailed()
+     {
+
+     }
+
+     /**
+      * LOGOUT
+      */
+     public void onLogOut()
+     {
+
+     }
 
      /* ******************************************** NATIVE BUTTONS HANDLER **************************************************** */
      @Override

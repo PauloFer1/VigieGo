@@ -1,0 +1,43 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tarambola.view.Logout">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/big_logo_back">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Bye Bye"
+                android:id="@+id/mLogoutLabel"
+                android:gravity="center" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:id="@+id/mLogoutBtn"
+                android:layout_gravity="left"
+                android:background="@drawable/custom_img_button"
+                android:textSize="16dp"
+                android:textColor="#fff"
+                android:gravity="center"
+                android:layout_marginTop="40dp" />
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

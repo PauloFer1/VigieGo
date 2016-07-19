@@ -9,13 +9,12 @@
     <string name="title_section6">Profiles</string>
     <string name="title_section7">About</string>
     <string name="title_section8">No Tag</string>
+    <string name="title_section9">Login</string>
+    <string name="title_section10">Logout</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_example">Example action</string>
-
-    <string name="action_settings">Settings</string>
 
     <string-array name="profiles_array">
         <item>Teste</item>

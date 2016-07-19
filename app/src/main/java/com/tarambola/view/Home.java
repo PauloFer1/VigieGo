@@ -219,6 +219,7 @@ public class Home extends Fragment{
             //et1.enableDashedHighlightLine(10f, 5f, 0f);
             set1.setColor(Color.rgb(2,115,100));
             set1.setCircleColor(Color.argb(100,3,181,158));
+            set1.setDrawCircles(false);
             set1.setLineWidth(1f);
             set1.setCircleRadius(2f);
             set1.setDrawCircleHole(true);
