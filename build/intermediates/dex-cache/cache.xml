@@ -1,2 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/Users/macbook13/AndroidStudioProjects/VigieGo/app/libs/mpandroidchartlibrary-2-2-4.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="e5455fb794bfcbeb75da252dffd907794614f7fd">
+        <dex dex="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/transforms/dex/debug/folders/1000/2/mpandroidchartlibrary-2-2-4_c5d7a4ff1e3519d2541fb7223d3214275d4362d9/classes.dex" />
+    </item>
+    <item
+        jar="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-22.2.1_cc350b3d9efb2095f44e435b5855541c609ef19a/classes.dex" />
+    </item>
+    <item
+        jar="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4477ea44f5ec5ad064022a22691732d7638ff197">
+        <dex dex="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-appindexing-8.1.0_28bc503a215a1b9e597fbfd00d7c4c6f7bd5f285/classes.dex" />
+    </item>
+    <item
+        jar="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a720c418a4c5f0f79616031063f12157545de76f">
+        <dex dex="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_1fa0397d2c8ec5ee70faefcc9b20ad4c2ed41049/classes.dex" />
+    </item>
+    <item
+        jar="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
+        <dex dex="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-8.1.0_ca8192e41a2a3d21677ad9c8df968810e46906ee/classes.dex" />
+    </item>
+    <item
+        jar="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-22.2.1_02af633e4877986acd7913b3be9c7a5be5625f7f/classes.dex" />
+    </item>
+    <item
+        jar="/Users/macbook13/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-22.2.1_483dcdc9394328ca7be889199aa3a3beacf12b9b/classes.dex" />
+    </item>
+    <item
+        jar="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="17ad73f56cab36c3bc2bb6cdcf2749e454150282">
+        <dex dex="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_7c947905de63af957b559fd6d1b5fbb2ff118f1c/classes.dex" />
+    </item>
+    <item
+        jar="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="/Users/macbook13/AndroidStudioProjects/VigieGo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-22.2.1_960b732938b4e68b2a09a12d428ca9155ba8bfeb/classes.dex" />
+    </item>
+
+</items>
