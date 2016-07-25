@@ -28,13 +28,19 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.tarambola.controller.BackgroundTagProcessor;
 import com.tarambola.controller.LoginSession;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import eu.blulog.blulib.Utils;
 import eu.blulog.blulib.exceptions.BluException;
+import eu.blulog.blulib.json.JSONObject;
 import eu.blulog.blulib.nfc.BackgroundExecutor;
 import eu.blulog.blulib.nfc.NfcUtils;
 import eu.blulog.blulib.tdl2.BlutagContent;
 import eu.blulog.blulib.tdl2.BlutagHandler;
+import eu.blulog.blulib.tdl2.DataDefinition;
 import eu.blulog.blulib.tdl2.Recording;
 
 
@@ -181,7 +187,7 @@ import eu.blulog.blulib.tdl2.Recording;
                                 if (status == null) {
                                     //contentView.removeAllViews();
                                     showInfo();
-                                    Toast.makeText(context, R.string.operation_successfully_completed, Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(context, R.string.operation_successfully_completed, Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(context, status, Toast.LENGTH_SHORT).show();
                                 }
@@ -694,6 +700,111 @@ import eu.blulog.blulib.tdl2.Recording;
          fragment.setProdDesc("sasasa");
          fragment.populateList();
 
+         DateFormat dateFormat = DateFormat.getDateTimeInstance();
+         DataDefinition dataDefinition = content.getDataDefinition();
+         String propertyName;
+         String propertyValueStr;
+         long propertyValue;
+
+         for ( DataDefinition.DataDefinitionEntry<DataDefinition.GenericInfoType> genericEntry:dataDefinition.getGenericInfo())
+         {
+             if (genericEntry.getDescription()<0)
+                 continue;
+             propertyName=genericEntry.getProperty().name();
+             propertyValue=content.getGenericData().getLong(propertyName);
+             if (genericEntry.getType()==DataDefinition.DataType.DATE)
+                 propertyValueStr=dateFormat.format(new Date(propertyValue*1000));
+             else
+                 propertyValueStr=Long.toString(propertyValue);
+
+             //table.addRow(new TwoColumnTable.Row(getString(genericEntry.getDescription()), propertyValueStr));
+             fragment.addRow(getString(genericEntry.getDescription()), propertyValueStr);
+
+         }
+
+         if (dataDefinition.getGenericInfoEntry(DataDefinition.GenericInfoType.utilizedDaysCount)!=null) {
+             long days;
+             long lastPeriodStartDate=content.getGenericData().getLong(DataDefinition.GenericInfoType.lastRecordingStartDate.name());
+             long utilizedDaysCount=content.getGenericData().getLong(DataDefinition.GenericInfoType.utilizedDaysCount.name());
+             if (  lastPeriodStartDate == 0)
+                 days = 0;
+             else
+                 days = ((new Date().getTime())/1000 -
+                         lastPeriodStartDate)
+                         / (60 * 60 * 24);
+
+             //table.addRow(new TwoColumnTable.Row(getString(R.string.utilizedDaysCount), Long.toString(utilizedDaysCount + days)));
+             fragment.addRow("Days Count", Long.toString(utilizedDaysCount + days));
+         }
+
+         if (dataDefinition.getGenericInfoEntry(DataDefinition.GenericInfoType.timeToLive)!=null) {
+             long timeToLive=content.getGenericData().getLong(DataDefinition.GenericInfoType.timeToLive.name());
+             long heartbeatDuration=content.getGenericData().getLong(DataDefinition.GenericInfoType.heartbeatDuration.name());
+             long lastPeriodStartDate=content.getGenericData().getLong(DataDefinition.GenericInfoType.lastRecordingStartDate.name());
+             long lastPeriodDuration=0;
+             if (lastPeriodStartDate>0)
+                 lastPeriodDuration=(new Date()).getTime()/1000-lastPeriodStartDate;
+             //table.addRow(new TwoColumnTable.Row(getString(R.string.time_to_live), Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration))));
+             fragment.addRow("Time To Live", Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration)));
+         }
+
+         if (content.getGenericData().getLong(DataDefinition.GenericInfoType.utilizedRecordingsCount.name())>0) {
+
+
+             Recording recording = content.getRecordings().get(0);
+
+             JSONObject logisticData = recording.getLogisticalData();
+             Iterator<String> iter = logisticData.keys();
+             String propName;
+             String propValue;
+             while (iter.hasNext()) {
+                 propName = iter.next();
+                 if (propName.equals("$$pos"))
+                     continue;
+                 if ((propValue = logisticData.optString(propName)) != null) {
+                     int resourceID = getResources().getIdentifier(propName, "string", this.getPackageName());
+                     if (resourceID != 0)
+                         propName = getString(resourceID);
+                     // table.addRow(new TwoColumnTable.Row(propName, propValue));
+                     fragment.addRow(propName, propValue);
+
+                 }
+             }
+
+
+             dataDefinition = recording.getDataDefinition();
+
+             for (DataDefinition.DataDefinitionEntry<DataDefinition.RecordingInfoType> recordingEntry : dataDefinition.getDeserialRecordingInfo()) {
+                 if (recordingEntry.getDescription() < 0)
+                     continue;
+                 propertyName = recordingEntry.getProperty().name();
+                 propertyValue = recording.getRecordingData().getLong(propertyName);
+                 if (recordingEntry.getType() == DataDefinition.DataType.DATE)
+                     if (propertyValue > 0)
+                         propertyValueStr = dateFormat.format(new Date(propertyValue * 1000));
+                     else
+                         propertyValueStr = "";
+                 else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.minTemp || recordingEntry.getProperty() == DataDefinition.RecordingInfoType.maxTemp)
+                     propertyValueStr = devideByTen((int) propertyValue) + getString(R.string.temperature_unit);
+                 else
+                     propertyValueStr = Long.toString(propertyValue);
+
+                 //table.addRow(new TwoColumnTable.Row(getString(recordingEntry.getDescription()), propertyValueStr));
+                 fragment.addRow(getString(recordingEntry.getDescription()), propertyValueStr);
+
+
+             }
+
+             if (dataDefinition.getDeserialRecordingInfoEntry(DataDefinition.RecordingInfoType.pinsInfo) != null) {
+                 long pinsUsed = recording.getRecordingData().getLong(DataDefinition.RecordingInfoType.pinsInfo.name());
+                 //table.addRow(new TwoColumnTable.Row(getString(R.string.readTempPinUsed), (pinsUsed & 0x02) == 0x02 ? getString(R.string.yes) : getString(R.string.no)));
+                 fragment.addRow("Protect temp reading", (pinsUsed & 0x02) == 0x02 ? "YES" : "NO");
+
+                 //table.addRow(new TwoColumnTable.Row(getString(R.string.finishRecordingPinUsed), (pinsUsed & 0x01) == 0x01 ? getString(R.string.yes) : getString(R.string.no)));
+                 fragment.addRow("Protect stop rec", (pinsUsed & 0x01) == 0x01 ? "YES" : "NO");
+             }
+         }
+
          mTitle = getString(R.string.title_section5);
 
          FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -701,6 +812,12 @@ import eu.blulog.blulib.tdl2.Recording;
          transaction.addToBackStack(String.valueOf(mTitle));
          transaction.commit();
 
+
+     }
+
+     //************************ HELPERS ****************************//
+     static protected String devideByTen(int data){
+         return Integer.toString(data/10)+"."+Integer.toString(data%10);
 
      }
 

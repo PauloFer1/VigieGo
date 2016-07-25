@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -76,7 +77,8 @@ public class TagInfoFragment extends Fragment {
         recordLabel.setTypeface(font);
 
 
-        RelativeLayout listInfoLayout = (RelativeLayout) rootView.findViewById(R.id.mTagInfoCont); // Get Fragment Relative layout to apply list
+      //  RelativeLayout listInfoLayout = (RelativeLayout) rootView.findViewById(R.id.mTagInfoCont); // Get Fragment Relative layout to apply list
+        ScrollView listInfoLayout = (ScrollView) rootView.findViewById(R.id.mTagInfoCont); // Get Fragment Relative layout to apply list
         listInfoLayout.addView(mList.build());
 
 
@@ -222,6 +224,14 @@ public class TagInfoFragment extends Fragment {
         mList.addRow(new TwoColumnTable.Row("Product Description", this.mProdDesc));
         mList.addRow(new TwoColumnTable.Row("Start date of Recording", "03 June 2016 11:58:03"));
 
+    }
+
+    /**
+     * Add new Row Regardless of the title and value
+     */
+    public void addRow(String name, String value)
+    {
+        mList.addRow(new TwoColumnTable.Row(name, value));
     }
 
 }

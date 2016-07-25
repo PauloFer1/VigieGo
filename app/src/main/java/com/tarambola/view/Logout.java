@@ -2,6 +2,7 @@ package com.tarambola.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.tarambola.controller.LoginSession;
 
@@ -68,6 +70,15 @@ public class Logout extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_logout, container, false);
+
+        Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
+
+
+        TextView byebyeLab=(TextView) rootView.findViewById(R.id.mLogoutLabel);
+        byebyeLab.setTypeface(font);
+
+        TextView logoutBtnLab=(TextView) rootView.findViewById(R.id.mLogoutBtn);
+        logoutBtnLab.setTypeface(font);
 
         final Button logOutBtn = (Button)rootView.findViewById(R.id.mLogoutBtn);
 

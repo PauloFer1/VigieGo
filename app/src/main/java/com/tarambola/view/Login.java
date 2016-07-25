@@ -2,6 +2,7 @@ package com.tarambola.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.tarambola.controller.LoginSession;
 
@@ -72,6 +74,24 @@ public class Login extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+
+        Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
+
+        TextView msgLab1=(TextView) rootView.findViewById(R.id.mEnterCredLabel1);
+        msgLab1.setTypeface(font);
+
+        TextView msgLab2=(TextView) rootView.findViewById(R.id.mEnterCredLabel2);
+        msgLab2.setTypeface(font);
+
+
+        TextView usernameLab=(TextView) rootView.findViewById(R.id.mUsernameLabel);
+        usernameLab.setTypeface(font);
+
+        TextView passwordLab=(TextView) rootView.findViewById(R.id.mPasswordLabel);
+        passwordLab.setTypeface(font);
+
+        TextView loginBtnLab=(TextView) rootView.findViewById(R.id.mLoginBtn);
+        loginBtnLab.setTypeface(font);
 
         final Button loginBtn = (Button)rootView.findViewById(R.id.mLoginBtn);
 

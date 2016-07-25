@@ -13,19 +13,21 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:weightSum="1">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="435dp"
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/mTagInfoCont"
+                android:layout_weight="1.01"
                 android:background="#fff">
 
-            </RelativeLayout>
+            </ScrollView>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="74dp"
                 android:background="@color/greenTheme">
 
                 <LinearLayout
@@ -75,7 +77,9 @@
 
                 </LinearLayout>
             </RelativeLayout>
+
         </LinearLayout>
+
     </RelativeLayout>
 
 </FrameLayout>
