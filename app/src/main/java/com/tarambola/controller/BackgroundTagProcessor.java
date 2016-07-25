@@ -2,9 +2,12 @@ package com.tarambola.controller;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.view.ContextThemeWrapper;
+import android.widget.ProgressBar;
 
 import com.tarambola.view.R;
 
@@ -39,14 +42,12 @@ public abstract class BackgroundTagProcessor extends AsyncTask<Tag, Integer, Str
         this.tag = tag;
     }
 
-    public BackgroundTagProcessor(Activity context,
-                                  int title, int message, Tag tag, TagOperation tagOperation) {
+    public BackgroundTagProcessor(Activity context, int title, int message, Tag tag, TagOperation tagOperation) {
         this(context, title, message, tag);
         this.tagOperation=tagOperation;
     }
 
-    public BackgroundTagProcessor(Activity context,
-                                  int title, int message, Tag tag, int progressBarStyle) {
+    public BackgroundTagProcessor(Activity context, int title, int message, Tag tag, int progressBarStyle) {
         this(context, title, message, tag);
         this.progressBarStyle=progressBarStyle;
     }
@@ -66,10 +67,10 @@ public abstract class BackgroundTagProcessor extends AsyncTask<Tag, Integer, Str
         progressDialog.show();
         if (progressBarStyle== ProgressDialog.STYLE_HORIZONTAL){
             BluTag.get().setProgressBar(progressDialog);
-/* nie działa tak jak chciałbym
-            ProgressBar progressBar = (ProgressBar) progressDialog.findViewById(android.R.id.progress);
+
+       /*     ProgressBar progressBar = (ProgressBar) progressDialog.findViewById(android.R.id.progress);
             if (progressBar!=null)
-//                progressBar.getProgressDrawable().setColorFilter(context.getResources().getColor(R.color.Blu), PorterDuff.Mode.MULTIPLY);
+                //progressBar.getProgressDrawable().setColorFilter(context.getResources().getColor(R.color.Blu), PorterDuff.Mode.MULTIPLY);
                 progressBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
 */
         }

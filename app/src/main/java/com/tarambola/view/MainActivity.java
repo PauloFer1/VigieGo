@@ -1,6 +1,9 @@
 package com.tarambola.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
@@ -27,6 +30,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tarambola.controller.BackgroundTagProcessor;
 import com.tarambola.controller.LoginSession;
+import com.tarambola.model.TagData;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -68,7 +72,8 @@ import eu.blulog.blulib.tdl2.Recording;
      private Logout             mLogout;
 
      private Fragment           mCurrentFragment = null;
-     private String       mCurrentTitle;
+     private String             mCurrentTitle;
+     private TagData            mTagData;
 
 
      private Operations operation=Operations.SHORT_READ;
@@ -102,6 +107,8 @@ import eu.blulog.blulib.tdl2.Recording;
 
         mBackgroundTagProcessor=null;
         mBusyOnProcessNFC = new AtomicBoolean(false);
+
+        mTagData = new TagData();
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -156,7 +163,7 @@ import eu.blulog.blulib.tdl2.Recording;
     {
         Log.d("debug", "onNewIntent: ");
 
-        Log.w("operation", operation.name());
+        Log.w("************ operation", operation.name());
 
               //  Toast.makeText(getApplicationContext(), "Put Tag", Toast.LENGTH_SHORT).show();
 
@@ -215,15 +222,48 @@ import eu.blulog.blulib.tdl2.Recording;
 
 
                                 BlutagHandler.get().readBlutag(tag);
-                                if (BlutagContent.get().getRecordings().size() > 0
-                                        && BlutagContent.get().getRecordings().get(0).getRegistrationStartDate().getTime() < Recording.START_BY_BUTTON)
+                                if (BlutagContent.get().getRecordings().size() > 0 && BlutagContent.get().getRecordings().get(0).getRegistrationStartDate().getTime() < Recording.START_BY_BUTTON)
                                     BlutagContent.get().getRecordings().get(0).computeStatistics();
+
 
 
                                 Log.i("finished", this.toString());
                             }
                         };
                 Log.d("debug", "onNewIntent: 2");
+                break;
+
+            case READ_TEMPS:
+                mBackgroundTagProcessor =
+                        new BackgroundTagProcessor(this, R.string.downloading_nfc_data, R.string.dont_remove_tag, tag, ProgressDialog.STYLE_HORIZONTAL) {
+                            @Override
+                            protected void postExecute(String status) {
+                                if (status == null) {
+                                    Toast.makeText(context, R.string.operation_successfully_completed, Toast.LENGTH_SHORT).show();
+                                    BackgroundExecutor be = new BackgroundExecutor() {
+
+                                        @Override
+                                        protected void postExecute(String status) {
+                                            operation=Operations.SHORT_READ;
+                                            mBusyOnProcessNFC.set(false);
+                                        }
+                                        @Override
+                                        protected void backgroundWork() {
+                                            try {Thread.sleep(WAIT_TIME);} catch (InterruptedException e) {}
+                                        }
+                                    };
+                                    be.execute(null, null);
+                                    mBackgroundTagProcessor=null;
+                                } else {
+                                    askDoRetry();
+                                }
+                            }
+
+                            @Override
+                            protected void processTag(Tag tag) throws BluException {
+                                BlutagHandler.get().readTempsFromEeprom(tag, 0);
+                            }
+                        };
                 break;
             default:;
         }
@@ -700,11 +740,19 @@ import eu.blulog.blulib.tdl2.Recording;
          fragment.setProdDesc("sasasa");
          fragment.populateList();
 
+         mTagData = new TagData();
+         mTagData.setIdNumber(String.valueOf(content.getBlueTagId()));
+         mTagData.setFirmwareVer(Integer.toString(content.getFirmware()));
+         mTagData.setHardwareVer(Integer.toString(content.getHardware()));
+         mTagData.setNumberRecs(content.getRecordings().size());
+         mTagData.setTemps(BlutagContent.get().getRecordings().get(0).getTemperatures());
+
          DateFormat dateFormat = DateFormat.getDateTimeInstance();
          DataDefinition dataDefinition = content.getDataDefinition();
          String propertyName;
          String propertyValueStr;
          long propertyValue;
+
 
          for ( DataDefinition.DataDefinitionEntry<DataDefinition.GenericInfoType> genericEntry:dataDefinition.getGenericInfo())
          {
@@ -737,7 +785,7 @@ import eu.blulog.blulib.tdl2.Recording;
              fragment.addRow("Days Count", Long.toString(utilizedDaysCount + days));
          }
 
-         if (dataDefinition.getGenericInfoEntry(DataDefinition.GenericInfoType.timeToLive)!=null) {
+         if (dataDefinition.getGenericInfoEntry(DataDefinition.GenericInfoType.timeToLive)!=null) { //******************************* RECORDINGS TIME LEFT
              long timeToLive=content.getGenericData().getLong(DataDefinition.GenericInfoType.timeToLive.name());
              long heartbeatDuration=content.getGenericData().getLong(DataDefinition.GenericInfoType.heartbeatDuration.name());
              long lastPeriodStartDate=content.getGenericData().getLong(DataDefinition.GenericInfoType.lastRecordingStartDate.name());
@@ -746,9 +794,10 @@ import eu.blulog.blulib.tdl2.Recording;
                  lastPeriodDuration=(new Date()).getTime()/1000-lastPeriodStartDate;
              //table.addRow(new TwoColumnTable.Row(getString(R.string.time_to_live), Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration))));
              fragment.addRow("Time To Live", Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration)));
+             mTagData.setRecTimeLeft(Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration)));
          }
 
-         if (content.getGenericData().getLong(DataDefinition.GenericInfoType.utilizedRecordingsCount.name())>0) {
+         if (content.getGenericData().getLong(DataDefinition.GenericInfoType.utilizedRecordingsCount.name())>0) { //*************************** COUNT OF RECORDINGS USED
 
 
              Recording recording = content.getRecordings().get(0);
@@ -779,13 +828,25 @@ import eu.blulog.blulib.tdl2.Recording;
                      continue;
                  propertyName = recordingEntry.getProperty().name();
                  propertyValue = recording.getRecordingData().getLong(propertyName);
-                 if (recordingEntry.getType() == DataDefinition.DataType.DATE)
+                 if (recordingEntry.getType() == DataDefinition.DataType.DATE) //************************* RECORDING DATE
+                 {
+                     if(getString(recordingEntry.getDescription()).equals("Start date of recording"))
+                         mTagData.setStartDateRec(new Date(propertyValue * 1000));
+                     else if(getString(recordingEntry.getDescription()).equals("End date of recording"))
+                         mTagData.setEndDateRec(new Date(propertyValue * 1000));
                      if (propertyValue > 0)
                          propertyValueStr = dateFormat.format(new Date(propertyValue * 1000));
                      else
                          propertyValueStr = "";
-                 else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.minTemp || recordingEntry.getProperty() == DataDefinition.RecordingInfoType.maxTemp)
+                 }
+                 else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.minTemp ) { //******************************** MIN Temperature
+                     mTagData.setMinTemp((int) propertyValue);
                      propertyValueStr = devideByTen((int) propertyValue) + getString(R.string.temperature_unit);
+                 }
+                 else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.maxTemp) { //******************************** MAX Temperature
+                     propertyValueStr = devideByTen((int) propertyValue) + getString(R.string.temperature_unit);
+                     mTagData.setMaxTemp((int) propertyValue);
+                 }
                  else
                      propertyValueStr = Long.toString(propertyValue);
 
@@ -819,6 +880,35 @@ import eu.blulog.blulib.tdl2.Recording;
      static protected String devideByTen(int data){
          return Integer.toString(data/10)+"."+Integer.toString(data%10);
 
+     }
+
+     public void askDoRetry(){
+         AlertDialog.Builder alert= new AlertDialog.Builder(this);
+         alert.setTitle("Operation not completed");
+         alert.setMessage("Operation completed in "+BlutagHandler.get().getPercentageReadData()+"%. Do you want to continue reading of EEPROM?");
+
+         final View v = getLayoutInflater().inflate(R.layout.activity_main, null);
+         alert.setView(v);
+
+         alert.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+             @Override
+             public void onClick(DialogInterface dialog, int which) {
+                 mBackgroundTagProcessor=null;
+                 BlutagHandler.get().setResumeRead(true);
+                 mBusyOnProcessNFC.set(false);
+                 Toast.makeText(MainActivity.this, getString(R.string.putBlutagInRange, getString(R.string.nfc_device_name)), Toast.LENGTH_LONG).show();
+             }
+         });
+         alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+             @Override
+             public void onClick(DialogInterface dialog, int which) {
+                 operation=Operations.NOTHING;
+                 mBackgroundTagProcessor=null;
+                 BlutagHandler.get().setResumeRead(false);
+                 mBusyOnProcessNFC.set(false);
+             }
+         });
+         alert.show();
      }
 
 }
