@@ -286,7 +286,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="17.2ºC"
-                android:id="@+id/textView5"
+                android:id="@+id/mKineticValue"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/mKineticLabel"
                 android:layout_toRightOf="@+id/mKineticLabel"

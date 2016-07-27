@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,22 +31,46 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
+import com.tarambola.model.TagData;
 
 import java.util.ArrayList;
 
 public class Home extends Fragment{
 
-    private LineChart mChart;
-    private SeekBar mSeekBarX, mSeekBarY;
-    private TextView tvX, tvY;
+    private LineChart       mChart;
+    private SeekBar         mSeekBarX, mSeekBarY;
+    private TextView        tvX, tvY;
+    private TagData         mTagData;
+
+    private static final String ARG_PARAM1 = "mTagData";
 
     public Home(){}
+
+
+    public static Home newInstance(TagData tagData) {
+        Home fragment = new Home();
+        fragment.setTagData(tagData);
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_PARAM1, tagData);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mTagData = (TagData) getArguments().getSerializable(ARG_PARAM1);
+        }
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        /* ******** DESIGN ********** */
         Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
 
         TextView tv=(TextView) rootView.findViewById(R.id.mKineticLabel);
@@ -70,6 +95,20 @@ public class Home extends Fragment{
         TextView downloadBtnLabel = (TextView) rootView.findViewById(R.id.mDownloadBtnLabel);
         downloadBtnLabel.setTypeface(font);
 
+        TextView kinectVal=(TextView) rootView.findViewById(R.id.mKineticValue);
+
+        /* Set params */
+        float min = (float) (((float)mTagData.getMinTempRead())/10.0);
+        float max = (float)(((float)mTagData.getMaxtempRead())/10.0);
+        float avg = (float)(((float)mTagData.getAverageTemp())/10.0);
+        float last = (float)(((float)mTagData.getLastMeasure())/10.0);
+        float kinet = (float) (mTagData.getKineticTemp());
+        minLabel.setText(Float.toString(min)+"ºc");
+        maxLabel.setText(Float.toString(max)+"ºc");
+        avgLabel.setText(Float.toString(avg)+"ºc");
+        lastMeasureVal.setText(Float.toString(last)+"ºc");
+        kinectVal.setText(Float.toString(kinet)+"ºc");
+
 
         mChart = new LineChart(rootView.getContext());
         mChart.setLayoutParams(new FrameLayout.LayoutParams(DrawerLayout.LayoutParams.FILL_PARENT,DrawerLayout.LayoutParams.FILL_PARENT));
@@ -93,8 +132,7 @@ public class Home extends Fragment{
 
         XAxis xAxis = mChart.getXAxis();
 
-
-        LimitLine ll1 = new LimitLine(30f, "MAX NOT OK");
+        LimitLine ll1 = new LimitLine(mTagData.getMaxtemp()/10, "MAX NOT OK");
         ll1.setLineWidth(2f);
         ll1.enableDashedLine(10f, 10f, 0f);
         ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
@@ -103,7 +141,7 @@ public class Home extends Fragment{
         ll1.setTextColor(Color.GRAY);
         ll1.setLineColor(Color.rgb(255, 210, 77));
 
-        LimitLine ll2 = new LimitLine(5f, "MIN NOT OK");
+        LimitLine ll2 = new LimitLine(mTagData.getMinTemp()/10, "MIN NOT OK");
         ll2.setLineWidth(2f);
         ll2.enableDashedLine(10f, 10f, 0f);
         ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
@@ -136,7 +174,7 @@ public class Home extends Fragment{
         //mChart.getViewPortHandler().setMaximumScaleX(2f);
 
         // add data
-        setData(45, 20);
+        setData(mTagData.getTemps());
 
 //        mChart.setVisibleXRange(20);
 //        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
@@ -180,21 +218,18 @@ public class Home extends Fragment{
 
 
     // ***************************************************** SET DATA CHART
-    private void setData(int count, float range) {
+    private void setData(short[] temps) {
 
         ArrayList<String> xVals = new ArrayList<String>();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < temps.length; i++) {
             xVals.add((i) + "");
         }
 
         ArrayList<Entry> yVals = new ArrayList<Entry>();
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < temps.length; i++) {
 
-            float mult = (range + 1);
-            float val = (float) (Math.random() * mult) + 3;// + (float)
-            // ((mult *
-            // 0.1) / 10);x
+            float val = (float) temps[i]/10;
             yVals.add(new Entry(val, i));
         }
 
@@ -245,5 +280,11 @@ public class Home extends Fragment{
             // set data
             mChart.setData(data);
         }
+    }
+
+    // ************************************* SETTERS ************************************* //
+    public void setTagData(TagData data)
+    {
+        this.mTagData = data;
     }
 }

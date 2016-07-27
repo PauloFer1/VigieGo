@@ -270,6 +270,7 @@ import eu.blulog.blulib.tdl2.Recording;
         Log.i("post start new intent", intent.toString());
         if (mBackgroundTagProcessor!=null)
             mBackgroundTagProcessor.execute(tag);
+
     }
 
     @Override
@@ -446,7 +447,7 @@ import eu.blulog.blulib.tdl2.Recording;
              else
              {
                  mTitle = getString(R.string.title_section2);
-                 mHome = new Home();
+                 mHome = Home.newInstance(mTagData);
                  fragment = mHome;
              }
 
@@ -847,8 +848,13 @@ import eu.blulog.blulib.tdl2.Recording;
                      propertyValueStr = devideByTen((int) propertyValue) + getString(R.string.temperature_unit);
                      mTagData.setMaxTemp((int) propertyValue);
                  }
-                 else
+                 else {
                      propertyValueStr = Long.toString(propertyValue);
+                     if(recordingEntry.getProperty() == DataDefinition.RecordingInfoType.activationEnergy ) // *************************** Activation Energy
+                        mTagData.setActivationEnergy(propertyValue);
+                     else if(recordingEntry.getProperty() == DataDefinition.RecordingInfoType.measurementCycle) //************************** Length of measurement cycle
+                         mTagData.setMeasureLenght(propertyValue);
+                 }
 
                  //table.addRow(new TwoColumnTable.Row(getString(recordingEntry.getDescription()), propertyValueStr));
                  fragment.addRow(getString(recordingEntry.getDescription()), propertyValueStr);
