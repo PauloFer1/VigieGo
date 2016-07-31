@@ -741,12 +741,16 @@ import eu.blulog.blulib.tdl2.Recording;
          fragment.setProdDesc("sasasa");
          fragment.populateList();
 
+         BlutagContent.get().getRecordings().get(0).computeStatistics(); // Compute statistics for min, avg, max, kinect temps, breaches...
          mTagData = new TagData();
          mTagData.setIdNumber(String.valueOf(content.getBlueTagId()));
          mTagData.setFirmwareVer(Integer.toString(content.getFirmware()));
          mTagData.setHardwareVer(Integer.toString(content.getHardware()));
          mTagData.setNumberRecs(content.getRecordings().size());
          mTagData.setTemps(BlutagContent.get().getRecordings().get(0).getTemperatures());
+         mTagData.setBreaches(BlutagContent.get().getRecordings().get(0).getStatistics().getBreaches());
+         mTagData.setBreachesCount(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesDuration());
+         mTagData.setBreachesDuration(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesDuration());
 
          DateFormat dateFormat = DateFormat.getDateTimeInstance();
          DataDefinition dataDefinition = content.getDataDefinition();

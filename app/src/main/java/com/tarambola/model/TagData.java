@@ -7,6 +7,10 @@ import android.os.Parcelable;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.concurrent.TimeUnit;
+
+import eu.blulog.blulib.tdl2.Recording;
 
 /**
  * Created by paulofernandes on 25/07/16.
@@ -19,6 +23,12 @@ public class TagData implements Serializable{
         public RecTimeLeft(int days, int hours, int min, int secs){
             this.days=days;this.hours=hours;this.minutes=minutes;this.seconds=secs;
         };
+        public void convertFromSecs(long secs){
+            days = (int) TimeUnit.SECONDS.toDays(secs);
+            hours = (int) (TimeUnit.SECONDS.toHours(secs) - (days*24));
+            minutes = (int) (TimeUnit.SECONDS.toMinutes(secs) - (days*24) - (hours*60));
+            seconds = (int) (secs - (days*24) - (hours*60) - (minutes*60));
+        }
 
         public int days;
         public int hours;
@@ -46,7 +56,10 @@ public class TagData implements Serializable{
     private long        mActivationEnergy;
     private int         mMinTempRead;
     private int         mMaxTempRead;
-    private float       mKinectTemp;
+    private double      mKinectTemp;
+    private PriorityQueue<Recording.Breach>    mRecBreaches;
+    private int         mBreachesDuration;
+    private int         mBreachesCount;
 
     public TagData()
     {
@@ -124,9 +137,12 @@ public class TagData implements Serializable{
     public int getLastMeasure(){
         return((int)mTemps[mTemps.length-1]);
     }
-    public float getKineticTemp(){
+    public double getKineticTemp(){
         return mKinectTemp;
     }
+    public int getBreachesDuration(){return mBreachesDuration;}
+    public PriorityQueue<Recording.Breach> getBreaches(){return mRecBreaches;}
+    public int getBreachesCount(){return mBreachesCount;}
 
 
     /* *********************************** SETTERS ****************************************** */
@@ -248,12 +264,25 @@ public class TagData implements Serializable{
      */
     public void setTemps(short[] temps){
         this.mTemps = temps;
-        calculateAverageTemp();
-        calculateMaxTempRead();
-        calculateMinTempRead();
-        calculateKinectTemp();
     }
-
+    public void setKineticTemp(double temp){
+        this.mKinectTemp = temp;
+    }
+    public void setmMinTempRead(int temp){
+        this.mMinTempRead = temp;
+    }
+    public void setMaxTempRead(int temp){
+        this.mMaxTempRead = temp;
+    }
+    public void setBreaches(PriorityQueue<Recording.Breach> breaches){
+        this.mRecBreaches = breaches;
+    }
+    public void setBreachesCount(int count){
+        this.mBreachesCount = count;
+    }
+    public void setBreachesDuration(int duration){
+        this.mBreachesDuration = duration;
+    }
     //********************************* METHODS
     private void calculateAverageTemp()
     {

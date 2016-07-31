@@ -103,11 +103,17 @@ public class Home extends Fragment{
         float avg = (float)(((float)mTagData.getAverageTemp())/10.0);
         float last = (float)(((float)mTagData.getLastMeasure())/10.0);
         float kinet = (float) (mTagData.getKineticTemp());
+
         minLabel.setText(Float.toString(min)+"ºc");
         maxLabel.setText(Float.toString(max)+"ºc");
         avgLabel.setText(Float.toString(avg)+"ºc");
         lastMeasureVal.setText(Float.toString(last)+"ºc");
         kinectVal.setText(Float.toString(kinet)+"ºc");
+        TagData.RecTimeLeft breachT = new TagData.RecTimeLeft();
+        breachT.convertFromSecs(mTagData.getBreachesDuration());
+
+        breachesTime.setText(Integer.toString(breachT.hours)+":"+Integer.toString(breachT.minutes)+":"+Integer.toString(breachT.seconds));
+        breachesNumber.setText(Integer.toString(mTagData.getBreachesCount()));
 
 
         mChart = new LineChart(rootView.getContext());
