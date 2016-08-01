@@ -751,6 +751,11 @@ import eu.blulog.blulib.tdl2.Recording;
          mTagData.setBreaches(BlutagContent.get().getRecordings().get(0).getStatistics().getBreaches());
          mTagData.setBreachesCount(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesDuration());
          mTagData.setBreachesDuration(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesDuration());
+         mTagData.setKineticTemp(BlutagContent.get().getRecordings().get(0).getStatistics().getMeanKineticTemp());
+         mTagData.setmMinTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getMinTemp());
+         mTagData.setMaxTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getMaxTemp());
+         mTagData.setAvgTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getAvgTemp());
+         mTagData.setFstDownMeasuredate(BlutagContent.get().getRecordings().get(0).getFirstDownloadedMeasurementDate());
 
          DateFormat dateFormat = DateFormat.getDateTimeInstance();
          DataDefinition dataDefinition = content.getDataDefinition();

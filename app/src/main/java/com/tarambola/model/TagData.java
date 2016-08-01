@@ -52,7 +52,7 @@ public class TagData implements Serializable{
     private Map         mTempsMap;
     private int         mMinTemp;
     private int         mMaxTemp;
-    private int         mAverageTemp;
+    private double      mAverageTemp;
     private long        mActivationEnergy;
     private int         mMinTempRead;
     private int         mMaxTempRead;
@@ -60,6 +60,7 @@ public class TagData implements Serializable{
     private PriorityQueue<Recording.Breach>    mRecBreaches;
     private int         mBreachesDuration;
     private int         mBreachesCount;
+    private Date        mFstDownMeasuredate;
 
     public TagData()
     {
@@ -131,7 +132,7 @@ public class TagData implements Serializable{
     public long getActivationEnergy(){
         return mActivationEnergy;
     }
-    public int getAverageTemp() {
+    public double getAverageTemp() {
         return mAverageTemp;
     }
     public int getLastMeasure(){
@@ -143,6 +144,7 @@ public class TagData implements Serializable{
     public int getBreachesDuration(){return mBreachesDuration;}
     public PriorityQueue<Recording.Breach> getBreaches(){return mRecBreaches;}
     public int getBreachesCount(){return mBreachesCount;}
+    public Date getFstDownMeasuredate(){return mFstDownMeasuredate;};
 
 
     /* *********************************** SETTERS ****************************************** */
@@ -264,6 +266,8 @@ public class TagData implements Serializable{
      */
     public void setTemps(short[] temps){
         this.mTemps = temps;
+       // calculateMinTempRead();
+       // calculateMaxTempRead();
     }
     public void setKineticTemp(double temp){
         this.mKinectTemp = temp;
@@ -274,6 +278,9 @@ public class TagData implements Serializable{
     public void setMaxTempRead(int temp){
         this.mMaxTempRead = temp;
     }
+    public void setAvgTempRead(double temp){
+        this.mAverageTemp = temp;
+    }
     public void setBreaches(PriorityQueue<Recording.Breach> breaches){
         this.mRecBreaches = breaches;
     }
@@ -282,6 +289,9 @@ public class TagData implements Serializable{
     }
     public void setBreachesDuration(int duration){
         this.mBreachesDuration = duration;
+    }
+    public void setFstDownMeasuredate(Date date){
+        this.mFstDownMeasuredate = date;
     }
     //********************************* METHODS
     private void calculateAverageTemp()
