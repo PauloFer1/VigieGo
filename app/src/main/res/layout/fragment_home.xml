@@ -96,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="17 May 2016 10:25:03"
-                        android:id="@+id/textView9"
+                        android:id="@+id/mLastMeasureDate"
                         android:textColor="@color/greenTheme"
                         android:textSize="11dp"
                         android:paddingLeft="10dp"
@@ -419,7 +419,7 @@
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageButton"
+                        android:id="@+id/mDownloadBtn"
                         android:background="@drawable/custom_download_btn" />
 
                     <TextView

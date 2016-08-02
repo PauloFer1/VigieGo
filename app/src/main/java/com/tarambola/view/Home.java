@@ -4,9 +4,15 @@ package com.tarambola.view;
  * Created by Paulo on 07/06/2016.
  */
 
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,10 +21,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -31,8 +40,10 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
+import com.tarambola.model.PDFDownloader;
 import com.tarambola.model.TagData;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +56,7 @@ public class Home extends Fragment{
     private SeekBar         mSeekBarX, mSeekBarY;
     private TextView        tvX, tvY;
     private TagData         mTagData;
+    private ProgressDialog  mProgressDialog;
 
     private static final String ARG_PARAM1 = "mTagData";
 
@@ -101,6 +113,8 @@ public class Home extends Fragment{
 
         TextView kinectVal=(TextView) rootView.findViewById(R.id.mKineticValue);
 
+        TextView lastMeasureDate = (TextView) rootView.findViewById(R.id.mLastMeasureDate);
+
         /* Set params */
         float min = (float) (((float)mTagData.getMinTempRead())/10.0);
         float max = (float)(((float)mTagData.getMaxtempRead())/10.0);
@@ -120,6 +134,18 @@ public class Home extends Fragment{
 
         breachesTime.setText(Integer.toString(breachT.hours)+":"+Integer.toString(breachT.minutes)+":"+Integer.toString(breachT.seconds));
         breachesNumber.setText(Integer.toString(mTagData.getBreachesCount()));
+
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        lastMeasureDate.setText(fmt.format(mTagData.getLastDownMeasureDate()));
+
+
+        final ImageButton downloadBtn = (ImageButton)rootView.findViewById(R.id.mDownloadBtn);
+        downloadBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                downloadPDF(v);
+            }
+        });
 
 
         mChart = new LineChart(rootView.getContext());
@@ -228,6 +254,28 @@ public class Home extends Fragment{
         ft.replace(R.id.container, bigChart).commit();
     }
 
+    private void downloadPDF(View v)
+    {
+        // instantiate it within the onCreate method
+        mProgressDialog = new ProgressDialog(v.getContext());
+        mProgressDialog.setMessage("Downloading PDF");
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setCancelable(true);
+
+
+        final PDFDownloader downloadHandler = new PDFDownloader(v.getContext(), mProgressDialog);
+        downloadHandler.execute("http://projetos.ddns.net/vigie/dummy_pdf.pdf");
+
+
+        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                downloadHandler.cancel(true);
+            }
+        });
+
+    }
 
     // ***************************************************** SET DATA CHART
     private void setData(short[] temps) {

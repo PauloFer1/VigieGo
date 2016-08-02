@@ -756,6 +756,7 @@ import eu.blulog.blulib.tdl2.Recording;
          mTagData.setMaxTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getMaxTemp());
          mTagData.setAvgTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getAvgTemp());
          mTagData.setFstDownMeasuredate(BlutagContent.get().getRecordings().get(0).getFirstDownloadedMeasurementDate());
+         mTagData.setLastDownMeasureDate(BlutagContent.get().getRecordings().get(0).getLastDownloadedMeasurementDate());
 
          DateFormat dateFormat = DateFormat.getDateTimeInstance();
          DataDefinition dataDefinition = content.getDataDefinition();

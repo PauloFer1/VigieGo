@@ -61,6 +61,7 @@ public class TagData implements Serializable{
     private int         mBreachesDuration;
     private int         mBreachesCount;
     private Date        mFstDownMeasuredate;
+    private Date        mLastDownMeasureDate;
 
     public TagData()
     {
@@ -145,6 +146,7 @@ public class TagData implements Serializable{
     public PriorityQueue<Recording.Breach> getBreaches(){return mRecBreaches;}
     public int getBreachesCount(){return mBreachesCount;}
     public Date getFstDownMeasuredate(){return mFstDownMeasuredate;};
+    public Date getLastDownMeasureDate(){return mLastDownMeasureDate;};
 
 
     /* *********************************** SETTERS ****************************************** */
@@ -292,6 +294,9 @@ public class TagData implements Serializable{
     }
     public void setFstDownMeasuredate(Date date){
         this.mFstDownMeasuredate = date;
+    }
+    public void setLastDownMeasureDate(Date date){
+        this.mLastDownMeasureDate = date;
     }
     //********************************* METHODS
     private void calculateAverageTemp()
