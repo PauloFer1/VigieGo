@@ -37,7 +37,7 @@
                     android:theme="@style/customSpinnerTheme"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/spinner"
+                    android:id="@+id/profileSpinner"
                     android:layout_alignParentTop="true"
                     android:spinnerMode="dialog"
                     android:dropDownWidth="fill_parent"
@@ -81,7 +81,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:id="@+id/editText"
+                            android:id="@+id/samplingInput"
                             android:layout_below="@+id/mSamplingLabel"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
@@ -94,9 +94,9 @@
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="min"
                             android:id="@+id/textView11"
-                            android:layout_alignBottom="@+id/editText"
-                            android:layout_toRightOf="@+id/editText"
-                            android:layout_toEndOf="@+id/editText"
+                            android:layout_alignBottom="@+id/samplingInput"
+                            android:layout_toRightOf="@+id/samplingInput"
+                            android:layout_toEndOf="@+id/samplingInput"
                             android:textColor="#bbb"
                             android:textSize="12dp"
                             android:layout_marginBottom="8dp" />
@@ -163,7 +163,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:id="@+id/editText2"
+                            android:id="@+id/minInput"
                             android:layout_below="@+id/mMinNOkLabel"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
@@ -180,9 +180,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:id="@+id/editText3"
+                            android:id="@+id/minNOkInput"
                             android:width="80dp"
-                            android:layout_alignTop="@+id/editText2"
+                            android:layout_alignTop="@+id/minInput"
                             android:layout_alignRight="@+id/imageView9"
                             android:layout_alignEnd="@+id/imageView9"
                             android:layout_marginRight="20dp"
@@ -200,9 +200,9 @@
                             android:textColor="#fff"
                             android:textStyle="bold"
                             android:textSize="12dp"
-                            android:layout_toRightOf="@+id/editText2"
-                            android:layout_toEndOf="@+id/editText2"
-                            android:layout_alignBottom="@+id/editText2" />
+                            android:layout_toRightOf="@+id/minInput"
+                            android:layout_toEndOf="@+id/minInput"
+                            android:layout_alignBottom="@+id/minInput" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -286,7 +286,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:id="@+id/editText4"
+                            android:id="@+id/maxInput"
                             android:width="80dp"
                             android:layout_below="@+id/mMaxStartLabel"
                             android:layout_alignParentLeft="true"
@@ -303,9 +303,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:id="@+id/editText5"
+                            android:id="@+id/maxNOkInput"
                             android:width="80dp"
-                            android:layout_alignTop="@+id/editText4"
+                            android:layout_alignTop="@+id/maxInput"
                             android:layout_alignRight="@+id/imageView10"
                             android:layout_alignEnd="@+id/imageView10"
                             android:layout_marginRight="20dp"
@@ -323,9 +323,9 @@
                             android:textColor="#fff"
                             android:textStyle="bold"
                             android:textSize="12dp"
-                            android:layout_alignBottom="@+id/editText4"
-                            android:layout_toRightOf="@+id/editText4"
-                            android:layout_toEndOf="@+id/editText4" />
+                            android:layout_alignBottom="@+id/maxInput"
+                            android:layout_toRightOf="@+id/maxInput"
+                            android:layout_toEndOf="@+id/maxInput" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -371,7 +371,7 @@
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/checkBox2"
+                    android:id="@+id/startByBtn"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/mStartByPushingLabel"
                     android:layout_toEndOf="@+id/mStartByPushingLabel" />
@@ -393,15 +393,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/mStartByPushingLabel"
-                    android:layout_toRightOf="@+id/checkBox2"
-                    android:layout_toEndOf="@+id/checkBox2">
+                    android:layout_toRightOf="@+id/startByBtn"
+                    android:layout_toEndOf="@+id/startByBtn">
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:id="@+id/imageButton2"
-                        android:layout_toRightOf="@+id/checkBox2"
-                        android:layout_toEndOf="@+id/checkBox2"
+                        android:id="@+id/saveButton"
+                        android:layout_toRightOf="@+id/startByBtn"
+                        android:layout_toEndOf="@+id/startByBtn"
                         android:background="@drawable/custom_save_profile_btn"
                         android:layout_alignParentBottom="true" />
 
@@ -429,7 +429,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageButton3"
+                    android:id="@+id/goButton"
                     android:background="@drawable/custom_img_button" />
 
                 <TextView

@@ -15,6 +15,15 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- Start Fragment -->
+    <string name="select_profile">Select Profile</string>
+    <string name="type_name">Type profile name</string>
+    <string name="no_sampling_msg">Please fill Sampling Input!</string>
+    <string name="no_min_msg">Please fill Min Input!</string>
+    <string name="no_nok_min_msg">Please fill Not Ok Min Input!</string>
+    <string name="no_max_msg">Please fill Max Input!</string>
+    <string name="no_nok_max_msg">Please fill Not Ok Max Input!</string>
+
 
     <string-array name="profiles_array">
         <item>Teste</item>

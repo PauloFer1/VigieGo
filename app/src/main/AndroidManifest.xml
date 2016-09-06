@@ -44,6 +44,13 @@
         <uses-feature
             android:name="android.hardware.nfc"
             android:required="true" />
+
+        <dependency>
+            <groupId>pl.droidsonroids.gif</groupId>
+            <artifactId>android-gif-drawable</artifactId>
+            <version>insert latest version here</version>
+            <type>aar</type>
+        </dependency>
     </application>
 
 </manifest>

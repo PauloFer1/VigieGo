@@ -1,12 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
-
-    <item
-        jar="/Volumes/Macintosh HD/Users/paulofernandes/Documents/tara/PROJECTS/CODE/MOBILE/VigieGo/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="4d01b732d5195e375cb333c277c97c9153722290">
-        <dex dex="/Volumes/Macintosh HD/Users/paulofernandes/Documents/tara/PROJECTS/CODE/MOBILE/VigieGo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_ba5de588c6826f826fa10c3053253195823dfd61/classes.dex" />
-    </item>
-
-</items>
+<items version="2" />

@@ -1,10 +1,10 @@
 package com.tarambola.view;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -16,11 +16,9 @@ import android.support.v4.app.FragmentManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
 
@@ -29,22 +27,30 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tarambola.controller.BackgroundTagProcessor;
-import com.tarambola.controller.LoginSession;
+import com.tarambola.model.IntentOption;
+import com.tarambola.model.LoginSession;
+import com.tarambola.model.ProfileList;
 import com.tarambola.model.TagData;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import eu.blulog.blulib.Utils;
 import eu.blulog.blulib.exceptions.BluException;
+import eu.blulog.blulib.json.JSONArray;
+import eu.blulog.blulib.json.JSONException;
 import eu.blulog.blulib.json.JSONObject;
 import eu.blulog.blulib.nfc.BackgroundExecutor;
 import eu.blulog.blulib.nfc.NfcUtils;
 import eu.blulog.blulib.tdl2.BlutagContent;
 import eu.blulog.blulib.tdl2.BlutagHandler;
 import eu.blulog.blulib.tdl2.DataDefinition;
+import eu.blulog.blulib.tdl2.LogisticalProfile;
+import eu.blulog.blulib.tdl2.LogisticalProfileManager;
+import eu.blulog.blulib.tdl2.PredefinedLogisticalProperties;
 import eu.blulog.blulib.tdl2.Recording;
 
 
@@ -74,9 +80,9 @@ import eu.blulog.blulib.tdl2.Recording;
      private Fragment           mCurrentFragment = null;
      private String             mCurrentTitle;
      private TagData            mTagData;
+     private ProfileList        mProfileList;
 
 
-     private Operations operation=Operations.SHORT_READ;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -105,10 +111,15 @@ import eu.blulog.blulib.tdl2.Recording;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        IntentOption.Operations option = IntentOption.getInstance().getOption();
+
         mBackgroundTagProcessor=null;
         mBusyOnProcessNFC = new AtomicBoolean(false);
 
         mTagData = new TagData();
+
+        mProfileList = new ProfileList();
+        mProfileList.creatDummy();
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -163,21 +174,19 @@ import eu.blulog.blulib.tdl2.Recording;
     {
         Log.d("debug", "onNewIntent: ");
 
-        Log.w("************ operation", operation.name());
-
               //  Toast.makeText(getApplicationContext(), "Put Tag", Toast.LENGTH_SHORT).show();
 
 
                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
                 if (tag == null) {
-                    Log.d("operation", "Intent: " +  operation.name() + ", Tag = null");
+                    Log.d("operation", "Intent: " +  IntentOption.getInstance().getOption().name() + ", Tag = null");
                     return;
                 }
 
                 intent.removeExtra(NfcAdapter.EXTRA_TAG);
                 if (!mBusyOnProcessNFC.compareAndSet(false, true)) { //If busyOnProcessNFC is true to return and set busyOnProcessNFC to true
-                    if (operation!= Operations.SHORT_READ)
+                    if (IntentOption.getInstance().getOption()!= IntentOption.Operations.SHORT_READ)
                         BlutagHandler.get().processNextTag(tag); //new in 1.6.x
                     Toast.makeText(getApplicationContext(), "Busy Busy", Toast.LENGTH_SHORT).show();
                     return;
@@ -185,7 +194,7 @@ import eu.blulog.blulib.tdl2.Recording;
 
                 Log.i("start new intent", intent.toString());
 
-        switch(operation) {
+        switch(IntentOption.getInstance().getOption()) {
             case SHORT_READ:
                 mBackgroundTagProcessor =
                         new BackgroundTagProcessor(this, R.string.downloading_nfc_data, R.string.dont_remove_tag, tag) {
@@ -232,6 +241,44 @@ import eu.blulog.blulib.tdl2.Recording;
                         };
                 Log.d("debug", "onNewIntent: 2");
                 break;
+            case START_RECORDING:
+                mBackgroundTagProcessor=
+                        new BackgroundTagProcessor(this, R.string.downloading_nfc_data, R.string.dont_remove_tag, tag,
+                                BackgroundTagProcessor.TagOperation.StartNewRecording) {
+                            @Override
+                            protected void postExecute(String status) {
+                                if (status==null){
+                                    //uaktualnij info o blutagu
+                                    Toast.makeText(context, R.string.new_recording_created, Toast.LENGTH_SHORT);
+                                }
+                                else if (status.equals(BluException.RECORDING_ALREADY_STARTED)){
+                                    Toast.makeText(context, "Recording started already", Toast.LENGTH_SHORT);
+                                }
+                                else
+                                    Toast.makeText(context, R.string.operation_not_completed_try_again, Toast.LENGTH_SHORT);
+
+                                BackgroundExecutor be = new BackgroundExecutor() {
+                                    @Override
+                                    protected void postExecute(String status) {
+                                        IntentOption.getInstance().setOption( IntentOption.Operations.SHORT_READ);
+                                        mBusyOnProcessNFC.set(false);
+                                    }
+                                    @Override
+                                    protected void backgroundWork() {
+                                        try {Thread.sleep(WAIT_TIME);} catch (InterruptedException e) {}
+
+                                    }
+                                };
+                                be.execute(null, null);
+                                mBackgroundTagProcessor =null;
+                            }
+
+                            @Override
+                            protected void processTag(Tag tag) throws BluException {
+                                startNewRecording(tag);
+                            }
+                        };
+                break;
 
             case READ_TEMPS:
                 mBackgroundTagProcessor =
@@ -244,7 +291,7 @@ import eu.blulog.blulib.tdl2.Recording;
 
                                         @Override
                                         protected void postExecute(String status) {
-                                            operation=Operations.SHORT_READ;
+                                            IntentOption.getInstance().setOption(IntentOption.Operations.SHORT_READ);
                                             mBusyOnProcessNFC.set(false);
                                         }
                                         @Override
@@ -492,10 +539,11 @@ import eu.blulog.blulib.tdl2.Recording;
 
          if(mProfiles==null)
          {
-             mProfiles = new Profiles();
+             mProfiles = Profiles.newInstance(mProfileList);
          }
          else
              fragment = mProfiles;
+
 
          mTitle = getString(R.string.title_section6);
 
@@ -539,7 +587,7 @@ import eu.blulog.blulib.tdl2.Recording;
 
          if(LoginSession.getInstance().isLogged()) {
              if (mStart == null) {
-                 mStart = new StartFragment();
+                 mStart = StartFragment.newInstance(mProfileList);
                  fragment = mStart;
              }
              else
@@ -697,6 +745,145 @@ import eu.blulog.blulib.tdl2.Recording;
       */
      public void onLogOut()
      {
+
+     }
+     /***************************************************** Tag Handlers *****************************************************************/
+
+     protected void freeSetupOfLogisticalProperties(JSONObject logisticalData){
+         //use of predefined logistical properties
+         logisticalData.put(PredefinedLogisticalProperties.Names.__productDescription.name(),"this is description of product");
+         logisticalData.put(PredefinedLogisticalProperties.Names.__producerName.name(), "this is producer name");
+         //use of user defined logistical properties
+         logisticalData.put("user property", "value of user property");
+     }
+
+     protected void  setupOfLogisticalPropertiesUsingDefaultProfile(JSONObject logisticalData) throws BluException {
+         LogisticalProfile logisticalProfile=null;
+         //find build-in "Default" profile
+         for (LogisticalProfile profile : LogisticalProfileManager.get(this).getProfiles()){
+             if ("Default".equals(profile.getProfileName())) {
+                 logisticalProfile = profile;
+                 break;
+             }
+         }
+         //populate each logistical property of "Default" profile with value "example value"
+         if (logisticalProfile.getLogisticalEntries()!=null) {
+             for (LogisticalProfile.LogisticalEntry entry : logisticalProfile.getLogisticalEntries()) {
+                 try {
+                     logisticalData.put(entry.getPropName(), "example value");
+                 } catch (JSONException e) {
+                     throw new BluException(e);
+                 }
+             }
+         }
+     }
+
+     protected void  setupOfLogisticalPropertiesUsingMyOwnProfile(JSONObject logisticalData) throws BluException {
+
+         String myProfileName="MyProfile1";
+         //get instance of logistical profile manager
+         LogisticalProfileManager lpm = LogisticalProfileManager.get(this);
+
+         LogisticalProfile myProfile=null;
+         //find "MyProfile" profile if previous run of this method created it
+         for (LogisticalProfile profile : LogisticalProfileManager.get(this).getProfiles()){
+             if (myProfileName.equals(profile.getProfileName())) {
+                 myProfile = profile;
+                 break;
+             }
+         }
+
+         if (myProfile==null) { //if "MyProfile" was not found
+             //create new logistical profile
+             myProfile = new LogisticalProfile(myProfileName);
+
+             //get collection logistical entries
+             ArrayList<LogisticalProfile.LogisticalEntry> logisticalEntries = myProfile.getLogisticalEntries();
+
+             //add new logistical entry using predefined logistical property name
+             LogisticalProfile.LogisticalEntry le = new LogisticalProfile.LogisticalEntry(PredefinedLogisticalProperties.Names.__productDescription.name());
+             le.setDefValue("def value of prod desc");
+             logisticalEntries.add(le);
+
+             //add new logistical entry using user defined property name
+             le = new LogisticalProfile.LogisticalEntry("user property");
+             le.setPredefined(false);
+             le.setDefValue("def value of user property");
+             logisticalEntries.add(le);
+
+             //add new profile to logistical profile manager
+             lpm.getProfiles().add(myProfile);
+
+             //store permanently new state of logistical profile manager including new created MyProfile for future use
+             lpm.writeToStore(this);
+         }
+
+         //populate each logistical property of "MyProfile" profile with its default value
+         if (myProfile.getLogisticalEntries()!=null) {
+             for (LogisticalProfile.LogisticalEntry entry : myProfile.getLogisticalEntries()) {
+                 try {
+                     logisticalData.put(entry.getPropName(), entry.getDefValue());
+                 } catch (JSONException e) {
+                     throw new BluException(e);
+                 }
+             }
+         }
+     }
+     /**
+      * Start new tag record
+      */
+     protected void startNewRecording(Tag tag) throws BluException {
+         Recording recording = new Recording();
+
+         JSONObject logisticalData =  new JSONObject();
+
+         // Example1:  free setup of logistical properties
+         freeSetupOfLogisticalProperties(logisticalData);
+
+         //Example 2: setup of logistical properties using ProfileManager and build-in profile named "Default". Comment above line and uncomment bellow line please.
+//        setupOfLogisticalPropertiesUsingDefaultProfile(logisticalData);
+
+         //Example 3: setup of logistical properties using ProfileManager and user defined profile named "MyProfile". Comment above line and uncomment bellow line please.
+//        setupOfLogisticalPropertiesUsingMyOwnProfile(logisticalData);
+
+         Location location=BlutagContent.get().getLocation();
+         if (location!=null) {
+             JSONObject posData = new JSONObject();
+             posData.put("lat", location.getLatitude());
+             posData.put("lon", location.getLongitude());
+             posData.put("d", (new Date()).getTime() / 1000);
+             JSONArray posDataArr=new JSONArray();
+             posDataArr.put(posData);
+
+             logisticalData.put("$$pos", posDataArr);
+             Log.i("logisticalData", logisticalData.toString(1));
+         }
+
+         recording.setLogisticalData(logisticalData);
+
+         recording.setMeasurementCycle(600);
+
+         recording.setMinTemp(150);
+
+         recording.setMaxTemp(250);
+
+         recording.setDecisionParam1(1);
+
+         recording.setDecisionParam2(1);
+
+         recording.setStartRecordingDelay(0);
+
+         recording.setReadTempPin(0xFFFF);
+
+         recording.setFinishRecordingPin(0xFFFF);
+
+         recording.setActivationEnergy(83);
+
+
+         Log.i("new recording", recording.getRecordingData().toString());
+
+         BlutagHandler.get().startNewRecording(tag, recording);
+
 
      }
 
@@ -918,7 +1105,7 @@ import eu.blulog.blulib.tdl2.Recording;
          alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
              @Override
              public void onClick(DialogInterface dialog, int which) {
-                 operation=Operations.NOTHING;
+                 IntentOption.getInstance().setOption(IntentOption.Operations.NOTHING);
                  mBackgroundTagProcessor=null;
                  BlutagHandler.get().setResumeRead(false);
                  mBusyOnProcessNFC.set(false);

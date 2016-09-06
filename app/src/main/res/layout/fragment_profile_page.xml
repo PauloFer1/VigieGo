@@ -55,7 +55,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:id="@+id/editText6"
+                            android:id="@+id/measureTimeField"
                             android:layout_below="@+id/mProfSamplingLabel"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
@@ -77,9 +77,9 @@
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="min"
                             android:id="@+id/textView21"
-                            android:layout_alignBottom="@+id/editText6"
-                            android:layout_toRightOf="@+id/editText6"
-                            android:layout_toEndOf="@+id/editText6"
+                            android:layout_alignBottom="@+id/measureTimeField"
+                            android:layout_toRightOf="@+id/measureTimeField"
+                            android:layout_toEndOf="@+id/measureTimeField"
                             android:textColor="#bbb"
                             android:textSize="12dp"
                             android:layout_marginBottom="8dp" />
@@ -112,7 +112,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:id="@+id/editText7"
+                            android:id="@+id/minField"
                             android:layout_below="@+id/mProfMinNOkLabel"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
@@ -128,9 +128,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:id="@+id/editText8"
+                            android:id="@+id/nOkMinField"
                             android:width="80dp"
-                            android:layout_alignTop="@+id/editText7"
+                            android:layout_alignTop="@+id/minField"
                             android:layout_alignRight="@+id/imageView12"
                             android:layout_alignEnd="@+id/imageView12"
                             android:layout_marginRight="20dp"
@@ -184,8 +184,8 @@
                             android:textStyle="bold"
                             android:textSize="12dp"
                             android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/editText7"
-                            android:layout_toEndOf="@+id/editText7" />
+                            android:layout_toRightOf="@+id/minField"
+                            android:layout_toEndOf="@+id/minField" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -234,7 +234,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:id="@+id/editText9"
+                            android:id="@+id/maxField"
                             android:width="80dp"
                             android:layout_below="@+id/mProfMaxNOkLabel"
                             android:layout_alignParentLeft="true"
@@ -250,7 +250,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:id="@+id/editText10"
+                            android:id="@+id/NokMaxField"
                             android:width="80dp"
                             android:textColor="#fff"
                             android:layout_below="@+id/mProfMaxNOkLabel"
@@ -305,9 +305,9 @@
                             android:textColor="#fff"
                             android:textStyle="bold"
                             android:textSize="12dp"
-                            android:layout_alignBottom="@+id/editText9"
-                            android:layout_toRightOf="@+id/editText9"
-                            android:layout_toEndOf="@+id/editText9" />
+                            android:layout_alignBottom="@+id/maxField"
+                            android:layout_toRightOf="@+id/maxField"
+                            android:layout_toEndOf="@+id/maxField" />
 
                         <TextView
                             android:layout_width="wrap_content"

@@ -8,7 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import com.tarambola.model.Profile;
 
 
 /**
@@ -20,6 +23,8 @@ import android.widget.TextView;
 public class ProfilePage extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+
+    private Profile mProfile;
 
     public ProfilePage() {
         // Required empty public constructor
@@ -63,6 +68,21 @@ public class ProfilePage extends Fragment {
         TextView maxAfterLabel=(TextView) rootView.findViewById(R.id.mProfMaxAfterLabel);
         maxAfterLabel.setTypeface(font);
 
+        // Set Content
+        final EditText name= (EditText) rootView.findViewById(R.id.mProfileNameInput);
+        name.setText(mProfile.getName());
+        final EditText measure= (EditText) rootView.findViewById(R.id.measureTimeField);
+        measure.setText(Long.toString(mProfile.getMeasureLenght()));
+        final EditText min= (EditText) rootView.findViewById(R.id.minField);
+        min.setText(Integer.toString(mProfile.getMinTemp()));
+        final EditText NoKMin= (EditText) rootView.findViewById(R.id.nOkMinField);
+        NoKMin.setText(Integer.toString(mProfile.getNOkMinTime()));
+        final EditText max= (EditText) rootView.findViewById(R.id.maxField);
+        max.setText(Integer.toString(mProfile.getMaxTemp()));
+        final EditText NOkMax= (EditText) rootView.findViewById(R.id.NokMaxField);
+        NOkMax.setText(Integer.toString(mProfile.getNOkMaxTime()));
+
+
         return rootView;
     }
 
@@ -93,5 +113,11 @@ public class ProfilePage extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    /////////////////////////////////////////
+    ///////////// SETTERS
+    public void setProfile(Profile profile){
+        mProfile = profile;
     }
 }
