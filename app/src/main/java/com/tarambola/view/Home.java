@@ -250,7 +250,8 @@ public class Home extends Fragment{
         FragmentManager fm = this.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
-        Chart bigChart = new Chart();
+        Chart bigChart = Chart.newInstance(mTagData);
+        ft.addToBackStack("Chart");
         ft.replace(R.id.container, bigChart).commit();
     }
 

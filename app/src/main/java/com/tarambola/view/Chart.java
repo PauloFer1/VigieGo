@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +26,13 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
+import com.tarambola.model.TagData;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 
 public class Chart extends Fragment {
@@ -34,16 +40,32 @@ public class Chart extends Fragment {
     private LineChart mChart;
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
+    private TagData         mTagData;
 
     private OnFragmentInteractionListener mListener;
+
+    private static final String ARG_PARAM1 = "mTagData";
 
     public Chart() {
         // Required empty public constructor
     }
 
+    public static Chart newInstance(TagData tagData) {
+        Chart fragment = new Chart();
+        fragment.setTagData(tagData);
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_PARAM1, tagData);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mTagData = (TagData) getArguments().getSerializable(ARG_PARAM1);
+        }
+
     }
 
     @Override
@@ -76,7 +98,7 @@ public class Chart extends Fragment {
         XAxis xAxis = mChart.getXAxis();
 
 
-        LimitLine ll1 = new LimitLine(30f, "Upper Limit");
+        LimitLine ll1 = new LimitLine(mTagData.getMaxtemp()/10, "MAX NOT OK");
         ll1.setLineWidth(2f);
         ll1.enableDashedLine(10f, 10f, 0f);
         ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
@@ -85,7 +107,7 @@ public class Chart extends Fragment {
         ll1.setTextColor(Color.GRAY);
         ll1.setLineColor(Color.rgb(255, 210, 77));
 
-        LimitLine ll2 = new LimitLine(5f, "Lower Limit");
+        LimitLine ll2 = new LimitLine(mTagData.getMinTemp()/10, "MIN NOT OK");
         ll2.setLineWidth(2f);
         ll2.enableDashedLine(10f, 10f, 0f);
         ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
@@ -112,7 +134,7 @@ public class Chart extends Fragment {
         mChart.getXAxis().setDrawGridLines(false);
 
         // add data
-        setData(45, 20);
+        setData(mTagData.getTemps());
 
 
         mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
@@ -131,19 +153,48 @@ public class Chart extends Fragment {
 
 
     // ***************************************************** SET DATA CHART
-    private void setData(int count, float range) {
+    private void setData(short[] temps) {
+
+        long nSecs = temps.length * mTagData.getMeasureLength();
+
+        Log.d("Debug Secs", Integer.toString((int)nSecs));
 
         ArrayList<String> xVals = new ArrayList<String>();
-        for (int i = 0; i < count; i++) {
-            xVals.add((i) + "");
+        SimpleDateFormat fmt = new SimpleDateFormat("dd HH:mm");
+        xVals.add(fmt.format(mTagData.getFstDownMeasuredate()));
+        for (int i = 1; i < temps.length; i++) {
+            if(nSecs > 3600 && (i*(int)mTagData.getMeasureLength()) % 3600 == 0){
+                long days = TimeUnit.SECONDS.toDays(i*mTagData.getMeasureLength());
+                long hours = TimeUnit.SECONDS.toHours(i*mTagData.getMeasureLength()) - (days*24);
+                long minutes = TimeUnit.SECONDS.toMinutes(i*mTagData.getMeasureLength()) - (days*24) - (hours*60);
+                long seconds = i*mTagData.getMeasureLength() - (days*24) - (hours*60) - (minutes*60);
+
+                GregorianCalendar cal = new GregorianCalendar(2016, 8, (int)days, (int)hours, (int)minutes, (int)seconds);
+                Date current = cal.getTime();
+                long sum = current.getTime() + mTagData.getFstDownMeasuredate().getTime();
+                Date sumDate = new Date(sum);
+                xVals.add(fmt.format(sumDate));
+                Log.d("Debug Date", sumDate.toString());
+            }
+            else {
+                long days = TimeUnit.SECONDS.toDays(i*mTagData.getMeasureLength());
+                long hours = TimeUnit.SECONDS.toHours(i*mTagData.getMeasureLength()) - (days*24);
+                long minutes = TimeUnit.SECONDS.toMinutes(i*mTagData.getMeasureLength()) - (days*24) - (hours*60);
+                long seconds = i*mTagData.getMeasureLength() - (days*24) - (hours*60) - (minutes*60);
+
+                GregorianCalendar cal = new GregorianCalendar(0, 0, (int)days, (int)hours, (int)minutes, (int)seconds);
+                Date current = cal.getTime();
+                long sum = current.getTime() + mTagData.getFstDownMeasuredate().getTime();
+                Date sumDate = new Date(sum);
+                xVals.add(fmt.format(sumDate));
+            }
         }
 
         ArrayList<Entry> yVals = new ArrayList<Entry>();
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < temps.length; i++) {
 
-            float mult = (range + 1);
-            float val = (float) (Math.random() * mult) + 3;// + (float)
+            float val = (float) temps[i]/10;
             yVals.add(new Entry(val, i));
         }
 
@@ -152,16 +203,29 @@ public class Chart extends Fragment {
         if (mChart.getData() != null &&
                 mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet)mChart.getData().getDataSetByIndex(0);
+            //set1.setYVals(yVals);
+            //mChart.getData().setXVals(xVals);
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
+            // create a dataset and give it a type
             set1 = new LineDataSet(yVals, "");
+
+            // set1.setFillAlpha(110);
+            // set1.setFillColor(Color.RED);
+
+            // set the line to be drawn like this "- - - - - -"
+            // set1.enableDashedLine(10f, 5f, 0f);
+            //et1.enableDashedHighlightLine(10f, 5f, 0f);
             set1.setColor(Color.rgb(2,115,100));
             set1.setCircleColor(Color.argb(100,3,181,158));
+            set1.setDrawCircles(false);
             set1.setLineWidth(1f);
             set1.setCircleRadius(2f);
             set1.setDrawCircleHole(true);
+            //set1.setValueTextSize(8f);
             set1.setDrawValues(false);
+            // set1.setDrawFilled(true);
 
             if (Utils.getSDKInt() >= 18) {
                 // fill drawable only supported on api level 18 and above
@@ -175,6 +239,7 @@ public class Chart extends Fragment {
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
             dataSets.add(set1); // add the datasets
 
+            // create a data object with the datasets
             LineData data = new LineData(xVals, dataSets);
 
             // set data
@@ -208,5 +273,11 @@ public class Chart extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    // ************************************* SETTERS ************************************* //
+    public void setTagData(TagData data)
+    {
+        this.mTagData = data;
     }
 }

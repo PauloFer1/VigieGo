@@ -23,6 +23,10 @@
     <string name="no_nok_min_msg">Please fill Not Ok Min Input!</string>
     <string name="no_max_msg">Please fill Max Input!</string>
     <string name="no_nok_max_msg">Please fill Not Ok Max Input!</string>
+    <string name="place_smartphone">Place your smartphone next to the ViGIEGo logger</string>
+
+    <!-- MAIN ACTIVITY -->
+    <string name="tag_recorded">Tag Recorded</string>
 
 
     <string-array name="profiles_array">

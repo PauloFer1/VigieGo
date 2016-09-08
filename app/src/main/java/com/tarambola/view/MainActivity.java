@@ -30,6 +30,7 @@ import com.tarambola.controller.BackgroundTagProcessor;
 import com.tarambola.model.IntentOption;
 import com.tarambola.model.LoginSession;
 import com.tarambola.model.ProfileList;
+import com.tarambola.model.RecProfile;
 import com.tarambola.model.TagData;
 
 import java.text.DateFormat;
@@ -59,7 +60,6 @@ import eu.blulog.blulib.tdl2.Recording;
  public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, Login.OnFragmentInteractionListener, Logout.OnFragmentInteractionListener{
 
-    protected enum Operations {FINISH_RECORDING, READ_TEMPS, SHOW_TEMPS, NOTHING, RECOVER_AAR, START_RECORDING, SHORT_READ};
 
      /**
       * Screen Fragments Vars
@@ -81,6 +81,8 @@ import eu.blulog.blulib.tdl2.Recording;
      private String             mCurrentTitle;
      private TagData            mTagData;
      private ProfileList        mProfileList;
+
+     private boolean            mIsRecording;
 
 
 
@@ -138,7 +140,6 @@ import eu.blulog.blulib.tdl2.Recording;
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.mTitleTextt);
         mTitleTextView.setText("My Own Title");
 */
-        BlutagContent mBlutagContent;
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -169,13 +170,17 @@ import eu.blulog.blulib.tdl2.Recording;
         onNewIntent(intent);
     }
 
+     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     //////////////////////////////////////////////////////////////////// TAG PROXIMITY HANLDER
+
+     /*
+      * Handles the NFC tag intent
+      * Use singleton IntentOption to choose the operation to use
+      */
     @Override
     public void onNewIntent(Intent intent)
     {
         Log.d("debug", "onNewIntent: ");
-
-              //  Toast.makeText(getApplicationContext(), "Put Tag", Toast.LENGTH_SHORT).show();
-
 
                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
@@ -188,14 +193,53 @@ import eu.blulog.blulib.tdl2.Recording;
                 if (!mBusyOnProcessNFC.compareAndSet(false, true)) { //If busyOnProcessNFC is true to return and set busyOnProcessNFC to true
                     if (IntentOption.getInstance().getOption()!= IntentOption.Operations.SHORT_READ)
                         BlutagHandler.get().processNextTag(tag); //new in 1.6.x
-                    Toast.makeText(getApplicationContext(), "Busy Busy", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(getApplicationContext(), "Busy Busy", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 Log.i("start new intent", intent.toString());
 
         switch(IntentOption.getInstance().getOption()) {
-            case SHORT_READ:
+            case FINISH_RECORDING: // To stop tag recording
+                mBackgroundTagProcessor =
+                        new BackgroundTagProcessor(this, R.string.downloading_nfc_data, R.string.dont_remove_tag, tag) {
+                            @Override
+                            protected void postExecute(String status) {
+                                if (status == null) {
+                                    Recording recording = BlutagContent.get().getRecordings().get(0);
+                                    recording.setRegistrationFinishDate(new Date());
+
+                                    Toast.makeText(context, R.string.recording_was_finished, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(context, R.string.operation_not_completed_try_again, Toast.LENGTH_SHORT).show();
+                                }
+                                BackgroundExecutor be = new BackgroundExecutor() {
+                                    @Override
+                                    protected void postExecute(String status) {
+                                        mBusyOnProcessNFC.set(false);
+                                        IntentOption.getInstance().setOption(IntentOption.Operations.SHORT_READ);
+                                        mBackgroundTagProcessor =null;
+                                        Log.i("nfc", "setting not busy ");
+
+                                    }
+                                    @Override
+                                    protected void backgroundWork() {
+                                        try {Thread.sleep(WAIT_TIME);} catch (InterruptedException e) {}
+
+                                    }
+                                };
+                                be.execute(null, null);
+                                mBackgroundTagProcessor =null;
+                            }
+
+                            @Override
+                            protected void processTag(Tag tag) throws BluException {
+                                BlutagHandler.get().finishRecording(tag);
+                                IntentOption.getInstance().setOption(IntentOption.Operations.NOTHING);
+                            }
+                        };
+                break;
+            case SHORT_READ: // To read main data tag
                 mBackgroundTagProcessor =
                         new BackgroundTagProcessor(this, R.string.downloading_nfc_data, R.string.dont_remove_tag, tag) {
                             @Override
@@ -235,13 +279,14 @@ import eu.blulog.blulib.tdl2.Recording;
                                     BlutagContent.get().getRecordings().get(0).computeStatistics();
 
 
-
+                                IntentOption.getInstance().setOption(IntentOption.Operations.NOTHING);
                                 Log.i("finished", this.toString());
                             }
                         };
                 Log.d("debug", "onNewIntent: 2");
                 break;
-            case START_RECORDING:
+            case START_RECORDING: // To start tag Recording
+                Log.d("debug", "Start Recording ");
                 mBackgroundTagProcessor=
                         new BackgroundTagProcessor(this, R.string.downloading_nfc_data, R.string.dont_remove_tag, tag,
                                 BackgroundTagProcessor.TagOperation.StartNewRecording) {
@@ -271,44 +316,15 @@ import eu.blulog.blulib.tdl2.Recording;
                                 };
                                 be.execute(null, null);
                                 mBackgroundTagProcessor =null;
+
+                                Log.d("debug", "End post exec");
                             }
 
                             @Override
                             protected void processTag(Tag tag) throws BluException {
+                                Log.d("debug", "Process Tag");
                                 startNewRecording(tag);
-                            }
-                        };
-                break;
-
-            case READ_TEMPS:
-                mBackgroundTagProcessor =
-                        new BackgroundTagProcessor(this, R.string.downloading_nfc_data, R.string.dont_remove_tag, tag, ProgressDialog.STYLE_HORIZONTAL) {
-                            @Override
-                            protected void postExecute(String status) {
-                                if (status == null) {
-                                    Toast.makeText(context, R.string.operation_successfully_completed, Toast.LENGTH_SHORT).show();
-                                    BackgroundExecutor be = new BackgroundExecutor() {
-
-                                        @Override
-                                        protected void postExecute(String status) {
-                                            IntentOption.getInstance().setOption(IntentOption.Operations.SHORT_READ);
-                                            mBusyOnProcessNFC.set(false);
-                                        }
-                                        @Override
-                                        protected void backgroundWork() {
-                                            try {Thread.sleep(WAIT_TIME);} catch (InterruptedException e) {}
-                                        }
-                                    };
-                                    be.execute(null, null);
-                                    mBackgroundTagProcessor=null;
-                                } else {
-                                    askDoRetry();
-                                }
-                            }
-
-                            @Override
-                            protected void processTag(Tag tag) throws BluException {
-                                BlutagHandler.get().readTempsFromEeprom(tag, 0);
+                                IntentOption.getInstance().setOption(IntentOption.Operations.NOTHING);
                             }
                         };
                 break;
@@ -320,14 +336,16 @@ import eu.blulog.blulib.tdl2.Recording;
 
     }
 
+     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     /////////////////////////////////////////////////////////////////// MENU HANDLER
+
+     /*
+      * Handles the menu item selection
+      */
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-      //  FragmentManager fragmentManager = getSupportFragmentManager();
 
         Fragment fragment = null;
-
-        //fragmentManager.beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).commit();
 
         switch(position) {
             case 0:
@@ -370,6 +388,9 @@ import eu.blulog.blulib.tdl2.Recording;
         */
     }
 
+     /*
+      * Switch screen name on select menu item
+      */
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
@@ -398,6 +419,10 @@ import eu.blulog.blulib.tdl2.Recording;
                 break;
         }
     }
+
+
+     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ////////////////////////////////////////////////////////// DEFAULT ANDROID ACTIONS
 
     public void restoreActionBar() {
         Log.d("DEBUG", "restoreActionBar: "+ mTitle);
@@ -473,8 +498,8 @@ import eu.blulog.blulib.tdl2.Recording;
     }
 
 
-
-     /* ***************************** SCREENS HANDLERS ***************************************** */
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ///////////////////////////////////////////////////////// SCREENS HANDLERS
 
      /**
       * Handle fragment change to Home Screen
@@ -515,6 +540,7 @@ import eu.blulog.blulib.tdl2.Recording;
       */
      private void gotoReadTag()
      {
+         IntentOption.getInstance().setOption(IntentOption.Operations.SHORT_READ);
          FragmentManager fragmentManager = getSupportFragmentManager();
          if(mReadTag==null) {
              mReadTag = new ReadTag();
@@ -725,8 +751,12 @@ import eu.blulog.blulib.tdl2.Recording;
          transaction.commit();
      }
 
-     /* ********************* LOGIN RELATED ************************ */
+     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     /////////////////////////////////////////////////////////////// LOGIN RELATED
 
+     /*
+      * Handles the post sucess login function
+      */
      public void onLoginSuccess()
      {
 
@@ -735,6 +765,9 @@ import eu.blulog.blulib.tdl2.Recording;
          else if(mCurrentTitle.equals( getString(R.string.title_section3) ))
              gotoStart();
      }
+     /*
+      * Handles the post fail login function
+      */
      public void onLoginFailed()
      {
 
@@ -747,11 +780,16 @@ import eu.blulog.blulib.tdl2.Recording;
      {
 
      }
-     /***************************************************** Tag Handlers *****************************************************************/
 
+     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ///////////////////////////////////////////////////////////// AFTER READ TAG
+
+     /*
+      * Record properties on tag
+      */
      protected void freeSetupOfLogisticalProperties(JSONObject logisticalData){
          //use of predefined logistical properties
-         logisticalData.put(PredefinedLogisticalProperties.Names.__productDescription.name(),"this is description of product");
+         logisticalData.put(PredefinedLogisticalProperties.Names.__productDescription.name(), RecProfile.getInstance().getName() );
          logisticalData.put(PredefinedLogisticalProperties.Names.__producerName.name(), "this is producer name");
          //use of user defined logistical properties
          logisticalData.put("user property", "value of user property");
@@ -829,6 +867,7 @@ import eu.blulog.blulib.tdl2.Recording;
              }
          }
      }
+
      /**
       * Start new tag record
       */
@@ -859,17 +898,18 @@ import eu.blulog.blulib.tdl2.Recording;
              Log.i("logisticalData", logisticalData.toString(1));
          }
 
+
          recording.setLogisticalData(logisticalData);
 
-         recording.setMeasurementCycle(600);
+         recording.setMeasurementCycle(RecProfile.getInstance().getSampling()*10);
 
-         recording.setMinTemp(150);
+         recording.setMinTemp(RecProfile.getInstance().getMin()*10);
 
-         recording.setMaxTemp(250);
+         recording.setMaxTemp(RecProfile.getInstance().getMax()*10);
 
-         recording.setDecisionParam1(1);
+         recording.setDecisionParam1(RecProfile.getInstance().getMinNOk());
 
-         recording.setDecisionParam2(1);
+         recording.setDecisionParam2(RecProfile.getInstance().getMaxNOk());
 
          recording.setStartRecordingDelay(0);
 
@@ -884,19 +924,24 @@ import eu.blulog.blulib.tdl2.Recording;
 
          BlutagHandler.get().startNewRecording(tag, recording);
 
+//         Toast.makeText(getApplicationContext(), getString(R.string.tag_recorded), Toast.LENGTH_SHORT).show();
 
      }
 
-     /* ******************************************** NATIVE BUTTONS HANDLER **************************************************** */
+     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     /////////////////////////////////////////////////////// NATIVE BUTTONS HANLDERS
+     /*
+      * Handles the native back button
+      */
      @Override
      public void onBackPressed()
      {
-         if(getFragmentManager().getBackStackEntryCount() > 0)
-             getFragmentManager().popBackStack();
+         if(getSupportFragmentManager().getBackStackEntryCount() > 0)
+             getSupportFragmentManager().popBackStack();
          else
          /* ToDo Create warning popup (Do you want to quit?) */
-           //  super.onBackPressed();
-         Toast.makeText(getApplicationContext(), "Back", Toast.LENGTH_SHORT).show();
+             super.onBackPressed();
+           //  Toast.makeText(getApplicationContext(), "Back", Toast.LENGTH_SHORT).show();
      }
 
      //******************************************** UI HANLDERS *****************************************//

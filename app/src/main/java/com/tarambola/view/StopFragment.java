@@ -8,7 +8,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.tarambola.model.IntentOption;
 
 
 /**
@@ -73,6 +78,25 @@ public class StopFragment extends Fragment {
         stopLabel1.setTypeface(font);
         TextView stopLabel2=(TextView) rootView.findViewById(R.id.mStopLogLabel2);
         stopLabel2.setTypeface(font);
+
+        Switch stopSwitch = (Switch) rootView.findViewById(R.id.stopSwitch);
+        stopSwitch.setChecked(true);
+
+        stopSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+
+                if(isChecked){
+
+                }else{
+                    IntentOption.getInstance().setOption(IntentOption.Operations.FINISH_RECORDING);
+                    Toast.makeText(rootView.getContext(), getString(R.string.place_smartphone), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
         return(rootView);
     }

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.tarambola.model.IntentOption;
 import com.tarambola.model.ProfileList;
+import com.tarambola.model.RecProfile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,11 @@ public class StartFragment extends Fragment {
     private EditText mNoKMinInput;
     private EditText mMaxInput;
     private EditText mNOkMaxInput;
+
+    /* SPINNER RELATED */
+    private ArrayAdapter mAdapterList;
+    private Spinner mSpinner;
+    private List<String> mProfileList;
 
     public StartFragment() {
         // Required empty public constructor
@@ -115,18 +121,18 @@ public class StartFragment extends Fragment {
         mNOkMaxInput = (EditText) rootView.findViewById(R.id.maxNOkInput);
 
         /* Spinner */
-        List<String> profileList = new ArrayList<>();
-        profileList.add(getString(R.string.select_profile));
+        mProfileList = new ArrayList<>();
+        mProfileList.add(getString(R.string.select_profile));
         for(int i=0; i<mProfiles.getList().size(); i++){
-            profileList.add(mProfiles.getList().elementAt(i).getName());
+            mProfileList.add(mProfiles.getList().elementAt(i).getName());
         }
 
-        ArrayAdapter adapterList = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, profileList);
-        adapterList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        final Spinner spinner = (Spinner) rootView.findViewById(R.id.profileSpinner);
-        spinner.setAdapter(adapterList);
+        mAdapterList = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, mProfileList);
+        mAdapterList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner = (Spinner) rootView.findViewById(R.id.profileSpinner);
+        mSpinner.setAdapter(mAdapterList);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -135,7 +141,7 @@ public class StartFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                startRecording();
+
             }
         });
 
@@ -153,7 +159,7 @@ public class StartFragment extends Fragment {
         goBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-
+                startRecording(v);
             }
         });
 
@@ -211,17 +217,7 @@ public class StartFragment extends Fragment {
     private void saveProfile(View v)
     {
 
-        if(mSamplingInput.getText().toString().matches(""))
-            Toast.makeText(v.getContext(), getString(R.string.no_sampling_msg) , Toast.LENGTH_SHORT).show();
-        else if(mMinInput.getText().toString().matches(""))
-            Toast.makeText(v.getContext(), getString(R.string.no_min_msg) , Toast.LENGTH_SHORT).show();
-        else if(mMaxInput.getText().toString().matches(""))
-            Toast.makeText(v.getContext(), getString(R.string.no_max_msg) , Toast.LENGTH_SHORT).show();
-        else if(mNoKMinInput.getText().toString().matches(""))
-            Toast.makeText(v.getContext(), getString(R.string.no_nok_max_msg) , Toast.LENGTH_SHORT).show();
-        else if(mNOkMaxInput.getText().toString().matches(""))
-            Toast.makeText(v.getContext(), getString(R.string.no_nok_max_msg) , Toast.LENGTH_SHORT).show();
-        else {
+       if(validateInputs(v)) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setTitle(getString(R.string.type_name));
@@ -236,6 +232,18 @@ public class StartFragment extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     newProfileName = input.getText().toString();
+                    mProfiles.addProfile(
+                            newProfileName,
+                            Integer.parseInt(mSamplingInput.getText().toString()),
+                            Integer.parseInt(mMinInput.getText().toString()),
+                            Integer.parseInt(mMaxInput.getText().toString()),
+                            Integer.parseInt(mNoKMinInput.getText().toString()),
+                            Integer.parseInt(mNOkMaxInput.getText().toString()),
+                            false);
+
+                    mProfileList.add(newProfileName);
+                    mAdapterList.notifyDataSetChanged();
+                    /* ToDo Update Database */
 
                 }
             });
@@ -252,8 +260,39 @@ public class StartFragment extends Fragment {
     /*
      * Set Profile to record and Start Recording flag in IntentOption
      */
-    private void startRecording(){
-        IntentOption.getInstance().setOption(IntentOption.Operations.START_RECORDING);
+    private void startRecording(View v){
+
+       if(validateInputs(v)) {
+            RecProfile.getInstance().setProfile(Integer.parseInt(mSamplingInput.getText().toString()), Integer.parseInt(mMinInput.getText().toString()), Integer.parseInt(mNoKMinInput.getText().toString()), Integer.parseInt(mMaxInput.getText().toString()), Integer.parseInt(mNOkMaxInput.getText().toString()));
+            IntentOption.getInstance().setOption(IntentOption.Operations.START_RECORDING);
+           Toast.makeText(v.getContext(), getString(R.string.place_smartphone), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean validateInputs(View v)
+    {
+        if(mSamplingInput.getText().toString().matches("")) {
+            Toast.makeText(v.getContext(), getString(R.string.no_sampling_msg), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(mMinInput.getText().toString().matches("")) {
+            Toast.makeText(v.getContext(), getString(R.string.no_min_msg), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(mMaxInput.getText().toString().matches("")) {
+            Toast.makeText(v.getContext(), getString(R.string.no_max_msg), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(mNoKMinInput.getText().toString().matches("")) {
+            Toast.makeText(v.getContext(), getString(R.string.no_nok_max_msg), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(mNOkMaxInput.getText().toString().matches("")) {
+            Toast.makeText(v.getContext(), getString(R.string.no_nok_max_msg), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     ///////////////////////////////////////////
