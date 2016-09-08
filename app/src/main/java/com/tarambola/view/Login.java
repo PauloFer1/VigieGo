@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.tarambola.controller.LoginController;
 import com.tarambola.model.LoginSession;
 
 
@@ -95,8 +97,15 @@ public class Login extends Fragment {
         loginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                LoginSession.getInstance().login();
-                mListener.onLoginSuccess();
+
+                EditText username = (EditText) rootView.findViewById(R.id.usernameInput);
+                EditText password = (EditText) rootView.findViewById(R.id.passwordInput);
+
+                if(LoginController.validate(username.getText().toString()) && LoginController.isNotNull(password.getText().toString())) {
+                    /* ToDo: webservice */
+                    LoginSession.getInstance().login();
+                    mListener.onLoginSuccess();
+                }
             }
         });
 

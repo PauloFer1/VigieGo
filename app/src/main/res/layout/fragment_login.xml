@@ -81,7 +81,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="textEmailAddress"
                                 android:ems="10"
-                                android:id="@+id/editText11" />
+                                android:id="@+id/usernameInput" />
                         </LinearLayout>
                     </RelativeLayout>
 
@@ -109,7 +109,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="textEmailAddress"
                                 android:ems="10"
-                                android:id="@+id/editText12" />
+                                android:id="@+id/passwordInput" />
                         </LinearLayout>
                     </RelativeLayout>
 
