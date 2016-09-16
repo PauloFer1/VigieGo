@@ -27,6 +27,8 @@
 
     <!-- MAIN ACTIVITY -->
     <string name="tag_recorded">Tag Recorded</string>
+    <string name="uploading_data">Uploading Data...</string>
+    <string name="no_internet">No internet connection found, please connect...</string>
 
 
     <string-array name="profiles_array">

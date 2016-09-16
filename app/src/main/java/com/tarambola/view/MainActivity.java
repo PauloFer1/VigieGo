@@ -2,12 +2,18 @@ package com.tarambola.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -27,6 +33,9 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tarambola.controller.BackgroundTagProcessor;
+import com.tarambola.controller.BackgroundUploadService;
+import com.tarambola.controller.GPSLocationListener;
+import com.tarambola.controller.UploadReceiver;
 import com.tarambola.model.IntentOption;
 import com.tarambola.model.LoginSession;
 import com.tarambola.model.ProfileList;
@@ -83,6 +92,11 @@ import eu.blulog.blulib.tdl2.Recording;
      private ProfileList        mProfileList;
 
      private boolean            mIsRecording;
+
+     // Background Upload Vars
+     private Intent             mUploadService;
+     private IntentFilter       mStatusIntentFilter;
+     private UploadReceiver     mUploadReceiver;
 
 
 
@@ -153,6 +167,21 @@ import eu.blulog.blulib.tdl2.Recording;
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        ///////////////////// Background Upload Service
+        mUploadService = new Intent(MainActivity.this, BackgroundUploadService.class);
+        mUploadReceiver = new UploadReceiver(new Handler());
+        mUploadReceiver.setReceiver(new UploadReceiver.Receiver(){
+            @Override
+            public void onReceiveResult(int resultCode, Bundle resultData) {
+                if (resultCode == RESULT_OK) {
+                    String resultValue = resultData.getString("resultValue");
+                    Toast.makeText(MainActivity.this, resultValue, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        mUploadService.putExtra("receiver", mUploadReceiver);
+
 
     }
 
@@ -246,8 +275,8 @@ import eu.blulog.blulib.tdl2.Recording;
                             protected void postExecute(String status) {
                                 if (status == null) {
                                     //contentView.removeAllViews();
-                                    showInfo();
-                                    //Toast.makeText(context, R.string.operation_successfully_completed, Toast.LENGTH_SHORT).show();
+                                    showInfo(); // Show Tag Info
+                                    uploadTagDataHelper(); // Upload Tag Info
                                 } else {
                                     Toast.makeText(context, status, Toast.LENGTH_SHORT).show();
                                 }
@@ -553,6 +582,7 @@ import eu.blulog.blulib.tdl2.Recording;
          transaction.replace(R.id.container, mReadTag);
          transaction.addToBackStack(String.valueOf(mTitle));
          transaction.commit();
+
      }
 
      /**
@@ -1124,7 +1154,25 @@ import eu.blulog.blulib.tdl2.Recording;
 
      }
 
-     //************************ HELPERS ****************************//
+     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ////////////////////////////////////////////////////////////////////////////// HELPERS
+
+     /*
+      * Helper to upload tag data, check if exists internet connectio and do the upload, otherwise run intent to perform it on background
+      */
+     private void uploadTagDataHelper(){
+
+         if(isNetworkConnected()){
+             // ToDo, Upload tag data
+             Toast.makeText(getApplicationContext(), getString(R.string.uploading_data), Toast.LENGTH_LONG).show();
+         }
+         else{
+             // Start Intent to upload data when find network
+             Toast.makeText(getApplicationContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+             startService(mUploadService);
+         }
+     }
+
      static protected String devideByTen(int data){
          return Integer.toString(data/10)+"."+Integer.toString(data%10);
 
@@ -1157,6 +1205,23 @@ import eu.blulog.blulib.tdl2.Recording;
              }
          });
          alert.show();
+     }
+     private boolean isNetworkConnected() {
+         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+         return cm.getActiveNetworkInfo() != null;
+     }
+     /*
+      * Get GPS Coordinates
+      */
+     private Location getGPSLocation()
+     {
+         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+         LocationListener locationListener = new GPSLocationListener();
+         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, locationListener);
+
+         return locationManager.getLastKnownLocation(locationManager)
      }
 
 }

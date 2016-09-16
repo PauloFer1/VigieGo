@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -19,10 +23,10 @@
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter><!-- ATTENTION: This intent was auto-generated. Follow instructions at
   https://g.co/AppIndexing/AndroidStudio to publish your URLs. -->
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -44,6 +48,15 @@
         <uses-feature
             android:name="android.hardware.nfc"
             android:required="true" />
+
+        <receiver android:name="com.tarambola.controller.CheckConnection" >
+            <intent-filter>
+         <!--       <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/> -->
+                <action android:name="android.net.wifi.STATE_CHANGE"/>
+            </intent-filter>
+        </receiver>
+
+  <!--      <service android:name="com.tarambola.controller.BackgroundUploadService" android:exported="false" android:enabled="true"/> -->
 
         <dependency>
             <groupId>pl.droidsonroids.gif</groupId>
