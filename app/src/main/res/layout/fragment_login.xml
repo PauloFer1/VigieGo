@@ -123,6 +123,26 @@
                         android:layout_marginTop="30dp"
                         android:textColor="#fff"
                         android:textSize="16dp" />
+
+                    <ProgressBar
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/loginPreLoader"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Invalid Login!"
+                        android:id="@+id/invalidLoginText"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#ff5500"
+                        android:visibility="invisible" />
                 </LinearLayout>
 
             </RelativeLayout>

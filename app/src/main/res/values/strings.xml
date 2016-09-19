@@ -30,6 +30,10 @@
     <string name="uploading_data">Uploading Data...</string>
     <string name="no_internet">No internet connection found, please connect...</string>
 
+    <!-- LOGIN -->
+    <string name="verify_connection">Please verify your internet connection!</string>
+    <string name="invalid_login">Invalid Login!</string>
+
 
     <string-array name="profiles_array">
         <item>Teste</item>

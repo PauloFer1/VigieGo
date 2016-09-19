@@ -1,7 +1,6 @@
 package com.tarambola.view;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,7 +33,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tarambola.controller.BackgroundTagProcessor;
 import com.tarambola.controller.BackgroundUploadService;
-import com.tarambola.controller.GPSLocationListener;
+import com.tarambola.model.DummyClass;
 import com.tarambola.controller.UploadReceiver;
 import com.tarambola.model.IntentOption;
 import com.tarambola.model.LoginSession;
@@ -182,7 +181,7 @@ import eu.blulog.blulib.tdl2.Recording;
         });
         mUploadService.putExtra("receiver", mUploadReceiver);
 
-
+        getGPSLocation();
     }
 
     @Override
@@ -1214,14 +1213,49 @@ import eu.blulog.blulib.tdl2.Recording;
      /*
       * Get GPS Coordinates
       */
-     private Location getGPSLocation()
+     private void getGPSLocation()
      {
+
+         Log.d("Debug:", "GPSLocation start");
          LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-         LocationListener locationListener = new GPSLocationListener();
-         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, locationListener);
+         LocationListener locationListener = new LocationListener(){
+             @Override
+             public void onLocationChanged(final Location location){
+                 Log.d("Latitude", String.valueOf(location.getLatitude()));
+                 Log.d("Longitude", String.valueOf(location.getLongitude()));
+                 Log.d("Altitude", String.valueOf(location.getAltitude()));
+             }
+             @Override
+             public void onStatusChanged(String provider, int status, Bundle extras) {
+                 Log.d("Latitude","status");
+             }
+             @Override
+             public void onProviderDisabled(String provider) {
+                 Log.d("Latitude","disable");
+             }
 
-         return locationManager.getLastKnownLocation(locationManager)
+             @Override
+             public void onProviderEnabled(String provider) {
+                 Log.d("Latitude","enable");
+             }
+         };
+         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+         // getting GPS status
+         boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+         // getting network status
+         boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+         Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+         Log.d("Last Latitude", String.valueOf(location.getLatitude()));
+         Log.d("Last Longitude", String.valueOf(location.getLongitude()));
+         Log.d("Last Altitude", String.valueOf(location.getAltitude()));
+
+         Log.d("Debug:", "GPSLocation end");
+
      }
 
 }

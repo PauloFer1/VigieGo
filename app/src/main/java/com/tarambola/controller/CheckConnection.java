@@ -14,14 +14,20 @@ public class CheckConnection extends BroadcastReceiver{
 
     @Override
     public void onReceive(Context context, Intent arg1){
-        boolean isConnected = arg1.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
-        if(isConnected){
-            Log.d("Debug", "No connection...");
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if(cm.getActiveNetworkInfo() != null) {
+            Log.d("Connectivity", "Connection...");
+            checkDataToSend();
         }
-        else{
-        //    Toast.makeText(context, "Internet Connected 11", Toast.LENGTH_LONG).show();
-            Log.d("Debug", "connection...");
-        }
+        else
+            Log.d("Connectivity", "No connection...");
+    }
+
+    private void checkDataToSend()
+    {
+
     }
 
 

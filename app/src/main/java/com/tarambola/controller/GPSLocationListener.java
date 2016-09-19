@@ -2,25 +2,24 @@ package com.tarambola.controller;
 
 import android.location.Location;
 import android.location.LocationListener;
+import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
  * Created by paulofernandes on 16/09/16.
  */
 public class GPSLocationListener implements LocationListener{
+
     @Override
     public void onLocationChanged(Location loc) {
-        editLocation.setText("");
-        pb.setVisibility(View.INVISIBLE);
-        Toast.makeText(getBaseContext(),
-                "Location changed: Lat: " + loc.getLatitude() + " Lng: "
-                        + loc.getLongitude(), Toast.LENGTH_SHORT).show();
         String longitude = "Longitude: " + loc.getLongitude();
-        Log.v(TAG, longitude);
+        Log.v("Longitude", longitude);
         String latitude = "Latitude: " + loc.getLatitude();
-        Log.v(TAG, latitude);
+        Log.v("Latitude", latitude);
 
         /*------- To get city name from coordinates -------- */
+        /*
         String cityName = null;
         Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
         List<Address> addresses;
@@ -37,7 +36,7 @@ public class GPSLocationListener implements LocationListener{
         }
         String s = longitude + "\n" + latitude + "\n\nMy Current City is: "
                 + cityName;
-        editLocation.setText(s);
+                */
     }
 
     @Override
@@ -48,4 +47,5 @@ public class GPSLocationListener implements LocationListener{
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {}
+
 }

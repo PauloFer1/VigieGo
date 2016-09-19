@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.tarambola.controller.LoginController;
+import com.tarambola.model.WebServiceRequest;
 import com.tarambola.model.LoginSession;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -74,6 +82,9 @@ public class Login extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
+        rootView.findViewById(R.id.loginPreLoader).setVisibility(View.INVISIBLE);
+        rootView.findViewById(R.id.invalidLoginText).setVisibility(View.INVISIBLE);
+
         Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
 
         TextView msgLab1=(TextView) rootView.findViewById(R.id.mEnterCredLabel1);
@@ -103,8 +114,65 @@ public class Login extends Fragment {
 
                 if(LoginController.validate(username.getText().toString()) && LoginController.isNotNull(password.getText().toString())) {
                     /* ToDo: webservice */
-                    LoginSession.getInstance().login();
-                    mListener.onLoginSuccess();
+                    WebServiceRequest request = new WebServiceRequest(){
+                        @Override
+                        public void doLogin(String email, String password)
+                        {
+                            rootView.findViewById(R.id.loginPreLoader).setVisibility(View.VISIBLE); // SET LOADER VISIBLE
+                            RequestParams params = new RequestParams();
+                            params.put("email", email);
+                            // params.put("password", ServiceRequestGo.md5(password));
+                            params.put("password", password);
+
+                            AsyncHttpClient client = new AsyncHttpClient();
+                            client.post("http://api.vigiesolutions.com/vigiego/user/login", params, new AsyncHttpResponseHandler(){
+                                @Override
+                                public void onSuccess(String response) {
+                                    try {
+                                        JSONObject obj = new JSONObject(response);// JSON Object
+                                        if(obj.getBoolean("status")){// Loggin succeded
+                                            rootView.findViewById(R.id.loginPreLoader).setVisibility(View.INVISIBLE);
+                                            LoginSession.getInstance().login();
+                                            mListener.onLoginSuccess();
+                                        }
+                                        else{// Login failed
+                                            Log.d("LOGIN:", "Failed");
+                                            ((TextView) rootView.findViewById(R.id.invalidLoginText)).setText(getString(R.string.invalid_login));
+                                            rootView.findViewById(R.id.loginPreLoader).setVisibility(View.INVISIBLE);
+                                            rootView.findViewById(R.id.invalidLoginText).setVisibility(View.VISIBLE);
+                                        }
+                                    } catch (JSONException e) {
+                                        ((TextView) rootView.findViewById(R.id.invalidLoginText)).setText(getString(R.string.invalid_login));
+                                        rootView.findViewById(R.id.loginPreLoader).setVisibility(View.INVISIBLE);
+                                        rootView.findViewById(R.id.invalidLoginText).setVisibility(View.VISIBLE);
+                                        e.printStackTrace();
+                                        Log.d("LOGIN:", "Error 1");
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Throwable error, String content) {
+                                    if(statusCode == 404){// HTTP Res = 404
+                                        ((TextView) rootView.findViewById(R.id.invalidLoginText)).setText(getString(R.string.verify_connection));
+                                        rootView.findViewById(R.id.invalidLoginText).setVisibility(View.VISIBLE);
+                                        rootView.findViewById(R.id.loginPreLoader).setVisibility(View.INVISIBLE);
+                                    }
+                                    else if(statusCode == 500){// HTTP Res = 500
+                                        ((TextView) rootView.findViewById(R.id.invalidLoginText)).setText(getString(R.string.verify_connection));
+                                        rootView.findViewById(R.id.invalidLoginText).setVisibility(View.VISIBLE);
+                                        rootView.findViewById(R.id.loginPreLoader).setVisibility(View.INVISIBLE);
+                                    }
+                                    else{// HTTP Res code other than 404, 500
+                                        ((TextView) rootView.findViewById(R.id.invalidLoginText)).setText(getString(R.string.verify_connection));
+                                        rootView.findViewById(R.id.invalidLoginText).setVisibility(View.VISIBLE);
+                                        rootView.findViewById(R.id.loginPreLoader).setVisibility(View.INVISIBLE);
+                                    }
+                                }
+                            });
+
+                        }
+                    };
+                    request.doLogin(username.getText().toString(), password.getText().toString());
                 }
             }
         });
