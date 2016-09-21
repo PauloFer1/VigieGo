@@ -36,6 +36,8 @@ public class TagData implements Serializable{
         public int seconds;
     };
 
+    private int         mDBID;
+
     /* TAG INFO */
     private String      mIdNumber;
     private String      mFirmwareVer;
@@ -62,6 +64,9 @@ public class TagData implements Serializable{
     private int         mBreachesCount;
     private Date        mFstDownMeasuredate;
     private Date        mLastDownMeasureDate;
+    private long        mLatitude; // divide by 10000000 to get coordinates
+    private long        mLongitude;
+    private int         mAltitude;
 
     public TagData()
     {
@@ -69,6 +74,14 @@ public class TagData implements Serializable{
     }
 
     /* *********************************** GETTERS ****************************************** */
+
+    /**
+     *  Get ID of the database if saved
+     * @return id int
+     */
+    public int getDBID() {
+        return(mDBID);
+    }
 
     /**
      *  Get Tag ID Number
@@ -147,10 +160,20 @@ public class TagData implements Serializable{
     public int getBreachesCount(){return mBreachesCount;}
     public Date getFstDownMeasuredate(){return mFstDownMeasuredate;};
     public Date getLastDownMeasureDate(){return mLastDownMeasureDate;};
+    public long getLatitude(){return mLatitude;};
+    public long getLongitude(){return mLongitude;};
+    public int getAltitude(){return mAltitude;};
 
 
     /* *********************************** SETTERS ****************************************** */
 
+    /**
+     * Set ID of database if saved
+     * @param id the int of id database
+     */
+    public void setDBID(int id){
+        this.mDBID = id;
+    }
     /**
      * Set ID Number of the Tag
      * @param id the string of id number
@@ -260,6 +283,28 @@ public class TagData implements Serializable{
      */
     public void setActivationEnergy(long energy){
         this.mActivationEnergy = energy;
+    }
+
+    /**
+     * Set Longitude Coordinate
+     * @param longitude the long of the coordinate
+     */
+    public void setLongitude(long longitude){
+        this.mLongitude = longitude;
+    }
+    /**
+     * Set Latitude Coordinate
+     * @param latitude the long of the coordinate
+     */
+    public void setLatitude(long latitude){
+        this.mLatitude = latitude;
+    }
+    /**
+     * Set Altitude Coordinate
+     * @param altitude the intof the coordinate
+     */
+    public void setAltitude(int altitude){
+        this.mAltitude = altitude;
     }
 
     /**

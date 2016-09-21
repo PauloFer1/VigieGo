@@ -33,6 +33,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tarambola.controller.BackgroundTagProcessor;
 import com.tarambola.controller.BackgroundUploadService;
+import com.tarambola.controller.DBAdapter;
 import com.tarambola.model.DummyClass;
 import com.tarambola.controller.UploadReceiver;
 import com.tarambola.model.IntentOption;
@@ -182,6 +183,10 @@ import eu.blulog.blulib.tdl2.Recording;
         mUploadService.putExtra("receiver", mUploadReceiver);
 
         getGPSLocation();
+
+        DBAdapter.getInstance().init(getApplicationContext());
+
+        TagData tags[] = DBAdapter.getInstance().getTags();
     }
 
     @Override

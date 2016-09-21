@@ -7,6 +7,8 @@ import android.net.ConnectivityManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.tarambola.model.TagData;
+
 /**
  * Created by paulofernandes on 12/09/16.
  */
@@ -27,7 +29,13 @@ public class CheckConnection extends BroadcastReceiver{
 
     private void checkDataToSend()
     {
+        if(DBAdapter.getInstance().hasTags()) {
+            TagData tags[] = DBAdapter.getInstance().getTags();
 
+            for(int i=0; i< tags.length; i++){
+                short temps[] = DBAdapter.getInstance().getTempsByReading(tags[i].getDBID());
+            }
+        }
     }
 
 
