@@ -17,7 +17,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.tarambola.controller.LoginController;
-import com.tarambola.model.WebServiceRequest;
+import com.tarambola.controller.WebServiceRequest;
 import com.tarambola.model.LoginSession;
 
 import org.json.JSONException;
