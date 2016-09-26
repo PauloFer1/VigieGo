@@ -283,7 +283,7 @@ public class Home extends Fragment{
 
         long nSecs = temps.length * mTagData.getMeasureLength();
 
-        Log.d("Debug Secs", Integer.toString((int)nSecs));
+       // Log.d("Debug Secs", Integer.toString((int)nSecs));
 
         ArrayList<String> xVals = new ArrayList<String>();
         SimpleDateFormat fmt = new SimpleDateFormat("dd HH:mm");
@@ -300,7 +300,7 @@ public class Home extends Fragment{
                 long sum = current.getTime() + mTagData.getFstDownMeasuredate().getTime();
                 Date sumDate = new Date(sum);
                 xVals.add(fmt.format(sumDate));
-                Log.d("Debug Date", sumDate.toString());
+            //    Log.d("Debug Date", sumDate.toString());
             }
             else {
                 long days = TimeUnit.SECONDS.toDays(i*mTagData.getMeasureLength());

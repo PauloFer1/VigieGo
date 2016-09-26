@@ -104,6 +104,9 @@ public class TagData implements Serializable{
     public String getHardwareVer(){
         return(mHardwareVer);
     }
+    public String getProdDesc(){
+        return(mProdDesc);
+    }
     public Date getCalibrateDate(){
         return(mCalibrateDate);
     }
@@ -211,7 +214,7 @@ public class TagData implements Serializable{
      * @param date the Date of Expiration
      */
     public void setExpirationDate(Date date){
-        this.mCalibrateDate = date;
+        this.mExpirationDate = date;
     }
 
     /**

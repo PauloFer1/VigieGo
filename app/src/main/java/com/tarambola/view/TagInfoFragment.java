@@ -46,6 +46,7 @@ public class TagInfoFragment extends Fragment {
     private RecTimeLeft mRecTimeLeft;
     private String      mProdDesc;
     private Date        mStartDateRec;
+    private Date        mEndDateRec;
 
     /* List Info */
     private TwoColumnTable mList;
@@ -156,7 +157,7 @@ public class TagInfoFragment extends Fragment {
      * @param date the Date of Expiration
      */
     public void setExpirationDate(Date date){
-        this.mCalibrateDate = date;
+        this.mExpirationDate = date;
     }
 
     /**
@@ -182,6 +183,13 @@ public class TagInfoFragment extends Fragment {
         this.mProdDesc = desc;
     }
 
+    /**
+     * Set end date record of the Tag
+     * @param date the Date of record ending
+     */
+    public void setEndDateRec(Date date){
+        this.mEndDateRec = date;
+    }
     /**
      * Set start date record of the Tag
      * @param date the Date of record starting
@@ -217,12 +225,13 @@ public class TagInfoFragment extends Fragment {
         mList.addRow(new TwoColumnTable.Row("VIGIEGo ID number", this.mIdNumber));
         mList.addRow(new TwoColumnTable.Row("Firmware Version", this.mFirmwareVer));
         mList.addRow(new TwoColumnTable.Row("Hardware Version", this.mHardwareVer));
-        mList.addRow(new TwoColumnTable.Row("Calibrate Date", "03 June 2016 11:58:03"));
-        mList.addRow(new TwoColumnTable.Row("Expiration Date", "03 June 2016 11:58:03"));
+        mList.addRow(new TwoColumnTable.Row("Calibrate Date", mCalibrateDate.toString()));
+        mList.addRow(new TwoColumnTable.Row("Expiration Date", mExpirationDate.toString()));
         mList.addRow(new TwoColumnTable.Row("Number of Recordings", Integer.toString(this.mNumberRecs)));
         mList.addRow(new TwoColumnTable.Row("Recordings time left", "129d 78h 34m 22s"));
         mList.addRow(new TwoColumnTable.Row("Product Description", this.mProdDesc));
-        mList.addRow(new TwoColumnTable.Row("Start date of Recording", "03 June 2016 11:58:03"));
+        mList.addRow(new TwoColumnTable.Row("Start date of Recording", mStartDateRec.toString()));
+        mList.addRow(new TwoColumnTable.Row("End date of Recording", mEndDateRec.toString()));
 
     }
 

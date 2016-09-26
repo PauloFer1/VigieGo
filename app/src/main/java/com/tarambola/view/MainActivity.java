@@ -34,6 +34,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.tarambola.controller.BackgroundTagProcessor;
 import com.tarambola.controller.BackgroundUploadService;
 import com.tarambola.controller.DBAdapter;
+import com.tarambola.controller.WebServiceRequest;
 import com.tarambola.model.DummyClass;
 import com.tarambola.controller.UploadReceiver;
 import com.tarambola.model.IntentOption;
@@ -187,6 +188,10 @@ import eu.blulog.blulib.tdl2.Recording;
         DBAdapter.getInstance().init(getApplicationContext());
 
         TagData tags[] = DBAdapter.getInstance().getTags();
+
+        WebServiceRequest ws = new WebServiceRequest(getApplicationContext());
+
+        ws.constructJSON();
     }
 
     @Override
@@ -722,11 +727,15 @@ import eu.blulog.blulib.tdl2.Recording;
                  mTagInfo = new TagInfoFragment();
                  mTagInfo.setContext(getApplicationContext());
                  mTagInfo.createList();
-                 mTagInfo.setIdNumber(String.valueOf(content.getBlueTagId()));
-                 mTagInfo.setFirmwareVer(Integer.toString(content.getFirmware()));
-                 mTagInfo.setHardwareVer(Integer.toString(content.getHardware()));
-                 mTagInfo.setNumberRecs(content.getRecordings().size());
-                 mTagInfo.setProdDesc("sasasa");
+                 mTagInfo.setIdNumber(mTagData.getIdNumber());
+                 mTagInfo.setFirmwareVer(mTagData.getFirmwareVer());
+                 mTagInfo.setHardwareVer(mTagData.getHardwareVer());
+                 mTagInfo.setNumberRecs(mTagData.getNumberRecs());
+                 mTagInfo.setProdDesc(mTagData.getProdDesc());
+                 mTagInfo.setStartDateRec(mTagData.getStartDateRec());
+                 mTagInfo.setEndDateRec(mTagData.getEndDateRec());
+                 mTagInfo.setCalibrateDate(mTagData.getCalibrateDate());
+                 mTagInfo.setExpirationDate(mTagData.getExpirationDate());
                  mTagInfo.populateList();
 
                  fragment = mTagInfo;
@@ -996,16 +1005,6 @@ import eu.blulog.blulib.tdl2.Recording;
 
          FragmentManager fragmentManager = getSupportFragmentManager();
 
-         TagInfoFragment fragment = null;
-         fragment = new TagInfoFragment();
-         fragment.setContext(getApplicationContext());
-         fragment.createList();
-         fragment.setIdNumber(String.valueOf(content.getBlueTagId()));
-         fragment.setFirmwareVer(Integer.toString(content.getFirmware()));
-         fragment.setHardwareVer(Integer.toString(content.getHardware()));
-         fragment.setNumberRecs(content.getRecordings().size());
-         fragment.setProdDesc("sasasa");
-         fragment.populateList();
 
          BlutagContent.get().getRecordings().get(0).computeStatistics(); // Compute statistics for min, avg, max, kinect temps, breaches...
          mTagData = new TagData();
@@ -1043,7 +1042,17 @@ import eu.blulog.blulib.tdl2.Recording;
                  propertyValueStr=Long.toString(propertyValue);
 
              //table.addRow(new TwoColumnTable.Row(getString(genericEntry.getDescription()), propertyValueStr));
-             fragment.addRow(getString(genericEntry.getDescription()), propertyValueStr);
+        //     fragment.addRow(getString(genericEntry.getDescription()), propertyValueStr);
+
+             Log.d("property 0: " , getString(genericEntry.getDescription()));
+             if(getString(genericEntry.getDescription()).equals("Calibration date")) {
+                 Date d = new Date(propertyValue * 1000);
+                 mTagData.setCalibrateDate(d);
+             }
+             else if(getString(genericEntry.getDescription()).equals("Expiration date")) {
+                 Date d = new Date(propertyValue * 1000);
+                 mTagData.setExpirationDate(d);
+             }
 
          }
 
@@ -1059,7 +1068,7 @@ import eu.blulog.blulib.tdl2.Recording;
                          / (60 * 60 * 24);
 
              //table.addRow(new TwoColumnTable.Row(getString(R.string.utilizedDaysCount), Long.toString(utilizedDaysCount + days)));
-             fragment.addRow("Days Count", Long.toString(utilizedDaysCount + days));
+           //  fragment.addRow("Days Count", Long.toString(utilizedDaysCount + days));
          }
 
          if (dataDefinition.getGenericInfoEntry(DataDefinition.GenericInfoType.timeToLive)!=null) { //******************************* RECORDINGS TIME LEFT
@@ -1070,7 +1079,7 @@ import eu.blulog.blulib.tdl2.Recording;
              if (lastPeriodStartDate>0)
                  lastPeriodDuration=(new Date()).getTime()/1000-lastPeriodStartDate;
              //table.addRow(new TwoColumnTable.Row(getString(R.string.time_to_live), Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration))));
-             fragment.addRow("Time To Live", Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration)));
+         //    fragment.addRow("Time To Live", Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration)));
              mTagData.setRecTimeLeft(Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration)));
          }
 
@@ -1092,7 +1101,7 @@ import eu.blulog.blulib.tdl2.Recording;
                      if (resourceID != 0)
                          propName = getString(resourceID);
                      // table.addRow(new TwoColumnTable.Row(propName, propValue));
-                     fragment.addRow(propName, propValue);
+                     //       fragment.addRow(propName, propValue);
 
                  }
              }
@@ -1133,25 +1142,39 @@ import eu.blulog.blulib.tdl2.Recording;
                  }
 
                  //table.addRow(new TwoColumnTable.Row(getString(recordingEntry.getDescription()), propertyValueStr));
-                 fragment.addRow(getString(recordingEntry.getDescription()), propertyValueStr);
+              //   fragment.addRow(getString(recordingEntry.getDescription()), propertyValueStr);
 
+                 Log.d("Property:", getString(recordingEntry.getDescription()));
 
              }
 
              if (dataDefinition.getDeserialRecordingInfoEntry(DataDefinition.RecordingInfoType.pinsInfo) != null) {
                  long pinsUsed = recording.getRecordingData().getLong(DataDefinition.RecordingInfoType.pinsInfo.name());
                  //table.addRow(new TwoColumnTable.Row(getString(R.string.readTempPinUsed), (pinsUsed & 0x02) == 0x02 ? getString(R.string.yes) : getString(R.string.no)));
-                 fragment.addRow("Protect temp reading", (pinsUsed & 0x02) == 0x02 ? "YES" : "NO");
+             //    fragment.addRow("Protect temp reading", (pinsUsed & 0x02) == 0x02 ? "YES" : "NO");
 
-                 //table.addRow(new TwoColumnTable.Row(getString(R.string.finishRecordingPinUsed), (pinsUsed & 0x01) == 0x01 ? getString(R.string.yes) : getString(R.string.no)));
-                 fragment.addRow("Protect stop rec", (pinsUsed & 0x01) == 0x01 ? "YES" : "NO");
+                 //table.addRow(new TwoColumnTable.Row(getString(R.string.finishRecordingPinUsed), (pinsUsed & 0x01) == 0x01 ? getString(R.string.yes) : getString(R.string.no)));//fragment.addRow("Protect stop rec", (pinsUsed & 0x01) == 0x01 ? "YES" : "NO");
              }
          }
 
          mTitle = getString(R.string.title_section5);
 
+         mTagInfo = new TagInfoFragment();
+         mTagInfo.setContext(getApplicationContext());
+         mTagInfo.createList();
+         mTagInfo.setIdNumber(mTagData.getIdNumber());
+         mTagInfo.setFirmwareVer(mTagData.getFirmwareVer());
+         mTagInfo.setHardwareVer(mTagData.getHardwareVer());
+         mTagInfo.setNumberRecs(mTagData.getNumberRecs());
+         mTagInfo.setProdDesc(mTagData.getProdDesc());
+         mTagInfo.setStartDateRec(mTagData.getStartDateRec());
+         mTagInfo.setEndDateRec(mTagData.getEndDateRec());
+         mTagInfo.setCalibrateDate(mTagData.getCalibrateDate());
+         mTagInfo.setExpirationDate(mTagData.getExpirationDate());
+         mTagInfo.populateList();
+
          FragmentTransaction transaction = fragmentManager.beginTransaction();
-         transaction.replace(R.id.container, fragment);
+         transaction.replace(R.id.container, mTagInfo);
          transaction.addToBackStack(String.valueOf(mTitle));
          transaction.commit();
 

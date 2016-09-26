@@ -69,6 +69,9 @@ public class WebServiceRequest {
         return "";
     }
 
+    public WebServiceRequest(){
+
+    }
     public WebServiceRequest(Context context){
         mContext = context;
     }
@@ -254,7 +257,7 @@ public class WebServiceRequest {
     {
         RequestQueue queue = Volley.newRequestQueue(mContext);
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, SEND_DATA_REQUEST, constructJSON(), new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, SEND_DATA_REQUEST, constructJSON(), new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
@@ -304,20 +307,45 @@ public class WebServiceRequest {
 
         try {
 
-            tagInfo.put("mIdNumber", "1");
+            tagInfo.put("mIdNumber", "1234");
             tagInfo.put("mFirmwareVer", "2");
             tagInfo.put("mHardwareVer", "3");
+            tagInfo.put("mCalibrateDate", "30/08/2016 17:29:47");
+            tagInfo.put("mExpirationDate", "30/08/2016 17:29:47");
+            tagInfo.put("mNumberRecs", "1");
+            tagInfo.put("mRecTimeLeft", "129d 78h 34m 22s");
+            tagInfo.put("mProdDesc", "Teste");
+            tagInfo.put("mStartDateRec", "30/08/2016 17:29:47");
+            tagInfo.put("mEndDateRec", "30/08/2016 17:29:47");
+            tagInfo.put("mMeasureLength", "10");
+            tagInfo.put("mMinTemp", "200");
+            tagInfo.put("mMaxTemp", "300");
+            tagInfo.put("mActivationEnergy", "83");
+            tagInfo.put("mAverageTemp", "250");
+            tagInfo.put("mMinTempRead", "222");
+            tagInfo.put("mMaxTempRead", "275");
+            tagInfo.put("mKineticTemp", "268");
+            tagInfo.put("mLongitude", "41.4523476.");
+            tagInfo.put("mLatitude", "-8.1683847");
+            tagInfo.put("mAltitude", "1.0");
 
-            temps.put(200);
-            temps.put(210);
+
             temps.put(220);
             temps.put(230);
-            temps.put(220);
+            temps.put(240);
+            temps.put(250);
+            temps.put(250);
+            temps.put(252);
+            temps.put(255);
+            temps.put(260);
+            temps.put(250);
 
             tagInfo.put("temps", temps);
         } catch (JSONException err){
 
         }
+
+        Log.i("JSON", tagInfo.toString());
 
         return tagInfo;
     }
