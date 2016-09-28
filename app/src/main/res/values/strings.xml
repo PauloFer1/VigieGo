@@ -25,6 +25,10 @@
     <string name="no_nok_max_msg">Please fill Not Ok Max Input!</string>
     <string name="place_smartphone">Place your smartphone next to the ViGIEGo logger</string>
 
+    <!-- Profile page fragment -->
+    <string name="profile_saved">Profile Saved!</string>
+    <string name="profile_deleted">Profile Deleted!</string>
+
     <!-- MAIN ACTIVITY -->
     <string name="tag_recorded">Tag Recorded</string>
     <string name="uploading_data">Uploading Data...</string>

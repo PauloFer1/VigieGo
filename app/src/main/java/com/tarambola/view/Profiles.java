@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.tarambola.controller.DBAdapter;
 import com.tarambola.model.ProfileList;
 
 import java.util.ArrayList;
@@ -26,26 +27,15 @@ public class Profiles extends Fragment {
 
     SimpleCursorAdapter mAdapter;
 
-    static final String[] PROJECTION = new String[] {ContactsContract.Data._ID,
-            ContactsContract.Data.DISPLAY_NAME};
-
-    static final String SELECTION = "((" +
-            ContactsContract.Data.DISPLAY_NAME + " NOTNULL) AND (" +
-            ContactsContract.Data.DISPLAY_NAME + " != '' ))";
-
     private ProfileList mProfiles;
 
-    private static final String ARG_PARAM1 = "mProfiles";
-
-
+   // private static final String ARG_PARAM1 = "mProfiles";
 
     public Profiles(){}
 
-    public static Profiles newInstance(ProfileList profilesList){
+    public static Profiles newInstance(){
         Profiles fragment = new Profiles();
-        fragment.setProfileList(profilesList);
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1, profilesList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,15 +44,15 @@ public class Profiles extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mProfiles = (ProfileList) getArguments().getSerializable(ARG_PARAM1);
         }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         final View rootView = inflater.inflate(R.layout.fragment_profiles, container, false);
+
+        mProfiles = DBAdapter.getInstance().getProfiles();
 
         //********************************************************** DESIGN
 
@@ -76,15 +66,9 @@ public class Profiles extends Fragment {
             }
         });
 
-        String[] values = new String[mProfiles.getList().size()];/* { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };*/
+        String[] values = new String[mProfiles.getList().size()];
         final ArrayList<String> list = new ArrayList<String>();
-        /*for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }*/
+
         for (int i = 0; i < mProfiles.getList().size(); ++i) {
             list.add(mProfiles.getList().elementAt(i).getName());
             values[i] = mProfiles.getList().elementAt(i).getName();

@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.tarambola.model.Profile;
+import com.tarambola.model.ProfileList;
 import com.tarambola.model.TagData;
 
 import java.io.ByteArrayOutputStream;
@@ -25,11 +27,14 @@ public class DBAdapter {
 
     private static final String READING_TABLE = "reading";
     private static final String TEMPERATURE_TABLE = "temperature";
+    private static final String PROFILE_TABLE = "profile";
 
     private String[] allColumns = { "id", "id_number", "firmware", "hardware", "calibrate_date",
             "expiration_date", "number_rec", "rec_time_left", "prod_desc", "rec_start_date", "rec_end_date",
             "measure_length", "min_temp", "max_temp", "avg_temp", "activation_energy", "min_temp_read", "max_temp_read",
             "kinetic_temp", "breaches_duration", "breaches_count", "fst_down_measure", "last_down_neasure"};
+
+    private String[] allProfile = {"id", "name", "measure_length", "min_temp", "max_temp", "nok_min_time", "nok_max_time", "start_by_button"};
 
     private static DBAdapter ourInstance = new DBAdapter();
 
@@ -61,6 +66,35 @@ public class DBAdapter {
             return true;
         else
             return false;
+    }
+
+    public ProfileList getProfiles(){
+        Cursor cursor = database.rawQuery("SELECT * FROM " + PROFILE_TABLE, null);
+
+        ProfileList pf = new ProfileList();
+
+        if (cursor.moveToFirst()) {
+            int counter = 0;
+            while (!cursor.isAfterLast()) {
+                boolean startBtn = false;
+                if(cursor.getInt(cursor.getColumnIndex("start_by_button"))==1)
+                    startBtn = true;
+                Profile p = new Profile(
+                        cursor.getInt(cursor.getColumnIndex("id")),
+                        cursor.getString(cursor.getColumnIndex("name")),
+                        cursor.getLong(cursor.getColumnIndex("measure_length")),
+                        cursor.getInt(cursor.getColumnIndex("min_temp")),
+                        cursor.getInt(cursor.getColumnIndex("max_temp")),
+                        cursor.getInt(cursor.getColumnIndex("nok_min_time")),
+                        cursor.getInt(cursor.getColumnIndex("nok_max_time")),
+                        startBtn
+                        );
+                pf.addProfile(p);
+                cursor.moveToNext();
+            }
+        }
+
+        return pf;
     }
 
     public TagData[] getTags() {
@@ -158,6 +192,25 @@ public class DBAdapter {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////// INSERT
 
+    public long insertProfile(String name, int measureLengt, int minTemp, int nOkMinTime, int maxTemp, int nOkMaxTime, boolean startByButton){
+
+        ContentValues values = new ContentValues();
+        values.put("measure_length", measureLengt);
+        values.put("name", name);
+        values.put("min_temp", minTemp);
+        values.put("nok_min_time", nOkMinTime);
+        values.put("max_temp", maxTemp);
+        values.put("nok_max_time", nOkMaxTime);
+        int startBtn = 0;
+        if(startByButton)
+            startBtn = 1;
+        values.put("start_by_button", startBtn);
+
+        long insertId = database.insert(PROFILE_TABLE, null, values);
+
+        return insertId;
+    }
+
     public boolean insertReading(String idNumber,
                                  String firmware,
                                  String hardware,
@@ -209,12 +262,62 @@ public class DBAdapter {
        // cursor.moveToFirst();
         return true;
     }
+    public long insertReading(TagData tag) {
+        ContentValues values = new ContentValues();
+        values.put("id_number", tag.getIdNumber());
+        values.put("firmware",tag.getFirmwareVer());
+        values.put("calibrate_date",tag.getCalibrateDate().toString());
+        values.put("expiration_date",tag.getExpirationDate().toString());
+        values.put("number_rec", tag.getNumberRecs());
+        values.put("rec_time_left",tag.getRecTimeLeft());
+        values.put("prod_desc",tag.getProdDesc());
+        values.put("rec_start_date",tag.getStartDateRec().toString());
+        values.put("rec_end_date",tag.getEndDateRec().toString());
+        values.put("measure_length",tag.getMeasureLength());
+        values.put("min_temp",tag.getMinTemp());
+        values.put("max_temp",tag.getMaxtemp());
+        values.put("avg_temp",tag.getAverageTemp());
+        values.put("activation_energy",tag.getActivationEnergy());
+        values.put("min_temp_read",tag.getMinTempRead());
+        values.put("max_temp_read",tag.getMaxtempRead());
+        values.put("kinetic_temp",tag.getKineticTemp());
+        values.put("breaches_duration",tag.getBreachesDuration());
+        values.put("breaches_count",tag.getBreachesCount());
+        values.put("fst_down_measure",tag.getFstDownMeasuredate().toString());
+        values.put("last_down_measure",tag.getLastDownMeasureDate().toString());
+
+        long insertId = database.insert(READING_TABLE, null, values);
+        // To show how to query
+        //  Cursor cursor = database.query(READING_TABLE, allColumns, DB.ID + " = " + insertId, null,null, null, null);
+        // cursor.moveToFirst();
+        return insertId;
+    }
 
     public boolean insertTemps(int readingID, short[] temps)
     {
         return true;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// UPDATES
+
+    public void updateProfile(int id, String name, int measureLengt, int minTemp, int nOkMinTime, int maxTemp, int nOkMaxTime, boolean startByButton)
+    {
+        ContentValues values = new ContentValues();
+        values.put("measure_length", measureLengt);
+        values.put("name", name);
+        values.put("min_temp", minTemp);
+        values.put("nok_min_time", nOkMinTime);
+        values.put("max_temp", maxTemp);
+        values.put("nok_max_time", nOkMaxTime);
+        int startBtn = 0;
+        if(startByButton)
+            startBtn = 1;
+        values.put("start_by_button", startBtn);
+
+        database.update(PROFILE_TABLE, values, "id="+id, null);
+
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////// DELETE
@@ -227,6 +330,9 @@ public class DBAdapter {
     public void deleteTemps (int idReading)
     {
         database.delete(TEMPERATURE_TABLE, "reading_id" + " = " + idReading, null);
+    }
+    public void deleteProfileByName(String name){
+        database.delete(PROFILE_TABLE, "name" + " LIKE '" + name + "'", null);
     }
 
 

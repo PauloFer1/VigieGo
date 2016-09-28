@@ -5,29 +5,23 @@ package com.tarambola.view;
  */
 
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -43,20 +37,22 @@ import com.github.mikephil.charting.utils.Utils;
 import com.tarambola.model.PDFDownloader;
 import com.tarambola.model.TagData;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
-public class Home extends Fragment{
+public class Home extends Fragment {
 
     private LineChart       mChart;
     private SeekBar         mSeekBarX, mSeekBarY;
     private TextView        tvX, tvY;
     private TagData         mTagData;
     private ProgressDialog  mProgressDialog;
+    private View            mRootView;
+    private ArrayList<String> xVals;
+    private ProgressBar     mChartProgressBar;
 
     private static final String ARG_PARAM1 = "mTagData";
 
@@ -86,8 +82,12 @@ public class Home extends Fragment{
     {
         final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        mRootView = rootView;
+
         /* ******** DESIGN ********** */
         Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
+
+        mChartProgressBar = (ProgressBar) rootView.findViewById(R.id.chartProgressBar);
 
         TextView tv=(TextView) rootView.findViewById(R.id.mKineticLabel);
         tv.setTypeface(font);
@@ -147,20 +147,24 @@ public class Home extends Fragment{
             }
         });
 
+        return(rootView);
+    }
 
-        mChart = new LineChart(rootView.getContext());
+    @Override
+    public void onStart(){
+        super.onStart();;
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////// CHART
+
+        Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
+
+        mChart = new LineChart(mRootView.getContext());
         mChart.setLayoutParams(new FrameLayout.LayoutParams(DrawerLayout.LayoutParams.FILL_PARENT,DrawerLayout.LayoutParams.FILL_PARENT));
 
         mChart.setTouchEnabled(false);
-        // enable scaling and dragging
-       // mChart.setDragEnabled(true);
-        //mChart.setScaleEnabled(true);
-        // mChart.setScaleXEnabled(true);
-        // mChart.setScaleYEnabled(true);
-        // if disabled, scaling can be done on x- and y-axis separately
-        //mChart.setPinchZoom(true);
         mChart.setDescription("");
         mChart.setDrawBorders(false);
+        mChart.setNoDataText("");
 
         LimitLine llXAxis = new LimitLine(10f, "Index 10");
         llXAxis.setLineWidth(4f);
@@ -194,8 +198,6 @@ public class Home extends Fragment{
         leftAxis.addLimitLine(ll2);
         leftAxis.setAxisMaxValue(40f);
         leftAxis.setAxisMinValue(-5f);
-        //leftAxis.setYOffset(20f);
-       // leftAxis.enableGridDashedLine(10f, 10f, 0f);
         leftAxis.setDrawZeroLine(false);
         leftAxis.setDrawAxisLine(false);
 
@@ -203,33 +205,69 @@ public class Home extends Fragment{
         leftAxis.setDrawLimitLinesBehindData(true);
 
         mChart.getAxisRight().setEnabled(false);
-        //mChart.getXAxis().setEnabled(false);
         mChart.getXAxis().setDrawAxisLine(false);
         mChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         mChart.getXAxis().setDrawGridLines(false);
 
-        //mChart.getViewPortHandler().setMaximumScaleY(2f);
-        //mChart.getViewPortHandler().setMaximumScaleX(2f);
-
         // add data
-        setData(mTagData.getTemps());
+       // setData(mTagData.getTemps());
 
-//        mChart.setVisibleXRange(20);
-//        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
-//        mChart.centerViewTo(20, 50, AxisDependency.LEFT);
+        ChartTask asyncTask = new ChartTask(mTagData){
+            @Override
+            protected  void onPostExecute(ArrayList<String> vals){
+                xVals = vals;
+                ArrayList<Entry> yVals = this.mYVals;
+
+                LineDataSet set1;
+
+                if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
+                    set1 = (LineDataSet)mChart.getData().getDataSetByIndex(0);
+                    mChart.getData().notifyDataChanged();
+                    mChart.notifyDataSetChanged();
+                } else {
+                    // create a dataset and give it a type
+                    set1 = new LineDataSet(yVals, "");
+                    set1.setColor(Color.rgb(2, 115, 100));
+                    set1.setCircleColor(Color.argb(100, 3, 181, 158));
+                    set1.setDrawCircles(false);
+                    set1.setLineWidth(1f);
+                    set1.setCircleRadius(2f);
+                    set1.setDrawCircleHole(true);
+                    set1.setDrawValues(false);
+
+                    if (Utils.getSDKInt() >= 18) {
+                        // fill drawable only supported on api level 18 and above
+                        // Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_red);
+                        //set1.setFillDrawable(drawable);
+                    } else {
+                        set1.setFillColor(Color.BLACK);
+                    }
+
+                    ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+                    dataSets.add(set1); // add the datasets
+
+                    // create a data object with the datasets
+                    LineData data = new LineData(xVals, dataSets);
+
+                    mChartProgressBar.setVisibility(View.INVISIBLE);
+
+                    // set data
+                    mChart.setData(data);
+                }
+            }
+        };
+
+        asyncTask.execute(mChart);
 
         mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
-//        mChart.invalidate();
 
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();
 
-        // modify the legend ...
-        // l.setPosition(LegendPosition.LEFT_OF_CHART);
         l.setForm(Legend.LegendForm.LINE);
 
 
-        RelativeLayout chartLayout = (RelativeLayout) rootView.findViewById(R.id.mChartLayout);
+        RelativeLayout chartLayout = (RelativeLayout) mRootView.findViewById(R.id.mChartLayout);
         chartLayout.addView(mChart);
 
 
@@ -239,10 +277,7 @@ public class Home extends Fragment{
                 gotoChart(v);
             }
         });
-
-        return(rootView);
     }
-
 
     //****************************** LISTENERS Helpers
     public void gotoChart(View v)
@@ -326,8 +361,7 @@ public class Home extends Fragment{
 
         LineDataSet set1;
 
-        if (mChart.getData() != null &&
-                mChart.getData().getDataSetCount() > 0) {
+        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet)mChart.getData().getDataSetByIndex(0);
             //set1.setYVals(yVals);
             //mChart.getData().setXVals(xVals);

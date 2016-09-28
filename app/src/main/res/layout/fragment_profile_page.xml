@@ -358,7 +358,7 @@
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageButton4"
+                        android:id="@+id/saveButton"
                         android:background="@drawable/custom_save_profile_btn" />
 
                     <TextView
@@ -386,7 +386,7 @@
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageButton5"
+                        android:id="@+id/deleteButton"
                         android:background="@drawable/custom_delete_profile_btn" />
 
                     <TextView

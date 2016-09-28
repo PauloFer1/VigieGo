@@ -135,9 +135,6 @@ import eu.blulog.blulib.tdl2.Recording;
 
         mTagData = new TagData();
 
-        mProfileList = new ProfileList();
-        mProfileList.creatDummy();
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
        //     getWindow().setStatusBarColor(0x111111);
@@ -186,12 +183,7 @@ import eu.blulog.blulib.tdl2.Recording;
         getGPSLocation();
 
         DBAdapter.getInstance().init(getApplicationContext());
-
-        TagData tags[] = DBAdapter.getInstance().getTags();
-
-        WebServiceRequest ws = new WebServiceRequest(getApplicationContext());
-
-        ws.constructJSON();
+        
     }
 
     @Override
@@ -231,7 +223,6 @@ import eu.blulog.blulib.tdl2.Recording;
                 if (!mBusyOnProcessNFC.compareAndSet(false, true)) { //If busyOnProcessNFC is true to return and set busyOnProcessNFC to true
                     if (IntentOption.getInstance().getOption()!= IntentOption.Operations.SHORT_READ)
                         BlutagHandler.get().processNextTag(tag); //new in 1.6.x
-                  //  Toast.makeText(getApplicationContext(), "Busy Busy", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -283,9 +274,8 @@ import eu.blulog.blulib.tdl2.Recording;
                             @Override
                             protected void postExecute(String status) {
                                 if (status == null) {
-                                    //contentView.removeAllViews();
-                                    showInfo(); // Show Tag Info
-                                    uploadTagDataHelper(); // Upload Tag Info
+                                    showInfo(); /////////////// Show Tag Info
+                                    uploadTagDataHelper(); ////////// Upload Tag Info
                                 } else {
                                     Toast.makeText(context, status, Toast.LENGTH_SHORT).show();
                                 }
@@ -604,7 +594,7 @@ import eu.blulog.blulib.tdl2.Recording;
 
          if(mProfiles==null)
          {
-             mProfiles = Profiles.newInstance(mProfileList);
+             mProfiles = Profiles.newInstance();
          }
          else
              fragment = mProfiles;
@@ -652,7 +642,7 @@ import eu.blulog.blulib.tdl2.Recording;
 
          if(LoginSession.getInstance().isLogged()) {
              if (mStart == null) {
-                 mStart = StartFragment.newInstance(mProfileList);
+                 mStart = StartFragment.newInstance();
                  fragment = mStart;
              }
              else
@@ -943,25 +933,15 @@ import eu.blulog.blulib.tdl2.Recording;
 
 
          recording.setLogisticalData(logisticalData);
-
          recording.setMeasurementCycle(RecProfile.getInstance().getSampling()*10);
-
          recording.setMinTemp(RecProfile.getInstance().getMin()*10);
-
          recording.setMaxTemp(RecProfile.getInstance().getMax()*10);
-
          recording.setDecisionParam1(RecProfile.getInstance().getMinNOk());
-
          recording.setDecisionParam2(RecProfile.getInstance().getMaxNOk());
-
          recording.setStartRecordingDelay(0);
-
          recording.setReadTempPin(0xFFFF);
-
          recording.setFinishRecordingPin(0xFFFF);
-
          recording.setActivationEnergy(83);
-
 
          Log.i("new recording", recording.getRecordingData().toString());
 
@@ -989,22 +969,19 @@ import eu.blulog.blulib.tdl2.Recording;
 
      //******************************************** UI HANLDERS *****************************************//
 
+     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ///////////////////////////////////////////////////////////////////////////////////////////////// CREATE TAG DATA OBJECT
      /**
       * Go to Tag Info screen, get the tag info and set it in info screen
       */
      private void showInfo()
      {
-         Log.d("Debug", "showInfo: 1");
          BlutagContent content = BlutagContent.get();
-
 
          if(content.getHardware() == 0)
              return;
 
-         //Toast.makeText(getApplicationContext(), "ID: " + content.getDataDefinition().getGenericInfo(), Toast.LENGTH_SHORT).show();
-
          FragmentManager fragmentManager = getSupportFragmentManager();
-
 
          BlutagContent.get().getRecordings().get(0).computeStatistics(); // Compute statistics for min, avg, max, kinect temps, breaches...
          mTagData = new TagData();
@@ -1034,6 +1011,7 @@ import eu.blulog.blulib.tdl2.Recording;
          {
              if (genericEntry.getDescription()<0)
                  continue;
+
              propertyName=genericEntry.getProperty().name();
              propertyValue=content.getGenericData().getLong(propertyName);
              if (genericEntry.getType()==DataDefinition.DataType.DATE)
@@ -1041,10 +1019,6 @@ import eu.blulog.blulib.tdl2.Recording;
              else
                  propertyValueStr=Long.toString(propertyValue);
 
-             //table.addRow(new TwoColumnTable.Row(getString(genericEntry.getDescription()), propertyValueStr));
-        //     fragment.addRow(getString(genericEntry.getDescription()), propertyValueStr);
-
-             Log.d("property 0: " , getString(genericEntry.getDescription()));
              if(getString(genericEntry.getDescription()).equals("Calibration date")) {
                  Date d = new Date(propertyValue * 1000);
                  mTagData.setCalibrateDate(d);
@@ -1053,9 +1027,9 @@ import eu.blulog.blulib.tdl2.Recording;
                  Date d = new Date(propertyValue * 1000);
                  mTagData.setExpirationDate(d);
              }
-
          }
 
+         ///////////////////////////////////////////////////////////////////////////////////////////////// DAYS COUNT
          if (dataDefinition.getGenericInfoEntry(DataDefinition.GenericInfoType.utilizedDaysCount)!=null) {
              long days;
              long lastPeriodStartDate=content.getGenericData().getLong(DataDefinition.GenericInfoType.lastRecordingStartDate.name());
@@ -1067,24 +1041,22 @@ import eu.blulog.blulib.tdl2.Recording;
                          lastPeriodStartDate)
                          / (60 * 60 * 24);
 
-             //table.addRow(new TwoColumnTable.Row(getString(R.string.utilizedDaysCount), Long.toString(utilizedDaysCount + days)));
            //  fragment.addRow("Days Count", Long.toString(utilizedDaysCount + days));
          }
 
-         if (dataDefinition.getGenericInfoEntry(DataDefinition.GenericInfoType.timeToLive)!=null) { //******************************* RECORDINGS TIME LEFT
+         ///////////////////////////////////////////////////////////////////////////////////////////////// RECORDINGS TIME LEFT
+         if (dataDefinition.getGenericInfoEntry(DataDefinition.GenericInfoType.timeToLive)!=null) {
              long timeToLive=content.getGenericData().getLong(DataDefinition.GenericInfoType.timeToLive.name());
              long heartbeatDuration=content.getGenericData().getLong(DataDefinition.GenericInfoType.heartbeatDuration.name());
              long lastPeriodStartDate=content.getGenericData().getLong(DataDefinition.GenericInfoType.lastRecordingStartDate.name());
              long lastPeriodDuration=0;
              if (lastPeriodStartDate>0)
                  lastPeriodDuration=(new Date()).getTime()/1000-lastPeriodStartDate;
-             //table.addRow(new TwoColumnTable.Row(getString(R.string.time_to_live), Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration))));
-         //    fragment.addRow("Time To Live", Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration)));
              mTagData.setRecTimeLeft(Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration)));
          }
 
-         if (content.getGenericData().getLong(DataDefinition.GenericInfoType.utilizedRecordingsCount.name())>0) { //*************************** COUNT OF RECORDINGS USED
-
+         ///////////////////////////////////////////////////////////////////////////////////////////////// COUNT OF RECORDINGS USED
+         if (content.getGenericData().getLong(DataDefinition.GenericInfoType.utilizedRecordingsCount.name())>0) {
 
              Recording recording = content.getRecordings().get(0);
 
@@ -1100,13 +1072,13 @@ import eu.blulog.blulib.tdl2.Recording;
                      int resourceID = getResources().getIdentifier(propName, "string", this.getPackageName());
                      if (resourceID != 0)
                          propName = getString(resourceID);
-                     // table.addRow(new TwoColumnTable.Row(propName, propValue));
                      //       fragment.addRow(propName, propValue);
 
                  }
+                 ///////////////////////////////////////////////////////////////////////////////////////////////// PRODUCT DESCRIPTION
+                 if(propName.equals("Product description"))
+                    mTagData.setProdDesc(propValue);
              }
-
-
              dataDefinition = recording.getDataDefinition();
 
              for (DataDefinition.DataDefinitionEntry<DataDefinition.RecordingInfoType> recordingEntry : dataDefinition.getDeserialRecordingInfo()) {
@@ -1114,7 +1086,8 @@ import eu.blulog.blulib.tdl2.Recording;
                      continue;
                  propertyName = recordingEntry.getProperty().name();
                  propertyValue = recording.getRecordingData().getLong(propertyName);
-                 if (recordingEntry.getType() == DataDefinition.DataType.DATE) //************************* RECORDING DATE
+                 ///////////////////////////////////////////////////////////////////////////////////////////////// RECORDING DATE
+                 if (recordingEntry.getType() == DataDefinition.DataType.DATE)
                  {
                      if(getString(recordingEntry.getDescription()).equals("Start date of recording"))
                          mTagData.setStartDateRec(new Date(propertyValue * 1000));
@@ -1125,36 +1098,29 @@ import eu.blulog.blulib.tdl2.Recording;
                      else
                          propertyValueStr = "";
                  }
-                 else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.minTemp ) { //******************************** MIN Temperature
+                 ///////////////////////////////////////////////////////////////////////////////////////////////// MIN Temperature
+                 else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.minTemp ) {
                      mTagData.setMinTemp((int) propertyValue);
                      propertyValueStr = devideByTen((int) propertyValue) + getString(R.string.temperature_unit);
                  }
-                 else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.maxTemp) { //******************************** MAX Temperature
+                 ///////////////////////////////////////////////////////////////////////////////////////////////// MAX Temperature
+                 else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.maxTemp) {
                      propertyValueStr = devideByTen((int) propertyValue) + getString(R.string.temperature_unit);
                      mTagData.setMaxTemp((int) propertyValue);
                  }
                  else {
                      propertyValueStr = Long.toString(propertyValue);
-                     if(recordingEntry.getProperty() == DataDefinition.RecordingInfoType.activationEnergy ) // *************************** Activation Energy
+                     ///////////////////////////////////////////////////////////////////////////////////////////////// Activation Energy
+                     if(recordingEntry.getProperty() == DataDefinition.RecordingInfoType.activationEnergy )
                         mTagData.setActivationEnergy(propertyValue);
-                     else if(recordingEntry.getProperty() == DataDefinition.RecordingInfoType.measurementCycle) //************************** Length of measurement cycle
+                         ///////////////////////////////////////////////////////////////////////////////////////////////// Length of measurement cycle
+                     else if(recordingEntry.getProperty() == DataDefinition.RecordingInfoType.measurementCycle)
                          mTagData.setMeasureLenght(propertyValue);
                  }
-
-                 //table.addRow(new TwoColumnTable.Row(getString(recordingEntry.getDescription()), propertyValueStr));
-              //   fragment.addRow(getString(recordingEntry.getDescription()), propertyValueStr);
-
                  Log.d("Property:", getString(recordingEntry.getDescription()));
 
              }
 
-             if (dataDefinition.getDeserialRecordingInfoEntry(DataDefinition.RecordingInfoType.pinsInfo) != null) {
-                 long pinsUsed = recording.getRecordingData().getLong(DataDefinition.RecordingInfoType.pinsInfo.name());
-                 //table.addRow(new TwoColumnTable.Row(getString(R.string.readTempPinUsed), (pinsUsed & 0x02) == 0x02 ? getString(R.string.yes) : getString(R.string.no)));
-             //    fragment.addRow("Protect temp reading", (pinsUsed & 0x02) == 0x02 ? "YES" : "NO");
-
-                 //table.addRow(new TwoColumnTable.Row(getString(R.string.finishRecordingPinUsed), (pinsUsed & 0x01) == 0x01 ? getString(R.string.yes) : getString(R.string.no)));//fragment.addRow("Protect stop rec", (pinsUsed & 0x01) == 0x01 ? "YES" : "NO");
-             }
          }
 
          mTitle = getString(R.string.title_section5);
@@ -1192,10 +1158,13 @@ import eu.blulog.blulib.tdl2.Recording;
          if(isNetworkConnected()){
              // ToDo, Upload tag data
              Toast.makeText(getApplicationContext(), getString(R.string.uploading_data), Toast.LENGTH_LONG).show();
+             WebServiceRequest ws = new WebServiceRequest(getApplicationContext());
+           //  ws.senDataWithVolley(mTagData);
          }
          else{
              // Start Intent to upload data when find network
              Toast.makeText(getApplicationContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+             DBAdapter.getInstance().insertReading(mTagData);
              startService(mUploadService);
          }
      }

@@ -9,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.tarambola.controller.DBAdapter;
 import com.tarambola.model.Profile;
 
 
@@ -25,6 +28,14 @@ public class ProfilePage extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private Profile mProfile;
+
+    /* Inputs */
+    private EditText mProfileName;
+    private EditText mSamplingInput;
+    private EditText mMinInput;
+    private EditText mNoKMinInput;
+    private EditText mMaxInput;
+    private EditText mNOkMaxInput;
 
     public ProfilePage() {
         // Required empty public constructor
@@ -69,19 +80,34 @@ public class ProfilePage extends Fragment {
         maxAfterLabel.setTypeface(font);
 
         // Set Content
-        final EditText name= (EditText) rootView.findViewById(R.id.mProfileNameInput);
-        name.setText(mProfile.getName());
-        final EditText measure= (EditText) rootView.findViewById(R.id.measureTimeField);
-        measure.setText(Long.toString(mProfile.getMeasureLenght()));
-        final EditText min= (EditText) rootView.findViewById(R.id.minField);
-        min.setText(Integer.toString(mProfile.getMinTemp()));
-        final EditText NoKMin= (EditText) rootView.findViewById(R.id.nOkMinField);
-        NoKMin.setText(Integer.toString(mProfile.getNOkMinTime()));
-        final EditText max= (EditText) rootView.findViewById(R.id.maxField);
-        max.setText(Integer.toString(mProfile.getMaxTemp()));
-        final EditText NOkMax= (EditText) rootView.findViewById(R.id.NokMaxField);
-        NOkMax.setText(Integer.toString(mProfile.getNOkMaxTime()));
+        mProfileName= (EditText) rootView.findViewById(R.id.mProfileNameInput);
+        mProfileName.setText(mProfile.getName());
+        mSamplingInput= (EditText) rootView.findViewById(R.id.measureTimeField);
+        mSamplingInput.setText(Long.toString(mProfile.getMeasureLenght()));
+        mMinInput= (EditText) rootView.findViewById(R.id.minField);
+        mMinInput.setText(Integer.toString(mProfile.getMinTemp()));
+        mNoKMinInput= (EditText) rootView.findViewById(R.id.nOkMinField);
+        mNoKMinInput.setText(Integer.toString(mProfile.getNOkMinTime()));
+        mMaxInput= (EditText) rootView.findViewById(R.id.maxField);
+        mMaxInput.setText(Integer.toString(mProfile.getMaxTemp()));
+        mNOkMaxInput= (EditText) rootView.findViewById(R.id.NokMaxField);
+        mNOkMaxInput.setText(Integer.toString(mProfile.getNOkMaxTime()));
 
+        final ImageButton saveBtn = (ImageButton)rootView.findViewById(R.id.saveButton);
+        saveBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                saveProfile(v);
+            }
+        });
+
+        final ImageButton deleteBtn = (ImageButton)rootView.findViewById(R.id.deleteButton);
+        deleteBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                deleteProfile(v);
+            }
+        });
 
         return rootView;
     }
@@ -113,6 +139,33 @@ public class ProfilePage extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void saveProfile(View v)
+    {
+        DBAdapter.getInstance().updateProfile(mProfile.getId(),
+                mProfileName.getText().toString(),
+                Integer.parseInt(mSamplingInput.getText().toString()),
+                Integer.parseInt(mMinInput.getText().toString()),
+                Integer.parseInt(mNoKMinInput.getText().toString()),
+                Integer.parseInt(mMaxInput.getText().toString()),
+                Integer.parseInt(mNOkMaxInput.getText().toString()),
+                false
+        );
+        mProfile.setMinTemp(Integer.parseInt(mMinInput.getText().toString()));
+        mProfile.setmMaxTemp( Integer.parseInt(mMaxInput.getText().toString()));
+        mProfile.setMeasureLenght(Integer.parseInt(mSamplingInput.getText().toString()));
+        mProfile.setNOkMaxTime(Integer.parseInt(mNOkMaxInput.getText().toString()));
+        mProfile.setNOkMinTime(Integer.parseInt(mNoKMinInput.getText().toString()));
+        mProfile.setName(mProfileName.getText().toString());
+
+        Toast.makeText(v.getContext(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+    }
+    public void deleteProfile(View v)
+    {
+        DBAdapter.getInstance().deleteProfileByName(mProfile.getName());
+        this.getActivity().getSupportFragmentManager().popBackStack();
+        Toast.makeText(v.getContext(), getString(R.string.profile_deleted), Toast.LENGTH_SHORT).show();
     }
 
     /////////////////////////////////////////

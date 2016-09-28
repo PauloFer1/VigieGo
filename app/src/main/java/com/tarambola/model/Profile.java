@@ -12,6 +12,7 @@ import eu.blulog.blulib.tdl2.Recording;
 public class Profile {
 
     /* TAG INFO */
+    private int         mId;
     private String      mName;
     private long        mMeasureLenght;
     private int         mMinTemp;
@@ -21,8 +22,9 @@ public class Profile {
     private boolean     mStartByButton;
 
     public Profile(){};
-    public Profile(String name, long measureTime, int minTemp, int maxTemp, int minNOkTemp, int maxNOkTemp, boolean startByBtn)
+    public Profile(int id, String name, long measureTime, int minTemp, int maxTemp, int minNOkTemp, int maxNOkTemp, boolean startByBtn)
     {
+        mId = id;
         mName = name;
         mMeasureLenght = measureTime;
         mMinTemp = minTemp;
@@ -35,6 +37,7 @@ public class Profile {
     //////////////////////////////
     /////////// GETTERS
 
+    public int getId(){return mId;}
     public String getName(){
         return mName;
     }
@@ -61,6 +64,7 @@ public class Profile {
     //////////////////////////////
     /////////// SETTERS
 
+    public void setId(int id){mId = id;}
     public void setName(String name){mName = name;}
     public void setMeasureLenght(long time){time = mMeasureLenght;}
     public void setMinTemp(int temp){temp = mMinTemp;}

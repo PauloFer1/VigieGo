@@ -14,6 +14,8 @@ import com.tarambola.model.TagData;
  */
 public class CheckConnection extends BroadcastReceiver{
 
+    private Context mContext;
+
     @Override
     public void onReceive(Context context, Intent arg1){
 
@@ -21,7 +23,7 @@ public class CheckConnection extends BroadcastReceiver{
 
         if(cm.getActiveNetworkInfo() != null) {
             Log.d("Connectivity", "Connection...");
-            checkDataToSend();
+          //  checkDataToSend();
         }
         else
             Log.d("Connectivity", "No connection...");
@@ -34,6 +36,11 @@ public class CheckConnection extends BroadcastReceiver{
 
             for(int i=0; i< tags.length; i++){
                 short temps[] = DBAdapter.getInstance().getTempsByReading(tags[i].getDBID());
+                tags[i].setTemps(temps);
+
+                WebServiceRequest ws = new WebServiceRequest(mContext);
+
+                ws.senDataWithVolley(tags[i]);
             }
         }
     }

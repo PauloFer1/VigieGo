@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tarambola.controller.DBAdapter;
 import com.tarambola.model.IntentOption;
 import com.tarambola.model.ProfileList;
 import com.tarambola.model.RecProfile;
@@ -38,7 +39,7 @@ public class StartFragment extends Fragment {
 
     private ProfileList mProfiles;
 
-    private static final String ARG_PARAM1 = "mProfiles";
+    //private static final String ARG_PARAM1 = "mProfiles";
 
     private String newProfileName = "";
 
@@ -58,11 +59,11 @@ public class StartFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static StartFragment newInstance(ProfileList profilesList){
+    public static StartFragment newInstance(){
         StartFragment fragment = new StartFragment();
-        fragment.setProfileList(profilesList);
+        //fragment.setProfileList(profilesList);
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1, profilesList);
+        //args.putSerializable(ARG_PARAM1, profilesList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,7 +73,7 @@ public class StartFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mProfiles = (ProfileList) getArguments().getSerializable(ARG_PARAM1);
+            //mProfiles = (ProfileList) getArguments().getSerializable(ARG_PARAM1);
         }
     }
 
@@ -80,6 +81,8 @@ public class StartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_start, container, false);
+
+        mProfiles = DBAdapter.getInstance().getProfiles();
 
         //********************************************************** DESIGN
         Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
@@ -232,7 +235,18 @@ public class StartFragment extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     newProfileName = input.getText().toString();
+
+                    long id = DBAdapter.getInstance().insertProfile(newProfileName,
+                            Integer.parseInt(mSamplingInput.getText().toString()),
+                            Integer.parseInt(mMinInput.getText().toString()),
+                            Integer.parseInt(mNoKMinInput.getText().toString()),
+                            Integer.parseInt(mMaxInput.getText().toString()),
+                            Integer.parseInt(mNOkMaxInput.getText().toString()),
+                            false
+                            );
+
                     mProfiles.addProfile(
+                            (int)id,
                             newProfileName,
                             Integer.parseInt(mSamplingInput.getText().toString()),
                             Integer.parseInt(mMinInput.getText().toString()),
@@ -243,8 +257,6 @@ public class StartFragment extends Fragment {
 
                     mProfileList.add(newProfileName);
                     mAdapterList.notifyDataSetChanged();
-                    /* ToDo Update Database */
-
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
