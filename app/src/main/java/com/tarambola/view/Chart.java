@@ -34,6 +34,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
+import com.tarambola.vigiego.R;
+
 
 public class Chart extends Fragment {
 
@@ -182,7 +184,7 @@ public class Chart extends Fragment {
                 long minutes = TimeUnit.SECONDS.toMinutes(i*mTagData.getMeasureLength()) - (days*24) - (hours*60);
                 long seconds = i*mTagData.getMeasureLength() - (days*24) - (hours*60) - (minutes*60);
 
-                GregorianCalendar cal = new GregorianCalendar(0, 0, (int)days, (int)hours, (int)minutes, (int)seconds);
+                GregorianCalendar cal = new GregorianCalendar(0, 0,(int)days+1, (int)hours+1, (int)minutes, (int)seconds);
                 Date current = cal.getTime();
                 long sum = current.getTime() + mTagData.getFstDownMeasuredate().getTime();
                 Date sumDate = new Date(sum);

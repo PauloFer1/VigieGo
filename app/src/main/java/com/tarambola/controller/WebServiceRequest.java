@@ -33,6 +33,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public class WebServiceRequest {
 
     private Context mContext;
     private static final String LOGIN_REQUEST = "http://api.vigiesolutions.com/vigiego/user/login";
-    private static final String SEND_DATA_REQUEST = "http://www.taradev.pt/users/";
+    private static final String SEND_DATA_REQUEST = "http://api.vigiesolutions.com/v1/vigie-go/temperatures/save";
 
     /*
      *  Helper to Encrypt String
@@ -85,8 +86,8 @@ public class WebServiceRequest {
 
         RequestParams params = new RequestParams();
         params.put("email", email);
-       // params.put("password", ServiceRequestGo.md5(password));
-        params.put("password", password);
+        params.put("password", ServiceRequestGo.md5(password));
+        //params.put("password", password);
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.post(LOGIN_REQUEST, params, new AsyncHttpResponseHandler(){
@@ -246,19 +247,30 @@ public class WebServiceRequest {
 
             @Override
             public void onResponse(JSONObject response) {
-                // TODO delete data from database
-                Log.d("Request", "Data sended successfully");
+                try {
+                    if(response.get("http_code").toString().equals("200")) // success
+                    {
+                        // TODO delete data from database
+                        Log.d("Request", "Data sended and saved successfully");
+                    }
+                    else
+                    {
+                        Log.d("Request", "Server side Error. Coudn't save data...");
+                    }
+                } catch (JSONException e) {
+                    Log.d("Request", "Error...");
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                // TODO Auto-generated method stub
                 Log.d("Request", "Data not sended");
-
             }
         });
 
+        /*
         StringRequest postRequest = new StringRequest(Request.Method.POST, SEND_DATA_REQUEST, new Response.Listener<String>() {
 
             @Override
@@ -284,7 +296,8 @@ public class WebServiceRequest {
                 return params;
             }
         };
-        queue.add(postRequest);
+        */
+        queue.add(jsObjRequest);
     }
 
     public JSONObject constructJSON(TagData tag)
@@ -294,16 +307,18 @@ public class WebServiceRequest {
 
         try {
 
+            SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
             tagInfo.put("mIdNumber", tag.getIdNumber());
             tagInfo.put("mFirmwareVer", tag.getFirmwareVer());
             tagInfo.put("mHardwareVer", tag.getHardwareVer());
-            tagInfo.put("mCalibrateDate", tag.getCalibrateDate().toString());
-            tagInfo.put("mExpirationDate", tag.getExpirationDate().toString());
+            tagInfo.put("mCalibrateDate", fmt.format(tag.getCalibrateDate()));
+            tagInfo.put("mExpirationDate", fmt.format(tag.getExpirationDate()));
             tagInfo.put("mNumberRecs", tag.getNumberRecs());
             tagInfo.put("mRecTimeLeft", tag.getRecTimeLeft());
             tagInfo.put("mProdDesc", tag.getProdDesc());
-            tagInfo.put("mStartDateRec", tag.getStartDateRec());
-            tagInfo.put("mEndDateRec", tag.getEndDateRec());
+            tagInfo.put("mStartDateRec", fmt.format(tag.getStartDateRec()));
+            tagInfo.put("mEndDateRec", fmt.format(tag.getEndDateRec()));
             tagInfo.put("mMeasureLength", tag.getMeasureLength());
             tagInfo.put("mMinTemp", tag.getMinTemp());
             tagInfo.put("mMaxTemp", tag.getMaxtemp());
@@ -323,7 +338,7 @@ public class WebServiceRequest {
             tagInfo.put("temps", temps);
 
         } catch (JSONException err){
-
+            Log.d("JSON", "ERROR: " + err.toString());
         }
 
         Log.i("JSON", tagInfo.toString());

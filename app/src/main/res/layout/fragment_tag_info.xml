@@ -69,7 +69,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="7 hours ago"
-                            android:id="@+id/textView32"
+                            android:id="@+id/mHoursLabel"
                             android:layout_marginTop="2dp"
                             android:textColor="#fff"
                             android:layout_marginLeft="10dp" />

@@ -26,6 +26,8 @@ import com.tarambola.model.RecProfile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tarambola.vigiego.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +37,7 @@ import java.util.List;
  */
 public class StartFragment extends Fragment {
 
+    private View    mView;
     private OnFragmentInteractionListener mListener;
 
     private ProfileList mProfiles;
@@ -81,6 +84,8 @@ public class StartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_start, container, false);
+
+        mView = rootView;
 
         mProfiles = DBAdapter.getInstance().getProfiles();
 
@@ -139,7 +144,8 @@ public class StartFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                populateProfile(rootView, position);
+                // position-1 because the first position is the label "choose profile"
+                populateProfile(rootView, position-1);
             }
 
             @Override
@@ -203,7 +209,7 @@ public class StartFragment extends Fragment {
      */
     private void populateProfile(View v, int id){
 
-        if(id!=0)
+        if(id>-1) // -1 is reserved for label "choose profile"
         {
 
             mSamplingInput.setText(Long.toString(mProfiles.getList().elementAt(id).getMeasureLenght()));
@@ -257,6 +263,8 @@ public class StartFragment extends Fragment {
 
                     mProfileList.add(newProfileName);
                     mAdapterList.notifyDataSetChanged();
+
+                    Toast.makeText(mView.getContext(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

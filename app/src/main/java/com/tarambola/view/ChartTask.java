@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
+
+import com.tarambola.vigiego.R;
 
 /**
  * Created by paulofernandes on 27/09/16.
@@ -70,8 +73,9 @@ public class ChartTask extends AsyncTask<LineChart, Void, ArrayList<String>> {
                 long minutes = TimeUnit.SECONDS.toMinutes(i*mTagData.getMeasureLength()) - (days*24) - (hours*60);
                 long seconds = i*mTagData.getMeasureLength() - (days*24) - (hours*60) - (minutes*60);
 
-                GregorianCalendar cal = new GregorianCalendar(2016, 8, (int)days, (int)hours, (int)minutes, (int)seconds);
-                Date current = cal.getTime();
+                //GregorianCalendar cal = new GregorianCalendar(2016, 8, (int)days, (int)hours, (int)minutes, (int)seconds);
+                //Date current = cal.getTime();
+                Date current = new Date();
                 long sum = current.getTime() + mTagData.getFstDownMeasuredate().getTime();
                 Date sumDate = new Date(sum);
                 xVals.add(fmt.format(sumDate));
@@ -83,8 +87,10 @@ public class ChartTask extends AsyncTask<LineChart, Void, ArrayList<String>> {
                 long minutes = TimeUnit.SECONDS.toMinutes(i*mTagData.getMeasureLength()) - (days*24) - (hours*60);
                 long seconds = i*mTagData.getMeasureLength() - (days*24) - (hours*60) - (minutes*60);
 
-                GregorianCalendar cal = new GregorianCalendar(0, 0, (int)days, (int)hours, (int)minutes, (int)seconds);
+                GregorianCalendar cal = new GregorianCalendar(0, 0,(int)days+1, (int)hours+1, (int)minutes, (int)seconds);
                 Date current = cal.getTime();
+               // Date current = new Date();
+                Log.d("Date", current.toString() );
                 long sum = current.getTime() + mTagData.getFstDownMeasuredate().getTime();
                 Date sumDate = new Date(sum);
                 xVals.add(fmt.format(sumDate));

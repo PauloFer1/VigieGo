@@ -45,8 +45,10 @@ public class DBConnection extends SQLiteOpenHelper {
             Log.d("DATABASE:", "Database already exist");
         } else {
             Log.d("DATABASE", "Database doesn't exist");
-            if(createdatabase())
+            if(createdatabase()) {
                 mHasDataBase = true;
+                opendatabase();
+            }
         }
     }
 

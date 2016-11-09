@@ -1,5 +1,6 @@
 package com.tarambola.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 
 import com.tarambola.controller.DBAdapter;
 import com.tarambola.model.Profile;
+
+import com.tarambola.vigiego.R;
 
 
 /**
@@ -119,6 +122,18 @@ public class ProfilePage extends Fragment {
         }
     }
 
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
 
     @Override
     public void onDetach() {
@@ -139,6 +154,7 @@ public class ProfilePage extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+        void onDeleteProfile();
     }
 
     public void saveProfile(View v)
@@ -164,8 +180,8 @@ public class ProfilePage extends Fragment {
     public void deleteProfile(View v)
     {
         DBAdapter.getInstance().deleteProfileByName(mProfile.getName());
-        this.getActivity().getSupportFragmentManager().popBackStack();
         Toast.makeText(v.getContext(), getString(R.string.profile_deleted), Toast.LENGTH_SHORT).show();
+        mListener.onDeleteProfile();
     }
 
     /////////////////////////////////////////

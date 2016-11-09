@@ -1,6 +1,7 @@
 package com.tarambola.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import com.tarambola.model.LoginSession;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.tarambola.vigiego.R;
 
 
 /**
@@ -104,6 +107,16 @@ public class Login extends Fragment {
         loginBtnLab.setTypeface(font);
 
         final Button loginBtn = (Button)rootView.findViewById(R.id.mLoginBtn);
+
+        final Button noAccountBtn = (Button)rootView.findViewById(R.id.mNoAccountBtn);
+
+        noAccountBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+                startActivity(browserIntent);
+            }
+        });
 
         loginBtn.setOnClickListener(new View.OnClickListener(){
             @Override

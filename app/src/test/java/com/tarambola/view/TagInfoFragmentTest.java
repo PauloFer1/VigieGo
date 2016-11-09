@@ -47,7 +47,7 @@ public class TagInfoFragmentTest {
         timeLeft.minutes = 23;
         timeLeft.seconds = 30;
 
-        tagInfo.setRecTimeLeft(timeLeft);
+        //tagInfo.setRecTimeLeft(timeLeft);
 
         try {
             assertEquals(2, timeLeft.days);

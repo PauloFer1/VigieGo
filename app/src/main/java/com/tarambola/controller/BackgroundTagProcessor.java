@@ -9,7 +9,7 @@ import android.os.AsyncTask;
 import android.view.ContextThemeWrapper;
 import android.widget.ProgressBar;
 
-import com.tarambola.view.R;
+import com.tarambola.vigiego.R;
 
 import eu.blulog.blulib.exceptions.BluException;
 import eu.blulog.blulib.exceptions.NoBlutagDedectedException;

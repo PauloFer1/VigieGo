@@ -8,9 +8,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import com.tarambola.vigiego.R;
+
 
 /**
- * Created by Juliusz on 2015-02-17.
+ * Created by pfernandes on 2015-02-17.
  */
 public class TwoColumnTable {
 

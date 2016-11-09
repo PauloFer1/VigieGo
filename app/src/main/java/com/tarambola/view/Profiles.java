@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.tarambola.controller.DBAdapter;
 import com.tarambola.model.ProfileList;
+import com.tarambola.model.ScreenStatus;
+import com.tarambola.vigiego.R;
 
 import java.util.ArrayList;
 
@@ -78,7 +80,8 @@ public class Profiles extends Fragment {
 
         profileList.setAdapter(adapterList);
 
-
+        if(mProfiles.getList().isEmpty())
+            Toast.makeText(rootView.getContext(), getString(R.string.no_profiles), Toast.LENGTH_LONG).show();
 
 
         return(rootView);
@@ -94,9 +97,8 @@ public class Profiles extends Fragment {
         profile.setProfile(mProfiles.getList().elementAt(id));
         ft.replace(R.id.container, profile).commit();
 
-        Toast.makeText(v.getContext(),
-                "Click ListItem Number " + id, Toast.LENGTH_LONG)
-                .show();
+        ScreenStatus.getInstance().setStatus(getString(R.string.profile));
+        //Toast.makeText(v.getContext(), "Click ListItem Number " + id, Toast.LENGTH_LONG).show();
     }
 
     ///////////////////////////////////////////

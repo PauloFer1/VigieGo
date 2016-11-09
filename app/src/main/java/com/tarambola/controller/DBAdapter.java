@@ -32,7 +32,7 @@ public class DBAdapter {
     private String[] allColumns = { "id", "id_number", "firmware", "hardware", "calibrate_date",
             "expiration_date", "number_rec", "rec_time_left", "prod_desc", "rec_start_date", "rec_end_date",
             "measure_length", "min_temp", "max_temp", "avg_temp", "activation_energy", "min_temp_read", "max_temp_read",
-            "kinetic_temp", "breaches_duration", "breaches_count", "fst_down_measure", "last_down_neasure"};
+            "kinetic_temp", "breaches_duration", "breaches_count", "fst_down_measure_date", "last_down_neasure_date"};
 
     private String[] allProfile = {"id", "name", "measure_length", "min_temp", "max_temp", "nok_min_time", "nok_max_time", "start_by_button"};
 
@@ -253,8 +253,8 @@ public class DBAdapter {
         values.put("kinetic_temp",kineticTemp);
         values.put("breaches_duration",breachesDuration);
         values.put("breaches_count",breachesCount);
-        values.put("fst_down_measure",fstDownMeasure);
-        values.put("last_down_measure",lastDownMeasure);
+        values.put("fst_down_measure_date",fstDownMeasure);
+        values.put("last_down_measure_date",lastDownMeasure);
 
         long insertId = database.insert(READING_TABLE, null, values);
         // To show how to query
@@ -283,8 +283,8 @@ public class DBAdapter {
         values.put("kinetic_temp",tag.getKineticTemp());
         values.put("breaches_duration",tag.getBreachesDuration());
         values.put("breaches_count",tag.getBreachesCount());
-        values.put("fst_down_measure",tag.getFstDownMeasuredate().toString());
-        values.put("last_down_measure",tag.getLastDownMeasureDate().toString());
+        values.put("fst_down_measure_date",tag.getFstDownMeasuredate().toString());
+        values.put("last_down_measure_date",tag.getLastDownMeasureDate().toString());
 
         long insertId = database.insert(READING_TABLE, null, values);
         // To show how to query
@@ -335,5 +335,10 @@ public class DBAdapter {
         database.delete(PROFILE_TABLE, "name" + " LIKE '" + name + "'", null);
     }
 
+    /////////////////////////// CLOSE DATABASE
+    public void closeDB()
+    {
+        database.close();
+    }
 
 }

@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.tarambola.model.LoginSession;
 
+import com.tarambola.vigiego.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,6 +91,14 @@ public class Logout extends Fragment {
             }
         });
 
+        if(!LoginSession.getInstance().isLogged()) {
+            logOutBtn.setEnabled(false);
+            logOutBtn.getBackground().setAlpha(50);
+        }
+        else {
+            logOutBtn.setEnabled(true);
+            logOutBtn.getBackground().setAlpha(100);
+        }
 
         return rootView;
     }

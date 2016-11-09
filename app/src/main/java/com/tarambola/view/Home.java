@@ -35,6 +35,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 import com.tarambola.model.PDFDownloader;
+import com.tarambola.model.ScreenStatus;
 import com.tarambola.model.TagData;
 
 import java.text.SimpleDateFormat;
@@ -42,6 +43,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
+
+import com.tarambola.vigiego.R;
 
 public class Home extends Fragment {
 
@@ -253,13 +256,14 @@ public class Home extends Fragment {
 
                     // set data
                     mChart.setData(data);
+
+                    mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
                 }
             }
         };
 
         asyncTask.execute(mChart);
 
-        mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
 
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();
@@ -286,8 +290,10 @@ public class Home extends Fragment {
         FragmentTransaction ft = fm.beginTransaction();
         ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
         Chart bigChart = Chart.newInstance(mTagData);
-        ft.addToBackStack("Chart");
+    //    ft.addToBackStack("Chart");
         ft.replace(R.id.container, bigChart).commit();
+
+        ScreenStatus.getInstance().setStatus(getString(R.string.chart));
     }
 
     private void downloadPDF(View v)

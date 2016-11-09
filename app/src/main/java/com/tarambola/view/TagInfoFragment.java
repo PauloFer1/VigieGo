@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import com.tarambola.vigiego.R;
 
 
 /**
@@ -43,10 +48,14 @@ public class TagInfoFragment extends Fragment {
     private Date        mCalibrateDate;
     private Date        mExpirationDate;
     private int         mNumberRecs;
-    private RecTimeLeft mRecTimeLeft;
+    private String      mRecTimeLeft;
     private String      mProdDesc;
     private Date        mStartDateRec;
     private Date        mEndDateRec;
+
+    private TextView    mRecordingsLabel;
+    private TextView    mDateLabel;
+    private TextView    mHoursLabel;
 
     /* List Info */
     private TwoColumnTable mList;
@@ -74,13 +83,25 @@ public class TagInfoFragment extends Fragment {
         /* ************** DESIGN ************* */
         Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
 
-        TextView recordLabel=(TextView) rootView.findViewById(R.id.mRecordingLabel);
-        recordLabel.setTypeface(font);
+        mRecordingsLabel=(TextView) rootView.findViewById(R.id.mRecordingLabel);
+        mRecordingsLabel.setTypeface(font);
+
+        mDateLabel = (TextView) rootView.findViewById(R.id.mDateRecordingLabel);
+
+        mHoursLabel = (TextView) rootView.findViewById(R.id.mHoursLabel);
 
 
       //  RelativeLayout listInfoLayout = (RelativeLayout) rootView.findViewById(R.id.mTagInfoCont); // Get Fragment Relative layout to apply list
         ScrollView listInfoLayout = (ScrollView) rootView.findViewById(R.id.mTagInfoCont); // Get Fragment Relative layout to apply list
         listInfoLayout.addView(mList.build());
+
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+        mRecordingsLabel.setText(getString(R.string.recordings) + Integer.toString(this.mNumberRecs));
+        mDateLabel.setText(fmt.format(mEndDateRec));
+        long diff = (new Date()).getTime() - mEndDateRec.getTime();
+        long hours =  TimeUnit.HOURS.convert(diff, TimeUnit.DAYS.MILLISECONDS);
+        mHoursLabel.setText(Long.toString(hours) + " " + getString(R.string.hours_ago));
 
 
         return rootView;
@@ -171,7 +192,7 @@ public class TagInfoFragment extends Fragment {
      * Set the record time left of the Tag
      * @param time RecTimeLeft
      */
-    public void setRecTimeLeft(RecTimeLeft time){
+    public void setRecTimeLeft(String time){
         this.mRecTimeLeft = time;
     }
 
@@ -222,16 +243,18 @@ public class TagInfoFragment extends Fragment {
      */
     public void populateList()
     {
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
         mList.addRow(new TwoColumnTable.Row("VIGIEGo ID number", this.mIdNumber));
         mList.addRow(new TwoColumnTable.Row("Firmware Version", this.mFirmwareVer));
         mList.addRow(new TwoColumnTable.Row("Hardware Version", this.mHardwareVer));
-        mList.addRow(new TwoColumnTable.Row("Calibrate Date", mCalibrateDate.toString()));
-        mList.addRow(new TwoColumnTable.Row("Expiration Date", mExpirationDate.toString()));
+        mList.addRow(new TwoColumnTable.Row("Calibrate Date", fmt.format(mCalibrateDate)));
+        mList.addRow(new TwoColumnTable.Row("Expiration Date", fmt.format(mExpirationDate)));
         mList.addRow(new TwoColumnTable.Row("Number of Recordings", Integer.toString(this.mNumberRecs)));
-        mList.addRow(new TwoColumnTable.Row("Recordings time left", "129d 78h 34m 22s"));
+        mList.addRow(new TwoColumnTable.Row("Recordings time left", this.mRecTimeLeft));
         mList.addRow(new TwoColumnTable.Row("Product Description", this.mProdDesc));
-        mList.addRow(new TwoColumnTable.Row("Start date of Recording", mStartDateRec.toString()));
-        mList.addRow(new TwoColumnTable.Row("End date of Recording", mEndDateRec.toString()));
+        mList.addRow(new TwoColumnTable.Row("Start date of Recording", fmt.format(mStartDateRec)));
+        mList.addRow(new TwoColumnTable.Row("End date of Recording", fmt.format(mEndDateRec)));
 
     }
 

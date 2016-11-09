@@ -22,6 +22,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.tarambola.vigiego.R;
+
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
@@ -205,6 +207,9 @@ public class NavigationDrawerFragment extends Fragment {
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
         }
+    }
+    public void setItemSelected(int position){
+        mDrawerListView.setItemChecked(position,true);
     }
 
     @Override

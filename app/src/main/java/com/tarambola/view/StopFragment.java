@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.tarambola.model.IntentOption;
 
+import com.tarambola.vigiego.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
