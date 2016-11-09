@@ -46,8 +46,9 @@ import eu.blulog.blulib.json.JSONArray;
 public class WebServiceRequest {
 
     private Context mContext;
-    private static final String LOGIN_REQUEST = "http://api.vigiesolutions.com/vigiego/user/login";
+    private static final String LOGIN_REQUEST = "http://api.vigiesolutions.com/v1/vigie-go/user/login";
     private static final String SEND_DATA_REQUEST = "http://api.vigiesolutions.com/v1/vigie-go/temperatures/save";
+    private static final String GET_REPOSRT_PDF = "http://api.vigiesolutions.com/v1/vigie-go/report/";
 
     /*
      *  Helper to Encrypt String

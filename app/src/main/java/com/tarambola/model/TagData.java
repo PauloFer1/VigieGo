@@ -17,7 +17,7 @@ import eu.blulog.blulib.tdl2.Recording;
  */
 public class TagData implements Serializable{
 
-    static public class RecTimeLeft
+    static public class RecTimeLeft implements Serializable
     {
         public RecTimeLeft(){};
         public RecTimeLeft(int days, int hours, int min, int secs){
@@ -59,7 +59,7 @@ public class TagData implements Serializable{
     private int         mMinTempRead;
     private int         mMaxTempRead;
     private double      mKinectTemp;
-    private PriorityQueue<Recording.Breach>    mRecBreaches;
+   // private PriorityQueue<Recording.Breach>    mRecBreaches;
     private int         mBreachesDuration;
     private int         mBreachesCount;
     private Date        mFstDownMeasuredate;
@@ -159,7 +159,7 @@ public class TagData implements Serializable{
         return mKinectTemp;
     }
     public int getBreachesDuration(){return mBreachesDuration;}
-    public PriorityQueue<Recording.Breach> getBreaches(){return mRecBreaches;}
+   // public PriorityQueue<Recording.Breach> getBreaches(){return mRecBreaches;}
     public int getBreachesCount(){return mBreachesCount;}
     public Date getFstDownMeasuredate(){return mFstDownMeasuredate;};
     public Date getLastDownMeasureDate(){return mLastDownMeasureDate;};
@@ -331,9 +331,9 @@ public class TagData implements Serializable{
     public void setAvgTempRead(double temp){
         this.mAverageTemp = temp;
     }
-    public void setBreaches(PriorityQueue<Recording.Breach> breaches){
+    /*public void setBreaches(PriorityQueue<Recording.Breach> breaches){
         this.mRecBreaches = breaches;
-    }
+    }*/
     public void setBreachesCount(int count){
         this.mBreachesCount = count;
     }

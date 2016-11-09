@@ -182,7 +182,7 @@ import eu.blulog.blulib.tdl2.Recording;
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/sui-generis-rg.ttf");
 
-        ((TextView)findViewById(R.id.title)).setTypeface(font);
+      // ((TextView)findViewById(R.id.action_bar_title)).setTypeface(font);
 
 
 
@@ -916,7 +916,7 @@ import eu.blulog.blulib.tdl2.Recording;
          mTagData.setHardwareVer(Integer.toString(content.getHardware()));
          mTagData.setNumberRecs(content.getRecordings().size());
          mTagData.setTemps(BlutagContent.get().getRecordings().get(0).getTemperatures());
-         mTagData.setBreaches(BlutagContent.get().getRecordings().get(0).getStatistics().getBreaches());
+         //mTagData.setBreaches(BlutagContent.get().getRecordings().get(0).getStatistics().getBreaches());
          mTagData.setBreachesCount(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesDuration());
          mTagData.setBreachesDuration(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesDuration());
          mTagData.setKineticTemp(BlutagContent.get().getRecordings().get(0).getStatistics().getMeanKineticTemp());

@@ -307,7 +307,7 @@ public class Home extends Fragment {
 
 
         final PDFDownloader downloadHandler = new PDFDownloader(v.getContext(), mProgressDialog);
-        downloadHandler.execute("http://projetos.ddns.net/vigie/dummy_pdf.pdf");
+        downloadHandler.execute("http://api.vigiesolutions.com/v1/vigie-go/report/"+mTagData.getIdNumber());
 
 
         mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
