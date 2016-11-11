@@ -1238,7 +1238,8 @@ import eu.blulog.blulib.tdl2.Recording;
                                      mHasReadings=true;
                                      mHome = null; // New Home to new tag data
                                      showInfo(); /////////////// Show Tag Info
-                                     uploadTagDataHelper(); ////////// Upload Tag Info
+                                     if(!mTagData.isEmpty())
+                                        uploadTagDataHelper(); ////////// Upload Tag Info
                                  } else {
                                      Toast.makeText(context, status, Toast.LENGTH_SHORT).show();
                                  }
