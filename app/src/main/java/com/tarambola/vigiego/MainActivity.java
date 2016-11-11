@@ -774,7 +774,7 @@ import eu.blulog.blulib.tdl2.Recording;
      {
          FragmentManager fragmentManager = getSupportFragmentManager();
 
-         mNavigationDrawerFragment.setItemSelected(6);
+         mNavigationDrawerFragment.setItemSelected(7);
 
          if(mStart==null)
          {
@@ -802,7 +802,7 @@ import eu.blulog.blulib.tdl2.Recording;
      {
          FragmentManager fragmentManager = getSupportFragmentManager();
 
-         mNavigationDrawerFragment.setItemSelected(7);
+         mNavigationDrawerFragment.setItemSelected(8);
 
          if(mLogout==null)
          {

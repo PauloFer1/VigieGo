@@ -51,6 +51,9 @@ public class ChartTask extends AsyncTask<LineChart, Void, ArrayList<String>> {
     {
         LineChart mChart = chart[0];
 
+        if(mTagData.isEmpty())
+            return new ArrayList<String>();
+
         // add data
         short temps[] = mTagData.getTemps();
         long nSecs = temps.length * mTagData.getMeasureLength();
