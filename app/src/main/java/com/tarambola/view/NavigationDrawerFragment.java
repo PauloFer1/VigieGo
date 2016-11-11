@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.tarambola.model.LoginSession;
 import com.tarambola.vigiego.R;
 
 /**
@@ -111,7 +112,8 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section5),
                         getString(R.string.title_section6),
                         getString(R.string.title_section7),
-                        getString(R.string.title_section10)
+                        getString(R.string.title_section8),
+                        getString(R.string.title_section11)
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;

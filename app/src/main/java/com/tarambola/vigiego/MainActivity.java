@@ -47,6 +47,7 @@ import com.tarambola.model.ScreenStatus;
 import com.tarambola.model.TagData;
 import com.tarambola.view.AboutFragment;
 import com.tarambola.view.Chart;
+import com.tarambola.view.Claim;
 import com.tarambola.view.Home;
 import com.tarambola.view.Login;
 import com.tarambola.view.Logout;
@@ -90,16 +91,17 @@ import eu.blulog.blulib.tdl2.Recording;
      /**
       * Screen Fragments Vars
       */
-     private Home mHome;
-     private Chart mChart;
-     private StartFragment mStart;
-     private StopFragment mStop;
-     private NoContent mNoContent;
-     private Profiles mProfiles;
+     private Home               mHome;
+     private Chart              mChart;
+     private StartFragment      mStart;
+     private StopFragment       mStop;
+     private NoContent          mNoContent;
+     private Profiles           mProfiles;
      private ProfilePage        mProfilePage;
-     private ReadTag mReadTag;
-     private TagInfoFragment mTagInfo;
-     private AboutFragment mAbout;
+     private Claim              mClaim;
+     private ReadTag            mReadTag;
+     private TagInfoFragment    mTagInfo;
+     private AboutFragment      mAbout;
      private Login              mLogin;
      private Logout             mLogout;
 
@@ -226,6 +228,8 @@ import eu.blulog.blulib.tdl2.Recording;
              gotoStop(R.anim.slide_to_left);
          else if(mCurrentTitle.equals( getString(R.string.title_section3) ))
              gotoStart(R.anim.slide_to_left);
+         else if(mCurrentTitle.equals( getString(R.string.title_section7) ))
+             gotoClaim(R.anim.slide_to_left);
      }
      /*
       * Handles the post fail login function
@@ -233,6 +237,22 @@ import eu.blulog.blulib.tdl2.Recording;
      public void onLoginFailed()
      {
 
+     }
+
+     /*
+      * Handles the post sucess claim function
+      */
+     public void onClaimSuccess()
+     {
+         Toast.makeText(getApplicationContext(), getString(R.string.claim_success), Toast.LENGTH_LONG).show();
+     }
+
+     /*
+      * Handles the post fail claim function
+      */
+     public void onClaimFailed()
+     {
+         Toast.makeText(getApplicationContext(), getString(R.string.claim_failed), Toast.LENGTH_LONG).show();
      }
 
      /**
@@ -286,9 +306,12 @@ import eu.blulog.blulib.tdl2.Recording;
                 gotoProfiles(R.anim.slide_to_left);
                 break;
             case 6:
-                gotoAbout(R.anim.slide_to_left);
+                gotoClaim(R.anim.slide_to_left);
                 break;
             case 7:
+                gotoAbout(R.anim.slide_to_left);
+                break;
+            case 8:
                 gotoLogout(R.anim.slide_to_left);
                 break;
             default:
@@ -323,7 +346,10 @@ import eu.blulog.blulib.tdl2.Recording;
                 mTitle = getString(R.string.title_section7);
                 break;
             case 8:
-                mTitle = getString(R.string.title_section10);
+                mTitle = getString(R.string.title_section8);
+                break;
+            case 9:
+                mTitle = getString(R.string.title_section11);
                 break;
         }
     }
@@ -665,6 +691,47 @@ import eu.blulog.blulib.tdl2.Recording;
 
          ScreenStatus.getInstance().setStatus(getString(R.string.profile_list));
      }
+
+     /**
+      * Handle fragment change to Claim Tag Screen
+      */
+     private void gotoClaim(int direction)
+     {
+         Fragment fragment = null;
+         FragmentManager fragmentManager = getSupportFragmentManager();
+
+         mNavigationDrawerFragment.setItemSelected(6);
+
+         if(LoginSession.getInstance().isLogged()) {
+             if(mClaim==null)
+             {
+                 mClaim = Claim.newInstance(mTagData);
+                 fragment = mClaim;
+             }
+             else
+                 fragment = mClaim;
+
+             mTitle = getString(R.string.title_section7);
+         }
+         else{
+             mCurrentTitle = getString(R.string.title_section7);
+             fragment = new Login();
+             mTitle = getString(R.string.title_section9);
+         }
+
+         int fromDir = R.anim.slide_from_right;
+         if(direction==R.anim.slide_to_right)
+             fromDir = R.anim.slide_from_left;
+
+         FragmentTransaction transaction = fragmentManager.beginTransaction();
+         transaction.setCustomAnimations(fromDir, direction);
+         transaction.replace(R.id.container, fragment);
+         //  transaction.addToBackStack(String.valueOf(mTitle));
+         transaction.commit();
+
+         ScreenStatus.getInstance().setStatus(getString(R.string.claim));
+     }
+
      /**
       * Handle fragment change to Profiles Item Screen
       */

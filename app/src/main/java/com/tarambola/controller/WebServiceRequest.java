@@ -346,4 +346,8 @@ public class WebServiceRequest {
 
         return tagInfo;
     }
+
+    public void claimTag(String email, String tagId){
+
+    }
 }
