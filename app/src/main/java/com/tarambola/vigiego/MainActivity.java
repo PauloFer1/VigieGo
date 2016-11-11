@@ -976,148 +976,149 @@ import eu.blulog.blulib.tdl2.Recording;
 
          FragmentManager fragmentManager = getSupportFragmentManager();
 
-         BlutagContent.get().getRecordings().get(0).computeStatistics(); // Compute statistics for min, avg, max, kinect temps, breaches...
          mTagData = new TagData();
          mTagData.setIdNumber(String.valueOf(content.getBlueTagId()));
          mTagData.setFirmwareVer(Integer.toString(content.getFirmware()));
          mTagData.setHardwareVer(Integer.toString(content.getHardware()));
-         mTagData.setNumberRecs(content.getRecordings().size());
-         mTagData.setTemps(BlutagContent.get().getRecordings().get(0).getTemperatures());
-         //mTagData.setBreaches(BlutagContent.get().getRecordings().get(0).getStatistics().getBreaches());
-         mTagData.setBreachesCount(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesDuration());
-         mTagData.setBreachesDuration(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesDuration());
-         mTagData.setKineticTemp(BlutagContent.get().getRecordings().get(0).getStatistics().getMeanKineticTemp());
-         mTagData.setmMinTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getMinTemp());
-         mTagData.setMaxTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getMaxTemp());
-         mTagData.setAvgTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getAvgTemp());
-         mTagData.setFstDownMeasuredate(BlutagContent.get().getRecordings().get(0).getFirstDownloadedMeasurementDate());
-         mTagData.setLastDownMeasureDate(BlutagContent.get().getRecordings().get(0).getLastDownloadedMeasurementDate());
 
-         mTagData.setLongitude(mLastLongitude);
-         mTagData.setLatitude(mLastLatitude);
-         mTagData.setAltitude(mLastAltitude);
+         if(BlutagContent.get().getRecordings().size() > 0) {
 
-         DateFormat dateFormat = DateFormat.getDateTimeInstance();
-         DataDefinition dataDefinition = content.getDataDefinition();
-         String propertyName;
-         String propertyValueStr;
-         long propertyValue;
+             BlutagContent.get().getRecordings().get(0).computeStatistics(); // Compute statistics for min, avg, max, kinect temps, breaches...
+
+             mTagData.setNumberRecs(content.getRecordings().size());
+             mTagData.setTemps(BlutagContent.get().getRecordings().get(0).getTemperatures());
+             //mTagData.setBreaches(BlutagContent.get().getRecordings().get(0).getStatistics().getBreaches());
+             mTagData.setBreachesCount(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesDuration());
+             mTagData.setBreachesDuration(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesDuration());
+             mTagData.setKineticTemp(BlutagContent.get().getRecordings().get(0).getStatistics().getMeanKineticTemp());
+             mTagData.setmMinTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getMinTemp());
+             mTagData.setMaxTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getMaxTemp());
+             mTagData.setAvgTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getAvgTemp());
+             mTagData.setFstDownMeasuredate(BlutagContent.get().getRecordings().get(0).getFirstDownloadedMeasurementDate());
+             mTagData.setLastDownMeasureDate(BlutagContent.get().getRecordings().get(0).getLastDownloadedMeasurementDate());
+
+             mTagData.setLongitude(mLastLongitude);
+             mTagData.setLatitude(mLastLatitude);
+             mTagData.setAltitude(mLastAltitude);
+
+             DateFormat dateFormat = DateFormat.getDateTimeInstance();
+             DataDefinition dataDefinition = content.getDataDefinition();
+             String propertyName;
+             String propertyValueStr;
+             long propertyValue;
 
 
-         for ( DataDefinition.DataDefinitionEntry<DataDefinition.GenericInfoType> genericEntry:dataDefinition.getGenericInfo())
-         {
-             if (genericEntry.getDescription()<0)
-                 continue;
-
-             propertyName=genericEntry.getProperty().name();
-             propertyValue=content.getGenericData().getLong(propertyName);
-             if (genericEntry.getType()==DataDefinition.DataType.DATE)
-                 propertyValueStr=dateFormat.format(new Date(propertyValue*1000));
-             else
-                 propertyValueStr=Long.toString(propertyValue);
-
-             if(getString(genericEntry.getDescription()).equals("Calibration date")) {
-                 Date d = new Date(propertyValue * 1000);
-                 mTagData.setCalibrateDate(d);
-             }
-             else if(getString(genericEntry.getDescription()).equals("Expiration date")) {
-                 Date d = new Date(propertyValue * 1000);
-                 mTagData.setExpirationDate(d);
-             }
-         }
-
-         ///////////////////////////////////////////////////////////////////////////////////////////////// DAYS COUNT
-         if (dataDefinition.getGenericInfoEntry(DataDefinition.GenericInfoType.utilizedDaysCount)!=null) {
-             long days;
-             long lastPeriodStartDate=content.getGenericData().getLong(DataDefinition.GenericInfoType.lastRecordingStartDate.name());
-             long utilizedDaysCount=content.getGenericData().getLong(DataDefinition.GenericInfoType.utilizedDaysCount.name());
-             if (  lastPeriodStartDate == 0)
-                 days = 0;
-             else
-                 days = ((new Date().getTime())/1000 -
-                         lastPeriodStartDate)
-                         / (60 * 60 * 24);
-
-           //  fragment.addRow("Days Count", Long.toString(utilizedDaysCount + days));
-         }
-
-         ///////////////////////////////////////////////////////////////////////////////////////////////// RECORDINGS TIME LEFT
-         if (dataDefinition.getGenericInfoEntry(DataDefinition.GenericInfoType.timeToLive)!=null) {
-             long timeToLive=content.getGenericData().getLong(DataDefinition.GenericInfoType.timeToLive.name());
-             long heartbeatDuration=content.getGenericData().getLong(DataDefinition.GenericInfoType.heartbeatDuration.name());
-             long lastPeriodStartDate=content.getGenericData().getLong(DataDefinition.GenericInfoType.lastRecordingStartDate.name());
-             long lastPeriodDuration=0;
-             if (lastPeriodStartDate>0)
-                 lastPeriodDuration=(new Date()).getTime()/1000-lastPeriodStartDate;
-             mTagData.setRecTimeLeft(Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration)));
-         }
-
-         ///////////////////////////////////////////////////////////////////////////////////////////////// COUNT OF RECORDINGS USED
-         if (content.getGenericData().getLong(DataDefinition.GenericInfoType.utilizedRecordingsCount.name())>0) {
-
-             Recording recording = content.getRecordings().get(0);
-
-             JSONObject logisticData = recording.getLogisticalData();
-             Iterator<String> iter = logisticData.keys();
-             String propName;
-             String propValue;
-             while (iter.hasNext()) {
-                 propName = iter.next();
-                 if (propName.equals("$$pos"))
+             for (DataDefinition.DataDefinitionEntry<DataDefinition.GenericInfoType> genericEntry : dataDefinition.getGenericInfo()) {
+                 if (genericEntry.getDescription() < 0)
                      continue;
-                 if ((propValue = logisticData.optString(propName)) != null) {
-                     int resourceID = getResources().getIdentifier(propName, "string", this.getPackageName());
-                     if (resourceID != 0)
-                         propName = getString(resourceID);
-                     //       fragment.addRow(propName, propValue);
 
-                 }
-                 ///////////////////////////////////////////////////////////////////////////////////////////////// PRODUCT DESCRIPTION
-                 if(propName.equals("Product description"))
-                    mTagData.setProdDesc(propValue);
-             }
-             dataDefinition = recording.getDataDefinition();
-
-             for (DataDefinition.DataDefinitionEntry<DataDefinition.RecordingInfoType> recordingEntry : dataDefinition.getDeserialRecordingInfo()) {
-                 if (recordingEntry.getDescription() < 0)
-                     continue;
-                 propertyName = recordingEntry.getProperty().name();
-                 propertyValue = recording.getRecordingData().getLong(propertyName);
-                 ///////////////////////////////////////////////////////////////////////////////////////////////// RECORDING DATE
-                 if (recordingEntry.getType() == DataDefinition.DataType.DATE)
-                 {
-                     if(getString(recordingEntry.getDescription()).equals("Start date of recording"))
-                         mTagData.setStartDateRec(new Date(propertyValue * 1000));
-                     else if(getString(recordingEntry.getDescription()).equals("End date of recording"))
-                         mTagData.setEndDateRec(new Date(propertyValue * 1000));
-                     if (propertyValue > 0)
-                         propertyValueStr = dateFormat.format(new Date(propertyValue * 1000));
-                     else
-                         propertyValueStr = "";
-                 }
-                 ///////////////////////////////////////////////////////////////////////////////////////////////// MIN Temperature
-                 else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.minTemp ) {
-                     mTagData.setMinTemp((int) propertyValue);
-                     propertyValueStr = devideByTen((int) propertyValue) + getString(R.string.temperature_unit);
-                 }
-                 ///////////////////////////////////////////////////////////////////////////////////////////////// MAX Temperature
-                 else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.maxTemp) {
-                     propertyValueStr = devideByTen((int) propertyValue) + getString(R.string.temperature_unit);
-                     mTagData.setMaxTemp((int) propertyValue);
-                 }
-                 else {
+                 propertyName = genericEntry.getProperty().name();
+                 propertyValue = content.getGenericData().getLong(propertyName);
+                 if (genericEntry.getType() == DataDefinition.DataType.DATE)
+                     propertyValueStr = dateFormat.format(new Date(propertyValue * 1000));
+                 else
                      propertyValueStr = Long.toString(propertyValue);
-                     ///////////////////////////////////////////////////////////////////////////////////////////////// Activation Energy
-                     if(recordingEntry.getProperty() == DataDefinition.RecordingInfoType.activationEnergy )
-                        mTagData.setActivationEnergy(propertyValue);
-                         ///////////////////////////////////////////////////////////////////////////////////////////////// Length of measurement cycle
-                     else if(recordingEntry.getProperty() == DataDefinition.RecordingInfoType.measurementCycle)
-                         mTagData.setMeasureLenght(propertyValue);
-                 }
-                 Log.d("Property:", getString(recordingEntry.getDescription()));
 
+                 if (getString(genericEntry.getDescription()).equals("Calibration date")) {
+                     Date d = new Date(propertyValue * 1000);
+                     mTagData.setCalibrateDate(d);
+                 } else if (getString(genericEntry.getDescription()).equals("Expiration date")) {
+                     Date d = new Date(propertyValue * 1000);
+                     mTagData.setExpirationDate(d);
+                 }
              }
 
+             ///////////////////////////////////////////////////////////////////////////////////////////////// DAYS COUNT
+             if (dataDefinition.getGenericInfoEntry(DataDefinition.GenericInfoType.utilizedDaysCount) != null) {
+                 long days;
+                 long lastPeriodStartDate = content.getGenericData().getLong(DataDefinition.GenericInfoType.lastRecordingStartDate.name());
+                 long utilizedDaysCount = content.getGenericData().getLong(DataDefinition.GenericInfoType.utilizedDaysCount.name());
+                 if (lastPeriodStartDate == 0)
+                     days = 0;
+                 else
+                     days = ((new Date().getTime()) / 1000 -
+                             lastPeriodStartDate)
+                             / (60 * 60 * 24);
+
+                 //  fragment.addRow("Days Count", Long.toString(utilizedDaysCount + days));
+             }
+
+             ///////////////////////////////////////////////////////////////////////////////////////////////// RECORDINGS TIME LEFT
+             if (dataDefinition.getGenericInfoEntry(DataDefinition.GenericInfoType.timeToLive) != null) {
+                 long timeToLive = content.getGenericData().getLong(DataDefinition.GenericInfoType.timeToLive.name());
+                 long heartbeatDuration = content.getGenericData().getLong(DataDefinition.GenericInfoType.heartbeatDuration.name());
+                 long lastPeriodStartDate = content.getGenericData().getLong(DataDefinition.GenericInfoType.lastRecordingStartDate.name());
+                 long lastPeriodDuration = 0;
+                 if (lastPeriodStartDate > 0)
+                     lastPeriodDuration = (new Date()).getTime() / 1000 - lastPeriodStartDate;
+                 mTagData.setRecTimeLeft(Utils.secondsToInterval((int) (timeToLive * heartbeatDuration - lastPeriodDuration)));
+             }
+
+             ///////////////////////////////////////////////////////////////////////////////////////////////// COUNT OF RECORDINGS USED
+             if (content.getGenericData().getLong(DataDefinition.GenericInfoType.utilizedRecordingsCount.name()) > 0) {
+
+                 Recording recording = content.getRecordings().get(0);
+
+                 JSONObject logisticData = recording.getLogisticalData();
+                 Iterator<String> iter = logisticData.keys();
+                 String propName;
+                 String propValue;
+                 while (iter.hasNext()) {
+                     propName = iter.next();
+                     if (propName.equals("$$pos"))
+                         continue;
+                     if ((propValue = logisticData.optString(propName)) != null) {
+                         int resourceID = getResources().getIdentifier(propName, "string", this.getPackageName());
+                         if (resourceID != 0)
+                             propName = getString(resourceID);
+                         //       fragment.addRow(propName, propValue);
+
+                     }
+                     ///////////////////////////////////////////////////////////////////////////////////////////////// PRODUCT DESCRIPTION
+                     if (propName.equals("Product description"))
+                         mTagData.setProdDesc(propValue);
+                 }
+                 dataDefinition = recording.getDataDefinition();
+
+                 for (DataDefinition.DataDefinitionEntry<DataDefinition.RecordingInfoType> recordingEntry : dataDefinition.getDeserialRecordingInfo()) {
+                     if (recordingEntry.getDescription() < 0)
+                         continue;
+                     propertyName = recordingEntry.getProperty().name();
+                     propertyValue = recording.getRecordingData().getLong(propertyName);
+                     ///////////////////////////////////////////////////////////////////////////////////////////////// RECORDING DATE
+                     if (recordingEntry.getType() == DataDefinition.DataType.DATE) {
+                         if (getString(recordingEntry.getDescription()).equals("Start date of recording"))
+                             mTagData.setStartDateRec(new Date(propertyValue * 1000));
+                         else if (getString(recordingEntry.getDescription()).equals("End date of recording"))
+                             mTagData.setEndDateRec(new Date(propertyValue * 1000));
+                         if (propertyValue > 0)
+                             propertyValueStr = dateFormat.format(new Date(propertyValue * 1000));
+                         else
+                             propertyValueStr = "";
+                     }
+                     ///////////////////////////////////////////////////////////////////////////////////////////////// MIN Temperature
+                     else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.minTemp) {
+                         mTagData.setMinTemp((int) propertyValue);
+                         propertyValueStr = devideByTen((int) propertyValue) + getString(R.string.temperature_unit);
+                     }
+                     ///////////////////////////////////////////////////////////////////////////////////////////////// MAX Temperature
+                     else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.maxTemp) {
+                         propertyValueStr = devideByTen((int) propertyValue) + getString(R.string.temperature_unit);
+                         mTagData.setMaxTemp((int) propertyValue);
+                     } else {
+                         propertyValueStr = Long.toString(propertyValue);
+                         ///////////////////////////////////////////////////////////////////////////////////////////////// Activation Energy
+                         if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.activationEnergy)
+                             mTagData.setActivationEnergy(propertyValue);
+                             ///////////////////////////////////////////////////////////////////////////////////////////////// Length of measurement cycle
+                         else if (recordingEntry.getProperty() == DataDefinition.RecordingInfoType.measurementCycle)
+                             mTagData.setMeasureLenght(propertyValue);
+                     }
+                     Log.d("Property:", getString(recordingEntry.getDescription()));
+
+                 }
+
+             }
          }
 
          gotoHome(R.anim.slide_to_left);

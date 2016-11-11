@@ -44,27 +44,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d6a05956-a76f-4ca4-9010-867602f107fb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/tarambola/view/Claim.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_claim.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/blutaglibrary_1_6_5_unspecified.xml" afterPath="$PROJECT_DIR$/.idea/libraries/blutaglibrary_1_6_14_unspecified.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/tarambola/controller/WebServiceRequest.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tarambola/controller/WebServiceRequest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/tarambola/view/Login.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tarambola/view/Login.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/tarambola/view/NavigationDrawerFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tarambola/view/NavigationDrawerFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/tarambola/model/TagData.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tarambola/model/TagData.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/tarambola/vigiego/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tarambola/vigiego/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/blutaglibrary-1.6.14/blutaglibrary-1.6.14.iml" afterPath="$PROJECT_DIR$/blutaglibrary-1.6.14/blutaglibrary-1.6.14.iml" />
     </list>
     <ignored path="VigieGo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -141,66 +131,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tarambola/vigiego/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-90.0">
-              <caret line="341" column="19" selection-start-line="341" selection-start-column="19" selection-end-line="341" selection-end-column="19" />
-              <folding>
-                <element signature="e#6414#6448#0" expanded="true" />
-                <element signature="e#8237#8271#0" expanded="true" />
-                <element signature="e#8360#8394#0" expanded="true" />
-                <element signature="e#8483#8517#0" expanded="true" />
-                <element signature="e#8839#8872#0" expanded="true" />
-                <element signature="e#9060#9092#0" expanded="true" />
-                <element signature="e#9246#9280#0" expanded="true" />
-                <element signature="e#11260#11294#0" expanded="true" />
-                <element signature="e#11364#11398#0" expanded="true" />
-                <element signature="e#11468#11502#0" expanded="true" />
-                <element signature="e#11572#11606#0" expanded="true" />
-                <element signature="e#11676#11710#0" expanded="true" />
-                <element signature="e#11780#11814#0" expanded="true" />
-                <element signature="e#11884#11918#0" expanded="true" />
-                <element signature="e#11988#12022#0" expanded="true" />
-                <element signature="e#12092#12127#0" expanded="true" />
-                <element signature="e#16609#16643#0" expanded="true" />
-                <element signature="e#17128#17152#0" expanded="true" />
-                <element signature="e#17627#17661#0" expanded="true" />
-                <element signature="e#17737#17771#0" expanded="true" />
-                <element signature="e#18413#18437#0" expanded="true" />
-                <element signature="e#19006#19040#0" expanded="true" />
-                <element signature="e#19097#19131#0" expanded="true" />
-                <element signature="e#19192#19226#0" expanded="true" />
-                <element signature="e#19723#19748#0" expanded="true" />
-                <element signature="e#20302#20336#0" expanded="true" />
-                <element signature="e#20393#20427#0" expanded="true" />
-                <element signature="e#20488#20522#0" expanded="true" />
-                <element signature="e#21018#21042#0" expanded="true" />
-                <element signature="e#21524#21558#0" expanded="true" />
-                <element signature="e#21697#21731#0" expanded="true" />
-                <element signature="e#23214#23237#0" expanded="true" />
-                <element signature="e#23696#23730#0" expanded="true" />
-                <element signature="e#24214#24246#0" expanded="true" />
-                <element signature="e#24821#24855#0" expanded="true" />
-                <element signature="e#24912#24946#0" expanded="true" />
-                <element signature="e#25007#25041#0" expanded="true" />
-                <element signature="e#25537#25562#0" expanded="true" />
-                <element signature="e#26032#26066#0" expanded="true" />
-                <element signature="e#26553#26580#0" expanded="true" />
-                <element signature="e#26946#26980#0" expanded="true" />
-                <element signature="e#27461#27486#0" expanded="true" />
-                <element signature="e#27847#27882#0" expanded="true" />
-                <element signature="e#28364#28390#0" expanded="true" />
-                <element signature="e#46439#46455#0" expanded="true" />
-                <element signature="e#52981#53022#0" expanded="true" />
-                <element signature="e#53246#53291#0" expanded="true" />
-                <element signature="e#53457#53496#0" expanded="true" />
-                <element signature="e#55331#55365#0" expanded="true" />
-                <element signature="e#55664#55695#0" expanded="true" />
-                <element signature="e#60243#60268#0" expanded="true" />
-                <element signature="e#60379#60406#0" expanded="true" />
-                <element signature="e#60522#60546#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="1.8107526">
+              <caret line="1121" column="10" selection-start-line="1121" selection-start-column="10" selection-end-line="1121" selection-end-column="10" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -210,15 +146,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="102" column="63" selection-start-line="102" selection-start-column="63" selection-end-line="102" selection-end-column="63" />
-              <folding>
-                <element signature="e#3014#3048#0" expanded="true" />
-                <element signature="e#3129#3159#0" expanded="true" />
-                <element signature="e#3190#3220#0" expanded="true" />
-                <element signature="e#3350#7497#0" expanded="true" />
-                <element signature="e#3710#7249#0" expanded="true" />
-                <element signature="e#7248#7249#0" expanded="true" />
-                <element signature="e#7496#7497#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -238,40 +166,19 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="181" column="36" selection-start-line="181" selection-start-column="36" selection-end-line="186" selection-end-column="22" />
-              <folding>
-                <element signature="e#3821#4113#0" expanded="true" />
-                <element signature="e#4112#4113#0" expanded="true" />
-                <element signature="e#4153#9143#0" expanded="true" />
-                <element signature="e#4655#9001#0" expanded="true" />
-                <element signature="e#9000#9001#0" expanded="true" />
-                <element signature="e#9142#9143#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NavigationDrawerFragment.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="NavigationDrawerFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tarambola/view/NavigationDrawerFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.40128756">
-              <caret line="127" column="6" selection-start-line="127" selection-start-column="6" selection-end-line="127" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="124" column="0" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
               <folding>
-                <element signature="e#3565#3783#0" expanded="true" />
-                <element signature="e#3782#3783#0" expanded="true" />
-                <element signature="e#4051#4085#0" expanded="true" />
-                <element signature="e#4111#4145#0" expanded="true" />
-                <element signature="e#4171#4205#0" expanded="true" />
-                <element signature="e#4231#4265#0" expanded="true" />
-                <element signature="e#4291#4325#0" expanded="true" />
-                <element signature="e#4351#4385#0" expanded="true" />
-                <element signature="e#4411#4445#0" expanded="true" />
-                <element signature="e#4471#4505#0" expanded="true" />
-                <element signature="e#4531#4566#0" expanded="true" />
-                <element signature="e#6195#6226#0" expanded="true" />
-                <element signature="e#6295#6327#0" expanded="true" />
                 <element signature="e#8607#8608#0" expanded="true" />
                 <element signature="e#8668#8669#0" expanded="true" />
-                <element signature="e#10688#10705#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -280,7 +187,7 @@
       <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.1764706">
+            <state vertical-scroll-proportion="0.0">
               <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="42" />
               <folding />
             </state>
@@ -292,7 +199,13 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="349" column="24" selection-start-line="349" selection-start-column="24" selection-end-line="349" selection-end-column="24" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#2600#2601#0" expanded="false" />
+                <element signature="e#2634#2635#0" expanded="false" />
+                <element signature="e#8951#8952#0" expanded="false" />
+                <element signature="e#9018#9019#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -313,11 +226,11 @@
       <file leaf-file-name="TagData.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tarambola/model/TagData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="308" column="38" selection-start-line="308" selection-start-column="38" selection-end-line="308" selection-end-column="38" />
+            <state vertical-scroll-proportion="-20.62963">
+              <caret line="169" column="47" selection-start-line="169" selection-start-column="47" selection-end-line="169" selection-end-column="47" />
               <folding>
-                <element signature="e#8168#8169#0" expanded="true" />
-                <element signature="e#8209#8210#0" expanded="true" />
+                <element signature="e#8435#8436#0" expanded="true" />
+                <element signature="e#8476#8477#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2316,7 +2229,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/tarambola/view/TwoColumnTable.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tarambola/controller/DBAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/test/java/com/tarambola/view/TagInfoFragmentTest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/tarambola/model/TagData.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/layout/Claim.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tarambola/view/Home.java" />
@@ -2325,8 +2237,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/tarambola/controller/WebServiceRequest.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tarambola/view/Claim.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/tarambola/vigiego/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tarambola/view/NavigationDrawerFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tarambola/model/TagData.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tarambola/vigiego/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -2379,6 +2292,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2395,74 +2310,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="VigieGo" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VigieGo" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VigieGo" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VigieGo" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="menu" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VigieGo" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2528,28 +2375,6 @@
               <option name="myItemId" value="tarambola" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VigieGo" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tarambola" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -2573,31 +2398,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VigieGo" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tarambola" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controller" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2716,7 +2518,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -3070,14 +2871,12 @@
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32904148" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32880434" sideWeight="0.49713877" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32880434" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3722826" sideWeight="0.4914163" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38722825" sideWeight="0.49427754" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29347825" sideWeight="0.49427754" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31929347" sideWeight="0.50858366" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3094,6 +2893,8 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32904148" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32880434" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -3174,9 +2975,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3184,9 +2982,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3204,9 +2999,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3214,9 +3006,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3294,9 +3083,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="26" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3304,13 +3090,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#372#373#0" expanded="false" />
-            <element signature="e#402#403#0" expanded="false" />
-            <element signature="e#563#564#0" expanded="false" />
-            <element signature="e#599#600#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3360,7 +3139,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3368,7 +3146,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3469,26 +3246,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tarambola/model/TagData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="308" column="38" selection-start-line="308" selection-start-column="38" selection-end-line="308" selection-end-column="38" />
-          <folding>
-            <element signature="e#8168#8169#0" expanded="true" />
-            <element signature="e#8209#8210#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tarambola/controller/WebServiceRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="349" column="24" selection-start-line="349" selection-start-column="24" selection-end-line="349" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3498,17 +3255,6 @@
           <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_claim.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/main.xml">
@@ -3547,100 +3293,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="181" column="36" selection-start-line="181" selection-start-column="36" selection-end-line="186" selection-end-column="22" />
-          <folding>
-            <element signature="e#3821#4113#0" expanded="true" />
-            <element signature="e#4112#4113#0" expanded="true" />
-            <element signature="e#4153#9143#0" expanded="true" />
-            <element signature="e#4655#9001#0" expanded="true" />
-            <element signature="e#9000#9001#0" expanded="true" />
-            <element signature="e#9142#9143#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.1764706">
-          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="42" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tarambola/view/Claim.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="102" column="63" selection-start-line="102" selection-start-column="63" selection-end-line="102" selection-end-column="63" />
-          <folding>
-            <element signature="e#3014#3048#0" expanded="true" />
-            <element signature="e#3129#3159#0" expanded="true" />
-            <element signature="e#3190#3220#0" expanded="true" />
-            <element signature="e#3350#7497#0" expanded="true" />
-            <element signature="e#3710#7249#0" expanded="true" />
-            <element signature="e#7248#7249#0" expanded="true" />
-            <element signature="e#7496#7497#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tarambola/vigiego/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-90.0">
-          <caret line="341" column="19" selection-start-line="341" selection-start-column="19" selection-end-line="341" selection-end-column="19" />
-          <folding>
-            <element signature="e#6414#6448#0" expanded="true" />
-            <element signature="e#8237#8271#0" expanded="true" />
-            <element signature="e#8360#8394#0" expanded="true" />
-            <element signature="e#8483#8517#0" expanded="true" />
-            <element signature="e#8839#8872#0" expanded="true" />
-            <element signature="e#9060#9092#0" expanded="true" />
-            <element signature="e#9246#9280#0" expanded="true" />
-            <element signature="e#11260#11294#0" expanded="true" />
-            <element signature="e#11364#11398#0" expanded="true" />
-            <element signature="e#11468#11502#0" expanded="true" />
-            <element signature="e#11572#11606#0" expanded="true" />
-            <element signature="e#11676#11710#0" expanded="true" />
-            <element signature="e#11780#11814#0" expanded="true" />
-            <element signature="e#11884#11918#0" expanded="true" />
-            <element signature="e#11988#12022#0" expanded="true" />
-            <element signature="e#12092#12127#0" expanded="true" />
-            <element signature="e#16609#16643#0" expanded="true" />
-            <element signature="e#17128#17152#0" expanded="true" />
-            <element signature="e#17627#17661#0" expanded="true" />
-            <element signature="e#17737#17771#0" expanded="true" />
-            <element signature="e#18413#18437#0" expanded="true" />
-            <element signature="e#19006#19040#0" expanded="true" />
-            <element signature="e#19097#19131#0" expanded="true" />
-            <element signature="e#19192#19226#0" expanded="true" />
-            <element signature="e#19723#19748#0" expanded="true" />
-            <element signature="e#20302#20336#0" expanded="true" />
-            <element signature="e#20393#20427#0" expanded="true" />
-            <element signature="e#20488#20522#0" expanded="true" />
-            <element signature="e#21018#21042#0" expanded="true" />
-            <element signature="e#21524#21558#0" expanded="true" />
-            <element signature="e#21697#21731#0" expanded="true" />
-            <element signature="e#23214#23237#0" expanded="true" />
-            <element signature="e#23696#23730#0" expanded="true" />
-            <element signature="e#24214#24246#0" expanded="true" />
-            <element signature="e#24821#24855#0" expanded="true" />
-            <element signature="e#24912#24946#0" expanded="true" />
-            <element signature="e#25007#25041#0" expanded="true" />
-            <element signature="e#25537#25562#0" expanded="true" />
-            <element signature="e#26032#26066#0" expanded="true" />
-            <element signature="e#26553#26580#0" expanded="true" />
-            <element signature="e#26946#26980#0" expanded="true" />
-            <element signature="e#27461#27486#0" expanded="true" />
-            <element signature="e#27847#27882#0" expanded="true" />
-            <element signature="e#28364#28390#0" expanded="true" />
-            <element signature="e#46439#46455#0" expanded="true" />
-            <element signature="e#52981#53022#0" expanded="true" />
-            <element signature="e#53246#53291#0" expanded="true" />
-            <element signature="e#53457#53496#0" expanded="true" />
-            <element signature="e#55331#55365#0" expanded="true" />
-            <element signature="e#55664#55695#0" expanded="true" />
-            <element signature="e#60243#60268#0" expanded="true" />
-            <element signature="e#60379#60406#0" expanded="true" />
-            <element signature="e#60522#60546#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3648,32 +3301,77 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.37553647">
           <caret line="1020" column="16" selection-start-line="1020" selection-start-column="16" selection-end-line="1020" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tarambola/view/NavigationDrawerFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40128756">
-          <caret line="127" column="6" selection-start-line="127" selection-start-column="6" selection-end-line="127" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="124" column="0" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
           <folding>
-            <element signature="e#3565#3783#0" expanded="true" />
-            <element signature="e#3782#3783#0" expanded="true" />
-            <element signature="e#4051#4085#0" expanded="true" />
-            <element signature="e#4111#4145#0" expanded="true" />
-            <element signature="e#4171#4205#0" expanded="true" />
-            <element signature="e#4231#4265#0" expanded="true" />
-            <element signature="e#4291#4325#0" expanded="true" />
-            <element signature="e#4351#4385#0" expanded="true" />
-            <element signature="e#4411#4445#0" expanded="true" />
-            <element signature="e#4471#4505#0" expanded="true" />
-            <element signature="e#4531#4566#0" expanded="true" />
-            <element signature="e#6195#6226#0" expanded="true" />
-            <element signature="e#6295#6327#0" expanded="true" />
             <element signature="e#8607#8608#0" expanded="true" />
             <element signature="e#8668#8669#0" expanded="true" />
-            <element signature="e#10688#10705#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tarambola/controller/WebServiceRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="349" column="24" selection-start-line="349" selection-start-column="24" selection-end-line="349" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2600#2601#0" expanded="false" />
+            <element signature="e#2634#2635#0" expanded="false" />
+            <element signature="e#8951#8952#0" expanded="false" />
+            <element signature="e#9018#9019#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_claim.xml">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tarambola/model/TagData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-20.62963">
+          <caret line="169" column="47" selection-start-line="169" selection-start-column="47" selection-end-line="169" selection-end-column="47" />
+          <folding>
+            <element signature="e#8435#8436#0" expanded="true" />
+            <element signature="e#8476#8477#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tarambola/view/Claim.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="102" column="63" selection-start-line="102" selection-start-column="63" selection-end-line="102" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tarambola/vigiego/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.8107526">
+          <caret line="1121" column="10" selection-start-line="1121" selection-start-column="10" selection-end-line="1121" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>

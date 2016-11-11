@@ -39,6 +39,7 @@ public class TagData implements Serializable{
     private int         mDBID;
 
     /* TAG INFO */
+    private boolean     mEmptyFlag = true;
     private String      mIdNumber;
     private String      mFirmwareVer;
     private String      mHardwareVer;
@@ -166,10 +167,18 @@ public class TagData implements Serializable{
     public long getLatitude(){return mLatitude;};
     public long getLongitude(){return mLongitude;};
     public int getAltitude(){return mAltitude;};
+    public boolean isEmpty(){return mEmptyFlag;};
 
 
     /* *********************************** SETTERS ****************************************** */
 
+    /**
+     * Set flag empty or not
+     * @param flag the boolean value of empty flag
+     */
+    public void setEmpty(boolean flag){
+        this.mEmptyFlag = flag;
+    }
     /**
      * Set ID of database if saved
      * @param id the int of id database
