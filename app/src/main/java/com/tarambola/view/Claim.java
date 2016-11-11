@@ -81,23 +81,23 @@ public class Claim extends Fragment {
 
         Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
 
-        TextView msgLab1=(TextView) rootView.findViewById(R.id.claimLabel1);
-        msgLab1.setTypeface(font);
+        TextView claimLab1=(TextView) rootView.findViewById(R.id.claimLabel1);
+        claimLab1.setTypeface(font);
 
-        TextView msgLab2=(TextView) rootView.findViewById(R.id.claimLabel2);
-        msgLab2.setTypeface(font);
+        TextView claimLab2=(TextView) rootView.findViewById(R.id.claimLabel2);
+        claimLab2.setTypeface(font);
 
         if(mTagData==null) {
-            msgLab1.setText(getString(R.string.no_tag_scanned));
-            msgLab1.setText("");
+            claimLab1.setText(getString(R.string.no_tag_scanned));
+            claimLab2.setText("");
         } else {
-            msgLab1.setText(getString(R.string.claim_tag1));
-            msgLab1.setText(getString(R.string.claim_tag2));
+            claimLab1.setText(getString(R.string.claim_tag1));
+            claimLab2.setText(getString(R.string.claim_tag2));
         }
 
-        final Button loginBtn = (Button)rootView.findViewById(R.id.mClaimBtn);
+        final Button claimBtn = (Button)rootView.findViewById(R.id.mClaimBtn);
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+        claimBtn.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             Log.d("Click:", "OK");
