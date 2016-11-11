@@ -629,14 +629,16 @@ import eu.blulog.blulib.tdl2.Recording;
                  mTagInfo.setIdNumber(mTagData.getIdNumber());
                  mTagInfo.setFirmwareVer(mTagData.getFirmwareVer());
                  mTagInfo.setHardwareVer(mTagData.getHardwareVer());
-                 mTagInfo.setNumberRecs(mTagData.getNumberRecs());
-                 mTagInfo.setProdDesc(mTagData.getProdDesc());
-                 mTagInfo.setStartDateRec(mTagData.getStartDateRec());
-                 mTagInfo.setEndDateRec(mTagData.getEndDateRec());
-                 mTagInfo.setCalibrateDate(mTagData.getCalibrateDate());
-                 mTagInfo.setExpirationDate(mTagData.getExpirationDate());
-                 mTagInfo.setRecTimeLeft(mTagData.getRecTimeLeft());
-                 mTagInfo.populateList();
+                 if(!mTagData.isEmpty()) {
+                     mTagInfo.setNumberRecs(mTagData.getNumberRecs());
+                     mTagInfo.setProdDesc(mTagData.getProdDesc());
+                     mTagInfo.setStartDateRec(mTagData.getStartDateRec());
+                     mTagInfo.setEndDateRec(mTagData.getEndDateRec());
+                     mTagInfo.setCalibrateDate(mTagData.getCalibrateDate());
+                     mTagInfo.setExpirationDate(mTagData.getExpirationDate());
+                     mTagInfo.setRecTimeLeft(mTagData.getRecTimeLeft());
+                     mTagInfo.populateList();
+                 }
 
                  fragment = mTagInfo;
              }
@@ -982,6 +984,8 @@ import eu.blulog.blulib.tdl2.Recording;
          mTagData.setHardwareVer(Integer.toString(content.getHardware()));
 
          if(BlutagContent.get().getRecordings().size() > 0) {
+
+             mTagData.setEmpty(false);
 
              BlutagContent.get().getRecordings().get(0).computeStatistics(); // Compute statistics for min, avg, max, kinect temps, breaches...
 

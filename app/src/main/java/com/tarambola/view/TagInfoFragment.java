@@ -95,6 +95,8 @@ public class TagInfoFragment extends Fragment {
         ScrollView listInfoLayout = (ScrollView) rootView.findViewById(R.id.mTagInfoCont); // Get Fragment Relative layout to apply list
         listInfoLayout.addView(mList.build());
 
+        // ToDo, set the bellow information, for the time being is disable as not working properly
+        /*
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         mRecordingsLabel.setText(getString(R.string.recordings) + Integer.toString(this.mNumberRecs));
@@ -102,7 +104,7 @@ public class TagInfoFragment extends Fragment {
         long diff = (new Date()).getTime() - mEndDateRec.getTime();
         long hours =  TimeUnit.HOURS.convert(diff, TimeUnit.DAYS.MILLISECONDS);
         mHoursLabel.setText(Long.toString(hours) + " " + getString(R.string.hours_ago));
-
+        */
 
         return rootView;
     }

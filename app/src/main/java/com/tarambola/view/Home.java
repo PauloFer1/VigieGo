@@ -90,6 +90,9 @@ public class Home extends Fragment {
         /* ******** DESIGN ********** */
         Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/sui-generis-rg.ttf");
 
+        if(mTagData.isEmpty())
+            return rootView;
+
         mChartProgressBar = (ProgressBar) rootView.findViewById(R.id.chartProgressBar);
 
         TextView tv=(TextView) rootView.findViewById(R.id.mKineticLabel);
