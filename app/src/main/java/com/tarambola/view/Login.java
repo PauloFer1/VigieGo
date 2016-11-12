@@ -136,6 +136,7 @@ public class Login extends Fragment {
                             params.put("email", email);
                             // params.put("password", ServiceRequestGo.md5(password));
                             params.put("password", password);
+                            LoginSession.getInstance().setUsername(email);
 
                             AsyncHttpClient client = new AsyncHttpClient();
                             client.post("http://api.vigiesolutions.com/vigiego/user/login", params, new AsyncHttpResponseHandler(){

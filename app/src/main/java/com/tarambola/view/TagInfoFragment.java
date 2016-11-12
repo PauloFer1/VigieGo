@@ -250,11 +250,11 @@ public class TagInfoFragment extends Fragment {
         mList.addRow(new TwoColumnTable.Row("VIGIEGo ID number", this.mIdNumber));
         mList.addRow(new TwoColumnTable.Row("Firmware Version", this.mFirmwareVer));
         mList.addRow(new TwoColumnTable.Row("Hardware Version", this.mHardwareVer));
-        mList.addRow(new TwoColumnTable.Row("Calibrate Date", fmt.format(mCalibrateDate)));
+        mList.addRow(new TwoColumnTable.Row("Calibration Date", fmt.format(mCalibrateDate)));
         mList.addRow(new TwoColumnTable.Row("Expiration Date", fmt.format(mExpirationDate)));
-        mList.addRow(new TwoColumnTable.Row("Number of Recordings", Integer.toString(this.mNumberRecs)));
+      //  mList.addRow(new TwoColumnTable.Row("Number of Recordings", Integer.toString(this.mNumberRecs)));
         mList.addRow(new TwoColumnTable.Row("Recordings time left", this.mRecTimeLeft));
-        mList.addRow(new TwoColumnTable.Row("Product Description", this.mProdDesc));
+       // mList.addRow(new TwoColumnTable.Row("Profile", this.mProdDesc));
         mList.addRow(new TwoColumnTable.Row("Start date of Recording", fmt.format(mStartDateRec)));
         mList.addRow(new TwoColumnTable.Row("End date of Recording", fmt.format(mEndDateRec)));
 

@@ -38,6 +38,7 @@ import com.tarambola.model.PDFDownloader;
 import com.tarambola.model.ScreenStatus;
 import com.tarambola.model.TagData;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -130,11 +131,14 @@ public class Home extends Fragment {
         float last = (float)(((float)mTagData.getLastMeasure())/10.0);
         float kinet = (float) (mTagData.getKineticTemp());
 
+        BigDecimal kinetRound2 = new BigDecimal(Float.toString(kinet));
+        kinetRound2 = kinetRound2.setScale(2, BigDecimal.ROUND_HALF_UP);
+
         minLabel.setText(Float.toString(min)+"ºc");
         maxLabel.setText(Float.toString(max)+"ºc");
         avgLabel.setText(Float.toString(avg)+"ºc");
         lastMeasureVal.setText(Float.toString(last)+"ºc");
-        kinectVal.setText(Float.toString(kinet)+"ºc");
+        kinectVal.setText(kinetRound2.toString()+"ºc");
         TagData.RecTimeLeft breachT = new TagData.RecTimeLeft();
         breachT.convertFromSecs(mTagData.getBreachesDuration());
 

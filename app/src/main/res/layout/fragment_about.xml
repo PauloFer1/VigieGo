@@ -30,17 +30,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Copyrights"
-                        android:id="@+id/mCopyrightsLabel"
-                        android:textColor="@color/greenTheme"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Mauris accumsan, tellus suscipit mollis ultrices, est arcu  laoreet eros, nec faucibus massa orci nec dui.  Suspendisse sed suscipit leo."
+                        android:text="ViGIE GO allows you to read, program and interact with ViGIE Go tags. With ViGIE Go tags you can monitor temperature and track your assets during transport.It&apos;s part of ViGIE Solutions suite of Facilities and Equipments Monitoring products. \nMore info:www.vigiesolutions.com \n\nwww.vigiego.com"
                         android:id="@+id/textView36"
                         android:layout_marginTop="6dp"
                         android:textColor="#666"
@@ -89,33 +80,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="ViGIE Solutions"
-                        android:id="@+id/mCompanyLabel"
-                        android:textColor="@color/greenTheme"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Mauris accumsan, tellus suscipit mollis ultrices, est arcu  laoreet eros, nec faucibus massa orci nec dui.  Suspendisse sed suscipit leo."
-                        android:id="@+id/textView40"
-                        android:textColor="#666"
-                        android:layout_marginTop="6dp"
-                        android:textSize="16dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="T 00351913805678 F 00351220930978  info@vigiesolutions.com"
-                        android:id="@+id/textView33"
-                        android:textColor="#666"
-                        android:layout_marginTop="10dp" />
                 </LinearLayout>
             </RelativeLayout>
 

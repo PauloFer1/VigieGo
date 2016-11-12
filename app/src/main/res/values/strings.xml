@@ -52,7 +52,7 @@
     <string name="no_profiles">Profile list empty!</string>
 
     <!-- CLAIM TAG -->
-    <string name="no_tag_scanned">No tag scanned!</string>
+    <string name="no_tag_scanned">Please scan tag first!</string>
     <string name="claim_tag1">PUSH BUTTON</string>
     <string name="claim_tag2">TO CLAIM TAG</string>
     <string name="claim_success">Tag successfully claimed</string>

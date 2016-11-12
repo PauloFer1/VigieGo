@@ -718,7 +718,7 @@ import eu.blulog.blulib.tdl2.Recording;
          else{
              mCurrentTitle = getString(R.string.title_section7);
              fragment = new Login();
-             mTitle = getString(R.string.title_section9);
+             mTitle = getString(R.string.title_section7);
          }
 
          int fromDir = R.anim.slide_from_right;
@@ -944,9 +944,9 @@ import eu.blulog.blulib.tdl2.Recording;
 
 
          recording.setLogisticalData(logisticalData);
-         recording.setMeasurementCycle(RecProfile.getInstance().getSampling()*10);
-         recording.setMinTemp(RecProfile.getInstance().getMin()*10);
-         recording.setMaxTemp(RecProfile.getInstance().getMax()*10);
+         recording.setMeasurementCycle(RecProfile.getInstance().getSampling()*60); // *60 - convert to minutes
+         recording.setMinTemp(RecProfile.getInstance().getMin()*60);
+         recording.setMaxTemp(RecProfile.getInstance().getMax()*60);
          recording.setDecisionParam1(RecProfile.getInstance().getMinNOk());
          recording.setDecisionParam2(RecProfile.getInstance().getMaxNOk());
          recording.setStartRecordingDelay(0);

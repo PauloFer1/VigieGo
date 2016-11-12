@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -87,70 +88,81 @@ public class Claim extends Fragment {
         TextView claimLab2=(TextView) rootView.findViewById(R.id.claimLabel2);
         claimLab2.setTypeface(font);
 
-        if(mTagData==null) {
+        final Button claimBtn = (Button)rootView.findViewById(R.id.mClaimBtn);
+
+        if(mTagData.getIdNumber()==null) {
             claimLab1.setText(getString(R.string.no_tag_scanned));
             claimLab2.setText("");
+            claimBtn.setEnabled(false);
+            claimBtn.getBackground().setAlpha(50);
         } else {
             claimLab1.setText(getString(R.string.claim_tag1));
             claimLab2.setText(getString(R.string.claim_tag2));
+            claimBtn.setEnabled(true);
+            claimBtn.getBackground().setAlpha(100);
         }
 
-        final Button claimBtn = (Button)rootView.findViewById(R.id.mClaimBtn);
-
         claimBtn.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Log.d("Click:", "OK");
-                                            if (mTagData != null) {
-                                                WebServiceRequest request = new WebServiceRequest() {
-                                                    @Override
-                                                    public void claimTag(String email, String tagId) {
-                                                        rootView.findViewById(R.id.loginPreLoader).setVisibility(View.VISIBLE); // SET LOADER VISIBLE
-                                                        RequestParams params = new RequestParams();
-                                                        params.put("email", email);
-                                                        params.put("serial_number", tagId);
+            @Override
+            public void onClick(View v) {
+                Log.d("Click:", "OK");
+                if (mTagData.getIdNumber() != null) {
+                    WebServiceRequest request = new WebServiceRequest() {
+                        @Override
+                        public void claimTag(String email, String tagId) {
+                            RequestParams params = new RequestParams();
+                            params.put("email", email);
+                            params.put("serial_number", tagId);
 
-                                                        AsyncHttpClient client = new AsyncHttpClient();
-                                                        client.post("http://api.vigiesolutions.com/v1/vigie-go/tag/claim", params, new AsyncHttpResponseHandler() {
-                                                            @Override
-                                                            public void onSuccess(String response) {
-                                                                try {
-                                                                    JSONObject obj = new JSONObject(response);// JSON Object
-                                                                    if (obj.getBoolean("status")) {// Loggin succeded
-                                                                        Log.d("CLAIM:", "SUCCESS");
-                                                                        mListener.onClaimSuccess();
-                                                                    } else {// Login failed
-                                                                        Log.d("CLAIM:", "Failed");
-                                                                        mListener.onClaimFailed();
-                                                                    }
-                                                                } catch (JSONException e) {
-                                                                    e.printStackTrace();
-                                                                    Log.d("CLAIM:", "Error 1");
-                                                                    mListener.onClaimFailed();
-                                                                }
-                                                            }
-
-                                                            @Override
-                                                            public void onFailure(int statusCode, Throwable error, String content) {
-                                                                if (statusCode == 404) {// HTTP Res = 404
-                                                                    mListener.onClaimFailed();
-                                                                } else if (statusCode == 500) {// HTTP Res = 500
-                                                                    mListener.onClaimFailed();
-                                                                } else {// HTTP Res code other than 404, 500
-                                                                    mListener.onClaimFailed();
-                                                                }
-                                                            }
-                                                        });
-
-                                                    }
-                                                };
-
-                                                request.claimTag(LoginSession.getInstance().getUsername(), mTagData.getIdNumber());
-                                            }
+                            AsyncHttpClient client = new AsyncHttpClient();
+                            Log.d("CLAIM -mail", email);
+                            Log.d("CLAIM -serial", tagId);
+                            client.post("http://api.vigiesolutions.com/v1/vigie-go/tag/claim", params, new AsyncHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(String response) {
+                                    try {
+                                        JSONObject obj = new JSONObject(response);// JSON Object
+                                        if (obj.getBoolean("status")) {// Loggin succeded
+                                            Log.d("CLAIM:", "SUCCESS");
+                                            Toast.makeText(rootView.getContext(), getString(R.string.claim_success), Toast.LENGTH_LONG).show();
+                                            //mListener.onClaimSuccess();
+                                        } else {// Login failed
+                                            Log.d("CLAIM:", "Failed");
+                                            //mListener.onClaimFailed();
+                                            Toast.makeText(rootView.getContext(), getString(R.string.claim_failed), Toast.LENGTH_LONG).show();
                                         }
-                        });
-            return inflater.inflate(R.layout.fragment_claim, container, false);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        Log.d("CLAIM:", "Error 1");
+                                        //mListener.onClaimFailed();
+                                        Toast.makeText(rootView.getContext(), getString(R.string.claim_failed), Toast.LENGTH_LONG).show();
+                                    }
+                                }
 
+                                @Override
+                                public void onFailure(int statusCode, Throwable error, String content) {
+                                    if (statusCode == 404) {// HTTP Res = 404
+                                        //mListener.onClaimFailed();
+                                        Toast.makeText(rootView.getContext(), getString(R.string.claim_failed), Toast.LENGTH_LONG).show();
+                                    } else if (statusCode == 500) {// HTTP Res = 500
+                                        //mListener.onClaimFailed();
+                                        Toast.makeText(rootView.getContext(), getString(R.string.claim_failed), Toast.LENGTH_LONG).show();
+                                    } else {// HTTP Res code other than 404, 500
+                                        //mListener.onClaimFailed();
+                                        Toast.makeText(rootView.getContext(), getString(R.string.claim_failed), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+
+                        }
+                    };
+
+                    request.claimTag(LoginSession.getInstance().getUsername(), mTagData.getIdNumber());
+                }
+            }
+        });
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -165,6 +177,13 @@ public class Claim extends Fragment {
         super.onAttach(activity);
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
+        // ToDo, implement listener
+       /* try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }*/
     }
 
     @Override
