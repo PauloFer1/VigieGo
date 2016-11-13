@@ -51,6 +51,9 @@
     <!-- PROFILES -->
     <string name="no_profiles">Profile list empty!</string>
 
+    <!-- TAG INFO -->
+    <string name="still_measuring">Tag currently measuring</string>
+
     <!-- CLAIM TAG -->
     <string name="no_tag_scanned">Please scan tag first!</string>
     <string name="claim_tag1">PUSH BUTTON</string>
