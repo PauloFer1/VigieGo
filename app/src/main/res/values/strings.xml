@@ -8,10 +8,11 @@
     <string name="title_section4">Stop</string>
     <string name="title_section5">Tag Info</string>
     <string name="title_section6">Profiles</string>
-    <string name="title_section7">About</string>
-    <string name="title_section8">No Tag</string>
-    <string name="title_section9">Login</string>
-    <string name="title_section10">Logout</string>
+    <string name="title_section7">Claim</string>
+    <string name="title_section8">About</string>
+    <string name="title_section9">No Tag</string>
+    <string name="title_section10">Login</string>
+    <string name="title_section11">Logout</string>
 
 
     <!-- ***************************** Messages ******************************************** -->
@@ -50,6 +51,16 @@
     <!-- PROFILES -->
     <string name="no_profiles">Profile list empty!</string>
 
+    <!-- TAG INFO -->
+    <string name="still_measuring">Tag currently measuring</string>
+
+    <!-- CLAIM TAG -->
+    <string name="no_tag_scanned">Please scan tag first!</string>
+    <string name="claim_tag1">PUSH BUTTON</string>
+    <string name="claim_tag2">TO CLAIM TAG</string>
+    <string name="claim_success">Tag successfully claimed</string>
+    <string name="claim_failed">Tag claim failled!</string>
+
     <!-- ***************************** End Messages ******************************************** -->
 
     <!-- INFO TAG -->
@@ -65,7 +76,8 @@
     <string name="stop">Stop</string>
     <string name="tag">Tag</string>
     <string name="profile_list">ProfileList</string>
-    <string name="profile">profile</string>
+    <string name="profile">Profile</string>
+    <string name="claim">Claim</string>
     <string name="about">About</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
@@ -74,6 +86,9 @@
     <!-- ACESSABILITY -->
     <string name="navigation_drawer_open">Open navigation menu</string>
     <string name="navigation_drawer_close">Close navigation menu</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

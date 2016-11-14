@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/VigieGo.iml" filepath="$PROJECT_DIR$/VigieGo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blutaglibrary-1.6.14/blutaglibrary-1.6.14.iml" filepath="$PROJECT_DIR$/blutaglibrary-1.6.14/blutaglibrary-1.6.14.iml" />
       <module fileurl="file://$PROJECT_DIR$/blutaglibrary-1.6.5/blutaglibrary-1.6.5.iml" filepath="$PROJECT_DIR$/blutaglibrary-1.6.5/blutaglibrary-1.6.5.iml" />
     </modules>
   </component>

@@ -1,1 +1,1 @@
-include ':app', ':blutaglibrary-1.6.5'
+include ':app', ':blutaglibrary-1.6.5', ':blutaglibrary-1.6.14'

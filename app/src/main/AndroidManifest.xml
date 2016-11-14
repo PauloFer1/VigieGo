@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tarambola.vigiego" >
+    package="pt.vigie.vigiego" >
 
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/vigieTest" >
         <activity
-            android:name="com.tarambola.vigiego.MainActivity"
+            android:name="pt.vigie.vigiego.MainActivity"
             android:label="@string/app_name"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
@@ -27,6 +27,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter><!-- ATTENTION: This intent was auto-generated. Follow instructions at
   https://g.co/AppIndexing/AndroidStudio to publish your URLs. -->
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain" />
+            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -50,14 +55,14 @@
             android:name="android.hardware.nfc"
             android:required="true" />
 
-        <receiver android:name="com.tarambola.controller.CheckConnection" >
+        <receiver android:name="pt.vigie.controller.CheckConnection" >
             <intent-filter>
          <!--       <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/> -->
                 <action android:name="android.net.wifi.STATE_CHANGE"/>
             </intent-filter>
         </receiver>
 
-  <!--      <service android:name="com.tarambola.controller.BackgroundUploadService" android:exported="false" android:enabled="true"/> -->
+  <!--      <service android:name="BackgroundUploadService" android:exported="false" android:enabled="true"/> -->
 
         <dependency>
             <groupId>pl.droidsonroids.gif</groupId>
