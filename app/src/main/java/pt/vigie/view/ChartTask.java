@@ -58,7 +58,7 @@ public class ChartTask extends AsyncTask<LineChart, Void, ArrayList<String>> {
         for (int i = 1; i < temps.length; i++) {
             if(nSecs > 3600 && (i*(int)mTagData.getMeasureLength()) % 3600 == 0){
                 long days = TimeUnit.SECONDS.toDays(i*mTagData.getMeasureLength());
-                long hours = TimeUnit.SECONDS.toHours(i*mTagData.getMeasureLength()) - (days*24);
+                long hours = TimeUnit.SECONDS.toHours(i*mTagData.getMeasureLength()) - (days*24) - 1;
                 long minutes = TimeUnit.SECONDS.toMinutes(i*mTagData.getMeasureLength()) - (days*24) - (hours*60);
                 long seconds = i*mTagData.getMeasureLength() - (days*24) - (hours*60) - (minutes*60);
 
@@ -72,7 +72,7 @@ public class ChartTask extends AsyncTask<LineChart, Void, ArrayList<String>> {
             }
             else {
                 long days = TimeUnit.SECONDS.toDays(i*mTagData.getMeasureLength());
-                long hours = TimeUnit.SECONDS.toHours(i*mTagData.getMeasureLength()) - (days*24);
+                long hours = TimeUnit.SECONDS.toHours(i*mTagData.getMeasureLength()) - (days*24) - 1;
                 long minutes = TimeUnit.SECONDS.toMinutes(i*mTagData.getMeasureLength()) - (days*24) - (hours*60);
                 long seconds = i*mTagData.getMeasureLength() - (days*24) - (hours*60) - (minutes*60);
 

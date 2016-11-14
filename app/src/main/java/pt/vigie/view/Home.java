@@ -341,7 +341,7 @@ public class Home extends Fragment {
                 long days = TimeUnit.SECONDS.toDays(i*mTagData.getMeasureLength());
                 long hours = TimeUnit.SECONDS.toHours(i*mTagData.getMeasureLength()) - (days*24);
                 long minutes = TimeUnit.SECONDS.toMinutes(i*mTagData.getMeasureLength()) - (days*24) - (hours*60);
-                long seconds = i*(mTagData.getMeasureLength()) - (days*24) - (hours*60) - (minutes*60);
+                long seconds = i*(mTagData.getMeasureLength()/60) - (days*24) - (hours*60) - (minutes*60);
 
                 GregorianCalendar cal = new GregorianCalendar(2016, 8, (int)days, (int)hours, (int)minutes, (int)seconds);
                 Date current = cal.getTime();
@@ -354,7 +354,7 @@ public class Home extends Fragment {
                 long days = TimeUnit.SECONDS.toDays(i*mTagData.getMeasureLength());
                 long hours = TimeUnit.SECONDS.toHours(i*mTagData.getMeasureLength()) - (days*24);
                 long minutes = TimeUnit.SECONDS.toMinutes(i*mTagData.getMeasureLength()) - (days*24) - (hours*60);
-                long seconds = i*mTagData.getMeasureLength() - (days*24) - (hours*60) - (minutes*60);
+                long seconds = i*(mTagData.getMeasureLength()/60) - (days*24) - (hours*60) - (minutes*60);
 
                 GregorianCalendar cal = new GregorianCalendar(0, 0, (int)days, (int)hours, (int)minutes, (int)seconds);
                 Date current = cal.getTime();

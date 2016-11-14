@@ -775,7 +775,7 @@ public class MainActivity extends ActionBarActivity
 
          mNavigationDrawerFragment.setItemSelected(7);
 
-         if(mStart==null)
+         if(mAbout==null)
          {
              mAbout = new AboutFragment();
          }
