@@ -35,6 +35,8 @@ public class StopFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    Switch stopSwitch;
+
     private OnFragmentInteractionListener mListener;
 
     public StopFragment() {
@@ -80,7 +82,7 @@ public class StopFragment extends Fragment {
         TextView stopLabel2=(TextView) rootView.findViewById(R.id.mStopLogLabel2);
         stopLabel2.setTypeface(font);
 
-        Switch stopSwitch = (Switch) rootView.findViewById(R.id.stopSwitch);
+        stopSwitch = (Switch) rootView.findViewById(R.id.stopSwitch);
         stopSwitch.setChecked(true);
 
         stopSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -108,7 +110,7 @@ public class StopFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-    
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -128,5 +130,9 @@ public class StopFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void setChecker() {
+        stopSwitch.setChecked(true);
     }
 }

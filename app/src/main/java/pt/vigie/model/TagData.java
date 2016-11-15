@@ -16,11 +16,13 @@ public class TagData implements Serializable{
         public RecTimeLeft(int days, int hours, int min, int secs){
             this.days=days;this.hours=hours;this.minutes=minutes;this.seconds=secs;
         };
-        public void convertFromSecs(long secs){
+
+        public void convertFromSecs(long secs)
+        {
             days = (int) TimeUnit.SECONDS.toDays(secs);
             hours = (int) (TimeUnit.SECONDS.toHours(secs) - (days*24));
-            minutes = (int) (TimeUnit.SECONDS.toMinutes(secs) - (days*24) - (hours*60));
-            seconds = (int) (secs - (days*24) - (hours*60) - (minutes*60));
+            minutes = (int) (TimeUnit.SECONDS.toMinutes(secs) - (days*24*60) - (hours*60));
+            seconds = (int) (secs - (days*24*60*60) - (hours*60*60) - (minutes*60));
         }
 
         public int days;
@@ -34,6 +36,7 @@ public class TagData implements Serializable{
     /* TAG INFO */
     private boolean     mEmptyFlag = true;
     private String      mIdNumber;
+    private String      mProfile;
     private String      mFirmwareVer;
     private String      mHardwareVer;
     private Date        mCalibrateDate;
@@ -61,6 +64,8 @@ public class TagData implements Serializable{
     private long        mLatitude; // divide by 10000000 to get coordinates
     private long        mLongitude;
     private int         mAltitude;
+    private int         mMinNOK;
+    private int         mMaxNOK;
 
     public TagData()
     {
@@ -161,10 +166,27 @@ public class TagData implements Serializable{
     public long getLongitude(){return mLongitude;};
     public int getAltitude(){return mAltitude;};
     public boolean isEmpty(){return mEmptyFlag;};
+    public String getProfile(){return mProfile;};
+    public int getMinNOK(){return mMinNOK;};
+    public int getMaxNOK(){return mMaxNOK;};
 
 
     /* *********************************** SETTERS ****************************************** */
 
+    public void setMinNOK(int value){
+        this.mMinNOK = value;
+    }
+    public void setMaxNOK(int value){
+        this.mMaxNOK = value;
+    }
+
+    /**
+     * Set profile name
+     * @param profile String
+     */
+    public void setProfile(String profile){
+        this.mProfile = profile;
+    }
     /**
      * Set flag empty or not
      * @param flag the boolean value of empty flag

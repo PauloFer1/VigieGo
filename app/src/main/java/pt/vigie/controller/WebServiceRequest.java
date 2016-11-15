@@ -310,7 +310,7 @@ public class WebServiceRequest {
             tagInfo.put("mExpirationDate", fmt.format(tag.getExpirationDate()));
             tagInfo.put("mNumberRecs", tag.getNumberRecs());
             tagInfo.put("mRecTimeLeft", tag.getRecTimeLeft());
-            tagInfo.put("mProdDesc", tag.getProdDesc());
+            tagInfo.put("mProfile", tag.getProdDesc());
             tagInfo.put("mStartDateRec", fmt.format(tag.getStartDateRec()));
             tagInfo.put("mEndDateRec", fmt.format(tag.getEndDateRec()));
             tagInfo.put("mMeasureLength", tag.getMeasureLength());
@@ -324,6 +324,10 @@ public class WebServiceRequest {
             tagInfo.put("mLongitude", tag.getLongitude());
             tagInfo.put("mLatitude", tag.getLatitude());
             tagInfo.put("mAltitude", tag.getAltitude());
+            tagInfo.put("mNrBreaches", tag.getBreachesCount());
+            tagInfo.put("mTimeOfBreaches", tag.getBreachesDuration());
+            tagInfo.put("mMinNOK", tag.getMinNOK());
+            tagInfo.put("mMaxNOK", tag.getMaxNOK());
 
             for(int i =0; i<tag.getTemps().length; i++){
                 temps.put(tag.getTemps()[i]);

@@ -206,8 +206,8 @@ public class Home extends Fragment {
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         leftAxis.addLimitLine(ll1);
         leftAxis.addLimitLine(ll2);
-        leftAxis.setAxisMaxValue(40f);
-        leftAxis.setAxisMinValue(-5f);
+        leftAxis.setAxisMaxValue(mTagData.getMaxtempRead()/10 + 10);
+        leftAxis.setAxisMinValue(mTagData.getMinTempRead()/10 - 10);
         leftAxis.setDrawZeroLine(false);
         leftAxis.setDrawAxisLine(false);
 
