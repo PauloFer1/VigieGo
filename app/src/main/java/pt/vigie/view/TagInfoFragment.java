@@ -251,7 +251,7 @@ public class TagInfoFragment extends Fragment {
         mList.addRow(new TwoColumnTable.Row("Expiration Date", fmt.format(mExpirationDate)));
       //  mList.addRow(new TwoColumnTable.Row("Number of Recordings", Integer.toString(this.mNumberRecs)));
         mList.addRow(new TwoColumnTable.Row("Recordings time left", this.mRecTimeLeft));
-       // mList.addRow(new TwoColumnTable.Row("Profile", this.mProdDesc));
+        mList.addRow(new TwoColumnTable.Row("Profile", this.mProdDesc));
         mList.addRow(new TwoColumnTable.Row("Start date of Recording", fmt.format(mStartDateRec)));
         String endDate=fmt.format(mEndDateRec);
         if (mEndDateRec.before(mStartDateRec))

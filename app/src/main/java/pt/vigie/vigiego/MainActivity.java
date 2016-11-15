@@ -614,41 +614,35 @@ public class MainActivity extends ActionBarActivity
 
          mNavigationDrawerFragment.setItemSelected(4);
 
-         if(mTagInfo==null)
+         if(BlutagContent.get().getHardware()==0 || !mHasReadings)
          {
-             if(BlutagContent.get().getHardware()==0 || !mHasReadings)
-             {
-                 fragment = new NoContent();
-                 mTitle = getString(R.string.title_section8);
-             }
-             else
-             {
-                 BlutagContent content = BlutagContent.get();
-
-                 mTitle = getString(R.string.title_section5);
-                 mTagInfo = new TagInfoFragment();
-                 mTagInfo.setContext(getApplicationContext());
-                 mTagInfo.createList();
-                 mTagInfo.setIdNumber(mTagData.getIdNumber());
-                 mTagInfo.setFirmwareVer(mTagData.getFirmwareVer());
-                 mTagInfo.setHardwareVer(mTagData.getHardwareVer());
-                 if(!mTagData.isEmpty()) {
-                     mTagInfo.setNumberRecs(mTagData.getNumberRecs());
-                     mTagInfo.setProdDesc(mTagData.getProdDesc());
-                     mTagInfo.setStartDateRec(mTagData.getStartDateRec());
-                     mTagInfo.setEndDateRec(mTagData.getEndDateRec());
-                     mTagInfo.setCalibrateDate(mTagData.getCalibrateDate());
-                     mTagInfo.setExpirationDate(mTagData.getExpirationDate());
-                     mTagInfo.setRecTimeLeft(mTagData.getRecTimeLeft());
-                     mTagInfo.populateList();
-                 }
-
-                 fragment = mTagInfo;
-             }
-
+            fragment = new NoContent();
+             mTitle = getString(R.string.title_section8);
          }
          else
+         {
+             BlutagContent content = BlutagContent.get();
+             mTitle = getString(R.string.title_section5);
+             mTagInfo = new TagInfoFragment();
+             mTagInfo.setContext(getApplicationContext());
+             mTagInfo.createList();
+             mTagInfo.setIdNumber(mTagData.getIdNumber());
+             mTagInfo.setFirmwareVer(mTagData.getFirmwareVer());
+             mTagInfo.setHardwareVer(mTagData.getHardwareVer());
+             if(!mTagData.isEmpty()) {
+                 mTagInfo.setNumberRecs(mTagData.getNumberRecs());
+                 mTagInfo.setProdDesc(mTagData.getProdDesc());
+                 mTagInfo.setStartDateRec(mTagData.getStartDateRec());
+                 mTagInfo.setEndDateRec(mTagData.getEndDateRec());
+                 mTagInfo.setCalibrateDate(mTagData.getCalibrateDate());
+                 mTagInfo.setExpirationDate(mTagData.getExpirationDate());
+                 mTagInfo.setRecTimeLeft(mTagData.getRecTimeLeft());
+                 mTagInfo.populateList();
+             }
+
              fragment = mTagInfo;
+         }
+
 
          int fromDir = R.anim.slide_from_right;
          if(direction==R.anim.slide_to_right)
@@ -953,9 +947,13 @@ public class MainActivity extends ActionBarActivity
          recording.setFinishRecordingPin(0xFFFF);
          recording.setActivationEnergy(83);
 
+         if(RecProfile.getInstance().getRecByButton())
+             recording.setStartRecordingByButton();
+
          Log.i("new recording", recording.getRecordingData().toString());
 
          BlutagHandler.get().startNewRecording(tag, recording);
+
 
 //         Toast.makeText(getApplicationContext(), getString(R.string.tag_recorded), Toast.LENGTH_SHORT).show();
 
@@ -982,6 +980,7 @@ public class MainActivity extends ActionBarActivity
          mTagData.setFirmwareVer(Integer.toString(content.getFirmware()));
          mTagData.setHardwareVer(Integer.toString(content.getHardware()));
 
+
          Log.d("CLAIM_TAG", String.valueOf(content.getBlueTagId()));
 
          if(BlutagContent.get().getRecordings().size() > 0) {
@@ -993,7 +992,7 @@ public class MainActivity extends ActionBarActivity
              mTagData.setNumberRecs(content.getRecordings().size());
              mTagData.setTemps(BlutagContent.get().getRecordings().get(0).getTemperatures());
              //mTagData.setBreaches(BlutagContent.get().getRecordings().get(0).getStatistics().getBreaches());
-             mTagData.setBreachesCount(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesDuration());
+             mTagData.setBreachesCount(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesCount());
              mTagData.setBreachesDuration(BlutagContent.get().getRecordings().get(0).getStatistics().getBreachesDuration());
              mTagData.setKineticTemp(BlutagContent.get().getRecordings().get(0).getStatistics().getMeanKineticTemp());
              mTagData.setmMinTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getMinTemp());
@@ -1001,6 +1000,8 @@ public class MainActivity extends ActionBarActivity
              mTagData.setAvgTempRead(BlutagContent.get().getRecordings().get(0).getStatistics().getAvgTemp());
              mTagData.setFstDownMeasuredate(BlutagContent.get().getRecordings().get(0).getFirstDownloadedMeasurementDate());
              mTagData.setLastDownMeasureDate(BlutagContent.get().getRecordings().get(0).getLastDownloadedMeasurementDate());
+             mTagData.setMinNOK( BlutagContent.get().getRecordings().get(0).getDecisionParam1());
+             mTagData.setMaxNOK( BlutagContent.get().getRecordings().get(0).getDecisionParam2());
 
              mTagData.setLongitude(mLastLongitude);
              mTagData.setLatitude(mLastLatitude);
@@ -1076,7 +1077,7 @@ public class MainActivity extends ActionBarActivity
                          int resourceID = getResources().getIdentifier(propName, "string", this.getPackageName());
                          if (resourceID != 0)
                              propName = getString(resourceID);
-                         //       fragment.addRow(propName, propValue);
+//                                mTagInfo.addRow(propName, propValue); // get all properties
 
                      }
                      ///////////////////////////////////////////////////////////////////////////////////////////////// PRODUCT DESCRIPTION
@@ -1199,6 +1200,8 @@ public class MainActivity extends ActionBarActivity
                                          recording.setRegistrationFinishDate(new Date());
                                      }
                                      Toast.makeText(context, R.string.recording_was_finished, Toast.LENGTH_SHORT).show();
+                                     if(mStop!=null)
+                                         mStop.setChecker();
                                  } else {
                                      Toast.makeText(context, R.string.operation_not_completed_try_again, Toast.LENGTH_SHORT).show();
                                  }

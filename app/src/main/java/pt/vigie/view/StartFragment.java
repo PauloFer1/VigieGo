@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -52,6 +53,7 @@ public class StartFragment extends Fragment {
     private EditText mNoKMinInput;
     private EditText mMaxInput;
     private EditText mNOkMaxInput;
+    private CheckBox mStartButton;
 
     /* SPINNER RELATED */
     private ArrayAdapter mAdapterList;
@@ -100,6 +102,8 @@ public class StartFragment extends Fragment {
 
         TextView startByPushingLabel=(TextView) rootView.findViewById(R.id.mStartByPushingLabel);
         startByPushingLabel.setTypeface(font);
+
+        mStartButton = (CheckBox) rootView.findViewById(R.id.startByBtn);
 
         TextView saveProfileLabel=(TextView) rootView.findViewById(R.id.mSaveProfileBtnlabel);
         saveProfileLabel.setTypeface(font);
@@ -242,13 +246,15 @@ public class StartFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
                     newProfileName = input.getText().toString();
 
+                    boolean startBtn = mStartButton.isChecked();
+
                     long id = DBAdapter.getInstance().insertProfile(newProfileName,
                             Integer.parseInt(mSamplingInput.getText().toString()),
                             Integer.parseInt(mMinInput.getText().toString()),
                             Integer.parseInt(mNoKMinInput.getText().toString()),
                             Integer.parseInt(mMaxInput.getText().toString()),
                             Integer.parseInt(mNOkMaxInput.getText().toString()),
-                            false
+                            startBtn
                             );
 
                     mProfiles.addProfile(
@@ -259,7 +265,7 @@ public class StartFragment extends Fragment {
                             Integer.parseInt(mMaxInput.getText().toString()),
                             Integer.parseInt(mNoKMinInput.getText().toString()),
                             Integer.parseInt(mNOkMaxInput.getText().toString()),
-                            false);
+                            startBtn);
 
                     mProfileList.add(newProfileName);
                     mAdapterList.notifyDataSetChanged();
@@ -283,8 +289,11 @@ public class StartFragment extends Fragment {
     private void startRecording(View v){
 
        if(validateInputs(v)) {
-            RecProfile.getInstance().setProfile(Integer.parseInt(mSamplingInput.getText().toString()), Integer.parseInt(mMinInput.getText().toString()), Integer.parseInt(mNoKMinInput.getText().toString()), Integer.parseInt(mMaxInput.getText().toString()), Integer.parseInt(mNOkMaxInput.getText().toString()));
-            IntentOption.getInstance().setOption(IntentOption.Operations.START_RECORDING);
+           TextView textView = (TextView)mSpinner.getSelectedView();
+           String profileName = textView.getText().toString();
+           boolean startBtn = mStartButton.isChecked();
+           RecProfile.getInstance().setProfile(profileName, Integer.parseInt(mSamplingInput.getText().toString()), Integer.parseInt(mMinInput.getText().toString()), Integer.parseInt(mNoKMinInput.getText().toString()), Integer.parseInt(mMaxInput.getText().toString()), Integer.parseInt(mNOkMaxInput.getText().toString()), startBtn);
+           IntentOption.getInstance().setOption(IntentOption.Operations.START_RECORDING);
            Toast.makeText(v.getContext(), getString(R.string.place_smartphone), Toast.LENGTH_SHORT).show();
         }
     }

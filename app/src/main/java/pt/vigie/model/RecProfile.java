@@ -13,6 +13,7 @@ public class RecProfile {
     private int mNOkMin;
     private int mMax;
     private int mNOkMax;
+    private boolean mRecByButton = false;
 
     public static RecProfile getInstance() {
         if(ourInstance==null)
@@ -33,7 +34,7 @@ public class RecProfile {
         mMax = max;
         mNOkMax = maxNOk;
     }
-    public void setProfile(String name, int sampling, int min, int minNOk, int max, int maxNOk)
+    public void setProfile(String name, int sampling, int min, int minNOk, int max, int maxNOk, boolean recButton)
     {
         mName = name;
         mSampling = sampling;
@@ -41,6 +42,7 @@ public class RecProfile {
         mNOkMin = minNOk;
         mMax = max;
         mNOkMax = maxNOk;
+        mRecByButton = recButton;
     }
 
     /////////////////////////////
@@ -68,6 +70,10 @@ public class RecProfile {
     public int getMaxNOk()
     {
         return mNOkMax;
+    }
+    public boolean getRecByButton()
+    {
+        return mRecByButton;
     }
 
 
