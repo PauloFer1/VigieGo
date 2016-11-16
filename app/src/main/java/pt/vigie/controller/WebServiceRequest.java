@@ -329,8 +329,10 @@ public class WebServiceRequest {
             tagInfo.put("mMinNOK", tag.getMinNOK());
             tagInfo.put("mMaxNOK", tag.getMaxNOK());
 
-            for(int i =0; i<tag.getTemps().length; i++){
-                temps.put(tag.getTemps()[i]);
+            if(tag.getTemps()!=null) {
+                for (int i = 0; i < tag.getTemps().length; i++) {
+                    temps.put(tag.getTemps()[i]);
+                }
             }
 
             tagInfo.put("temps", temps);

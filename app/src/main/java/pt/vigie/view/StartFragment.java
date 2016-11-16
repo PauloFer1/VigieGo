@@ -221,6 +221,8 @@ public class StartFragment extends Fragment {
             mNoKMinInput.setText(Integer.toString(mProfiles.getList().elementAt(id).getNOkMinTime()));
             mMaxInput.setText(Integer.toString(mProfiles.getList().elementAt(id).getMaxTemp()));
             mNOkMaxInput.setText(Integer.toString(mProfiles.getList().elementAt(id).getNOkMaxTime()));
+            if(mProfiles.getList().elementAt(id).getStartByButton())
+                mStartButton.setChecked(true);
         }
     }
 
@@ -271,6 +273,7 @@ public class StartFragment extends Fragment {
                     mAdapterList.notifyDataSetChanged();
 
                     Toast.makeText(mView.getContext(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+                    mSpinner.setSelection(mSpinner.getAdapter().getCount());
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
