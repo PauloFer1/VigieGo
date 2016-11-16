@@ -124,7 +124,9 @@ public class Home extends Fragment {
 
         /* Set params */
         float min = (float) (((float)mTagData.getMinTempRead())/10.0);
+        if(min >= 80 || min <= -50)min = 0;
         float max = (float)(((float)mTagData.getMaxtempRead())/10.0);
+        if(max >= 80 || max <= -50)max = 0;
         float avg = (float)(((float)mTagData.getAverageTemp())*10.0);
         avg = Math.round(avg);
         avg = avg/10;

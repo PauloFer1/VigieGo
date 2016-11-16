@@ -444,7 +444,7 @@ public class MainActivity extends ActionBarActivity
                 // Otherwise, set the URL to null.
                 null,
                 // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.tarambola.vigiego/http/host/path")
+                Uri.parse("android-app://pt.vigie.vigiego/http/host/path")
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
