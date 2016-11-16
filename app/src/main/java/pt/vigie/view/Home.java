@@ -128,7 +128,10 @@ public class Home extends Fragment {
         float avg = (float)(((float)mTagData.getAverageTemp())*10.0);
         avg = Math.round(avg);
         avg = avg/10;
-        float last = (float)(((float)mTagData.getLastMeasure())/10.0);
+        float last=0;
+        if(mTagData.getTemps()!=null) {
+            last = (float) (((float) mTagData.getLastMeasure()) / 10.0);
+        }
         float kinet = (float) (mTagData.getKineticTemp());
 
         BigDecimal kinetRound2 = new BigDecimal(Float.toString(kinet));
@@ -146,7 +149,10 @@ public class Home extends Fragment {
         breachesNumber.setText(Integer.toString(mTagData.getBreachesCount()));
 
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        lastMeasureDate.setText(fmt.format(mTagData.getLastDownMeasureDate()));
+        if(mTagData.getLastDownMeasureDate()!=null)
+            lastMeasureDate.setText(fmt.format(mTagData.getLastDownMeasureDate()));
+        else
+            lastMeasureDate.setText("-");
 
 
         final ImageButton downloadBtn = (ImageButton)rootView.findViewById(R.id.mDownloadBtn);
