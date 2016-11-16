@@ -42,58 +42,61 @@ public class ChartTask extends AsyncTask<LineChart, Void, ArrayList<String>> {
 
         // add data
         short temps[] = mTagData.getTemps();
-        long nSecs = temps.length * mTagData.getMeasureLength();
-
-        mYVals = new ArrayList<Entry>();
-
-        for (int i = 0; i < temps.length; i++) {
-
-            float val = (float) temps[i]/10;
-            mYVals.add(new Entry(val, i));
+        long nSecs = 0;
+        if(temps != null) {
+            nSecs = temps.length * mTagData.getMeasureLength();
         }
+        mYVals = new ArrayList<Entry>();
+        if(temps != null) {
+            for (int i = 0; i < temps.length; i++) {
 
+                float val = (float) temps[i] / 10;
+                mYVals.add(new Entry(val, i));
+            }
+        }
         ArrayList<String> xVals = new ArrayList<String>();
         SimpleDateFormat fmt = new SimpleDateFormat("dd HH:mm");
-        xVals.add(fmt.format(mTagData.getFstDownMeasuredate()));
-        for (int i = 1; i < temps.length; i++) {
-            if(nSecs > 3600 && (i*(int)mTagData.getMeasureLength()) % 3600 == 0){
-                long days = TimeUnit.SECONDS.toDays(i*mTagData.getMeasureLength());
-                long hours = TimeUnit.SECONDS.toHours(i*mTagData.getMeasureLength()) - (days*24) - 1;
-                long minutes = TimeUnit.SECONDS.toMinutes(i*mTagData.getMeasureLength()) - (days*24) - (hours*60);
-                long seconds = i*mTagData.getMeasureLength() - (days*24) - (hours*60) - (minutes*60);
+        if(mTagData.getFstDownMeasuredate() != null) {
+            xVals.add(fmt.format(mTagData.getFstDownMeasuredate()));
 
-                //GregorianCalendar cal = new GregorianCalendar(2016, 8, (int)days, (int)hours, (int)minutes, (int)seconds);
-                //Date current = cal.getTime();
-                Date current = new Date();
-                long sum = current.getTime() + mTagData.getFstDownMeasuredate().getTime();
-                Date sumDate = new Date(sum);
-                xVals.add(fmt.format(sumDate));
-                //    Log.d("Debug Date", sumDate.toString());
-            }
-            else {
-                long days = TimeUnit.SECONDS.toDays(i*mTagData.getMeasureLength());
-                long hours = TimeUnit.SECONDS.toHours(i*mTagData.getMeasureLength()) - (days*24) - 1;
-                long minutes = TimeUnit.SECONDS.toMinutes(i*mTagData.getMeasureLength()) - (days*24) - (hours*60);
-                long seconds = i*mTagData.getMeasureLength() - (days*24) - (hours*60) - (minutes*60);
+            for (int i = 1; i < temps.length; i++) {
+                if (nSecs > 3600 && (i * (int) mTagData.getMeasureLength()) % 3600 == 0) {
+                    long days = TimeUnit.SECONDS.toDays(i * mTagData.getMeasureLength());
+                    long hours = TimeUnit.SECONDS.toHours(i * mTagData.getMeasureLength()) - (days * 24) - 1;
+                    long minutes = TimeUnit.SECONDS.toMinutes(i * mTagData.getMeasureLength()) - (days * 24) - (hours * 60);
+                    long seconds = i * mTagData.getMeasureLength() - (days * 24) - (hours * 60) - (minutes * 60);
 
-                GregorianCalendar cal = new GregorianCalendar(0, 0,(int)days+1, (int)hours+1, (int)minutes, (int)seconds);
-                Date current = cal.getTime();
-               // Date current = new Date();
-                Log.d("Date", current.toString() );
-                long sum = current.getTime() + mTagData.getFstDownMeasuredate().getTime();
-                Date sumDate = new Date(sum);
-                xVals.add(fmt.format(sumDate));
+                    //GregorianCalendar cal = new GregorianCalendar(2016, 8, (int)days, (int)hours, (int)minutes, (int)seconds);
+                    //Date current = cal.getTime();
+                    Date current = new Date();
+                    long sum = current.getTime() + mTagData.getFstDownMeasuredate().getTime();
+                    Date sumDate = new Date(sum);
+                    xVals.add(fmt.format(sumDate));
+                    //    Log.d("Debug Date", sumDate.toString());
+                } else {
+                    long days = TimeUnit.SECONDS.toDays(i * mTagData.getMeasureLength());
+                    long hours = TimeUnit.SECONDS.toHours(i * mTagData.getMeasureLength()) - (days * 24) - 1;
+                    long minutes = TimeUnit.SECONDS.toMinutes(i * mTagData.getMeasureLength()) - (days * 24) - (hours * 60);
+                    long seconds = i * mTagData.getMeasureLength() - (days * 24) - (hours * 60) - (minutes * 60);
+
+                    GregorianCalendar cal = new GregorianCalendar(0, 0, (int) days + 1, (int) hours + 1, (int) minutes, (int) seconds);
+                    Date current = cal.getTime();
+                    // Date current = new Date();
+                    Log.d("Date", current.toString());
+                    long sum = current.getTime() + mTagData.getFstDownMeasuredate().getTime();
+                    Date sumDate = new Date(sum);
+                    xVals.add(fmt.format(sumDate));
+                }
             }
         }
-
         ArrayList<Entry> yVals = new ArrayList<Entry>();
+        if(temps != null) {
+            for (int i = 0; i < temps.length; i++) {
 
-        for (int i = 0; i < temps.length; i++) {
-
-            float val = (float) temps[i] / 10;
-            yVals.add(new Entry(val, i));
+                float val = (float) temps[i] / 10;
+                yVals.add(new Entry(val, i));
+            }
         }
-
         return xVals;
     }
 }

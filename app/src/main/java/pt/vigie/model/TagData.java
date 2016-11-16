@@ -41,7 +41,7 @@ public class TagData implements Serializable{
     private String      mHardwareVer;
     private Date        mCalibrateDate;
     private Date        mExpirationDate;
-    private int         mNumberRecs;
+    private int         mNumberRecs=0;
     private String      mRecTimeLeft;
     private String      mProdDesc;
     private Date        mStartDateRec;
@@ -51,14 +51,14 @@ public class TagData implements Serializable{
     private Map         mTempsMap;
     private int         mMinTemp;
     private int         mMaxTemp;
-    private double      mAverageTemp;
+    private double      mAverageTemp=0;
     private long        mActivationEnergy;
-    private int         mMinTempRead;
-    private int         mMaxTempRead;
-    private double      mKinectTemp;
+    private int         mMinTempRead=0;
+    private int         mMaxTempRead=0;
+    private double      mKinectTemp=0;
    // private PriorityQueue<Recording.Breach>    mRecBreaches;
-    private int         mBreachesDuration;
-    private int         mBreachesCount;
+    private int         mBreachesDuration=0;
+    private int         mBreachesCount=0;
     private Date        mFstDownMeasuredate;
     private Date        mLastDownMeasureDate;
     private long        mLatitude; // divide by 10000000 to get coordinates
