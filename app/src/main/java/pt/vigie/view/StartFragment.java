@@ -221,8 +221,12 @@ public class StartFragment extends Fragment {
             mNoKMinInput.setText(Integer.toString(mProfiles.getList().elementAt(id).getNOkMinTime()));
             mMaxInput.setText(Integer.toString(mProfiles.getList().elementAt(id).getMaxTemp()));
             mNOkMaxInput.setText(Integer.toString(mProfiles.getList().elementAt(id).getNOkMaxTime()));
-            if(mProfiles.getList().elementAt(id).getStartByButton())
+            if(mProfiles.getList().elementAt(id).getStartByButton()) {
                 mStartButton.setChecked(true);
+            }
+            else{
+                mStartButton.setChecked(false);
+            }
         }
     }
 
