@@ -131,9 +131,14 @@ public class Home extends Fragment {
         avg = Math.round(avg);
         avg = avg/10;
         float last=0;
+        TextView noValuesMsg = (TextView) rootView.findViewById(R.id.noValuesMsg);
         if(mTagData.getTemps()!=null) {
             last = (float) (((float) mTagData.getLastMeasure()) / 10.0);
+            noValuesMsg.setText("");
         }
+        else
+            noValuesMsg.setText(getString(R.string.waiting_start));
+
         float kinet = (float) (mTagData.getKineticTemp());
 
         BigDecimal kinetRound2 = new BigDecimal(Float.toString(kinet));

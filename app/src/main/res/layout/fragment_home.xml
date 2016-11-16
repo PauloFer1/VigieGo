@@ -49,6 +49,18 @@
                 android:id="@+id/chartProgressBar"
                 android:layout_centerInParent="true" />
 
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/noValuesMsg"
+                android:textStyle="bold"
+                android:layout_alignParentRight="false"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textSize="24dp" />
+
         </RelativeLayout>
 
         <RelativeLayout
