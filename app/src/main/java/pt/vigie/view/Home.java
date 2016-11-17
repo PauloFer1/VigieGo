@@ -298,7 +298,8 @@ public class Home extends Fragment {
         chartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoChart(v);
+                if(mTagData.getTemps()!=null)
+                    gotoChart(v);
             }
         });
     }
