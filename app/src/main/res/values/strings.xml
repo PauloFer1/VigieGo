@@ -17,6 +17,9 @@
 
     <!-- ***************************** Messages ******************************************** -->
 
+    <!-- HOME -->
+    <string name="waiting_start">Waiting for Manual Start by Push Button</string>
+
     <!-- Start Fragment -->
     <string name="select_profile">Select Profile</string>
     <string name="type_name">Type profile name</string>
